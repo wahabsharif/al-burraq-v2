@@ -12,13 +12,60 @@
   }
 }
 
+html,
 body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-image: url("/images/bg-img.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden; /* Prevent scrolling */
+  position: relative; /* Ensure absolute positioning works */
+
+  /* Overlay */
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+  }
+
+  /* Set text color */
   color: rgb(var(--foreground-rgb));
-  background: #252e42;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.grad-bg {
+  background-image: linear-gradient(
+    135deg,
+    rgb(198, 148, 57),
+    rgb(255, 230, 158)
+  );
+}
+
+.shine-hover {
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+}
+
+.shine-hover::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: skewX(-45deg);
+  transition: left 0.6s ease;
+}
+
+.shine-hover:hover::before {
+  left: 100%;
 }
