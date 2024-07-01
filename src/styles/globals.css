@@ -80,3 +80,16 @@ h1 span {
 .logo-shadow {
   filter: drop-shadow(6px 4px 5px black);
 }
+
+.text-gradient {
+  background-image: linear-gradient(
+    to right,
+    rgb(198, 148, 57),
+    rgb(255, 230, 158),
+    rgb(198, 148, 57)
+  );
+  -webkit-background-clip: text; /* For Safari */
+  background-clip: text;
+  -webkit-text-fill-color: transparent; /* Hide the original text */
+  text-fill-color: transparent;
+}

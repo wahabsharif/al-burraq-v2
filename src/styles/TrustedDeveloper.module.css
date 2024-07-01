@@ -1,0 +1,27 @@
+/* TrustedDeveloper.module.css */
+
+.logosSlider {
+  display: flex;
+  overflow: hidden;
+}
+
+.logosSliderContainer {
+  display: flex;
+  gap: 5rem;
+  animation: slide 30s linear infinite;
+}
+
+.logosSliderContainer img {
+  width: 150px;
+  max-width: 100%; /* Ensure images scale properly */
+  height: auto; /* Maintain aspect ratio */
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}

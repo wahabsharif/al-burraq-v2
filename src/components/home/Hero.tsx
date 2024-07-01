@@ -12,8 +12,9 @@ const Hero = () => {
       <div className="hero-content text-neutral-content text-center">
         <div className="max-w-md">
           <h1 className="mb-5">
-            Your <span>Dream Property</span>,
-            <br /> Our <span>Marketing Expertise</span>.
+            Your <span className="text-gradient">Dream Property</span>,
+            <br /> Our{" "}
+            <span className="text-gradient">Marketing Expertise</span>.
           </h1>
           <p className="mb-5 text-white">
             Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
