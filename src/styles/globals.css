@@ -26,6 +26,16 @@ body {
   position: relative; /* Ensure absolute positioning works */
 }
 
+h1 {
+  font-size: clamp(2rem, 2vw, 30rem);
+  font-weight: 700;
+  color: rgb(255, 245, 210);
+}
+
+h1 span {
+  color: rgb(198, 148, 57);
+}
+
 .grad-bg {
   background-image: linear-gradient(
     135deg,
