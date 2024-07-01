@@ -66,3 +66,7 @@ body {
 .shiny-btn:hover::before {
   left: 100%;
 }
+
+.logo-shadow {
+  filter: drop-shadow(6px 4px 5px black);
+}

@@ -53,7 +53,12 @@ const NavBar = () => {
       </div>
       <div className="navbar-center">
         <Link href={"#"}>
-          <Image src={Logo} alt="al-burraq-logo" width={100} />
+          <Image
+            className="logo-shadow"
+            src={Logo}
+            alt="al-burraq-logo"
+            width={120}
+          />
         </Link>
       </div>
       <div className="navbar-end">
