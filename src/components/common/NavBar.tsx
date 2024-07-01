@@ -32,7 +32,7 @@ const NavBar = () => {
               <Link href="/">Home</Link>
             </li>
             <li>
-              <Link href="/about-us">About Us</Link>
+              <Link href="/about">About Us</Link>
             </li>
             <li>
               <Link href="/rent">Rent</Link>
@@ -52,7 +52,7 @@ const NavBar = () => {
         </div>
       </div>
       <div className="navbar-center">
-        <Link href={"#"}>
+        <Link href={"/"}>
           <Image
             className="logo-shadow"
             src={Logo}
