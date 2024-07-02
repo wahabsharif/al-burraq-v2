@@ -1,13 +1,13 @@
-import React from "react";
-import Banner from "@/components/common/Banner";
+import dynamic from "next/dynamic";
 import WebLayout from "../layout";
+
+// Use dynamic import for the Banner component
+const Banner = dynamic(() => import("@/components/common/Banner"));
 
 export default function About() {
   return (
-    <>
-      <WebLayout title="About Us">
-        <Banner title="About Us" />
-      </WebLayout>
-    </>
+    <WebLayout title="About Us">
+      <Banner title="About Us" />
+    </WebLayout>
   );
 }

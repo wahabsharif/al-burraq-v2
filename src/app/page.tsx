@@ -1,7 +1,12 @@
-import Hero from "@/components/home/Hero";
-import Team from "@/components/home/Team";
-import TrustedDeveloper from "@/components/home/TrustedDeveloper";
+import dynamic from "next/dynamic";
 import WebLayout from "./layout";
+
+// Use dynamic imports for your components
+const Hero = dynamic(() => import("@/components/home/Hero"));
+const Team = dynamic(() => import("@/components/home/Team"));
+const TrustedDeveloper = dynamic(
+  () => import("@/components/home/TrustedDeveloper")
+);
 
 export default function Home() {
   return (
