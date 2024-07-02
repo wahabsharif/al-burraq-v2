@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import WebLayout from "../layout";
+import WebLayout from "../(home)/layout";
 
 // Use dynamic import for the Banner component
 const Banner = dynamic(() => import("@/components/common/Banner"));
