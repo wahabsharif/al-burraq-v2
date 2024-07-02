@@ -3,7 +3,7 @@ import "@/styles/globals.css";
 import NavBar from "@/components/common/NavBar";
 import Footer from "@/components/common/Footer";
 
-const RootLayout = ({ children }: { children: React.ReactNode }) => {
+const WebLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <body className="flex flex-col min-h-screen">
@@ -23,4 +23,4 @@ export const metadata: Metadata = {
   },
 };
 
-export default RootLayout;
+export default WebLayout;
