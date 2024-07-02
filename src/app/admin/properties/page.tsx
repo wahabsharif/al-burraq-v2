@@ -1,12 +1,12 @@
-import CreatePropertyForm from "@/components/admin/Properties/AddPropertyForm";
 import PropertyList from "@/components/admin/Properties/PropertyList";
 import React from "react";
+import Link from "next/link";
 
 export default function page() {
   return (
     <>
       <PropertyList />
-      <CreatePropertyForm />
+      <Link href="/admin/properties/add">Add Property</Link>
     </>
   );
 }
