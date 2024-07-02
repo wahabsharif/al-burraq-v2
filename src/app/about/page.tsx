@@ -5,7 +5,7 @@ import WebLayout from "../layout";
 export default function About() {
   return (
     <>
-      <WebLayout>
+      <WebLayout title="About Us">
         <Banner title="About Us" />
       </WebLayout>
     </>
