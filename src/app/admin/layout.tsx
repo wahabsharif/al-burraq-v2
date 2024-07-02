@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-
+import SideBar from "@/components/admin/SideBar";
 import "@/styles/admin.css";
 
 export const metadata = {
@@ -9,8 +9,17 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
-      <body className="flex flex-col min-h-screen">{children}</body>
+    <html>
+      <head>
+        <title>{metadata.title}</title>
+        <meta name="description" content={metadata.description} />
+      </head>
+      <body className="flex h-screen">
+        <SideBar />
+        <main className="flex-1 p-4 sm:ml-60 bg-gray-100 overflow-y-auto">
+          {children}
+        </main>
+      </body>
     </html>
   );
 }

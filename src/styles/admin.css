@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import url("https://fonts.googleapis.com/css2?family=Arsenal+SC:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
 :root {
   --foreground-rgb: 0, 0, 0;
 }
@@ -23,73 +24,15 @@ body {
   padding: 0;
   background-color: #1e293b;
   overflow-x: hidden;
-  position: relative;
+  display: flex;
 }
 
-h1 {
-  font-size: clamp(2rem, 2vw, 30rem);
-  font-weight: 700;
-  color: rgb(255, 245, 210);
-}
-
-h1 span {
-  color: rgb(198, 148, 57);
-}
-
-.grad-bg {
-  background-image: linear-gradient(
-    135deg,
-    rgb(198, 148, 57),
-    rgb(255, 230, 158)
-  );
-  position: relative;
-  z-index: 2; /* Ensure gradient background is above the overlay */
-}
-
-.shiny-btn {
-  background-image: linear-gradient(
-    135deg,
-    rgb(198, 148, 57),
-    rgb(255, 230, 158)
-  );
-  position: relative;
-  overflow: hidden;
-  color: rgb(25, 32, 40);
-  border-radius: 1rem;
-  padding: 0.5rem auto;
-  transition: background-color 0.3s ease;
-  z-index: 2; /* Ensure button is above the overlay */
-}
-
-.shiny-btn::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
+main {
+  width: 70%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.4);
-  transform: skewX(-45deg);
-  transition: left 0.6s ease;
-}
-
-.shiny-btn:hover::before {
-  left: 100%;
-}
-
-.logo-shadow {
-  filter: drop-shadow(6px 4px 5px black);
-}
-
-.text-gradient {
-  background-image: linear-gradient(
-    to right,
-    rgb(198, 148, 57),
-    rgb(255, 230, 158),
-    rgb(198, 148, 57)
-  );
-  -webkit-background-clip: text; /* For Safari */
-  background-clip: text;
-  -webkit-text-fill-color: transparent; /* Hide the original text */
-  text-fill-color: transparent;
+  right: 0;
+  flex: 1;
+  padding: 1rem;
+  background-color: #1e293b;
+  overflow-y: auto;
 }
