@@ -1,0 +1,24 @@
+// backend/models/Property.js
+const mongoose = require("mongoose");
+
+const propertySchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  location: {
+    type: String,
+    required: true,
+  },
+  // Add more fields as needed
+});
+
+module.exports = mongoose.model("Property", propertySchema);
