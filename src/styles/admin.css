@@ -36,3 +36,8 @@ main {
   background-color: #1e293b;
   overflow-y: auto;
 }
+
+img {
+  width: auto;
+  height: auto;
+}

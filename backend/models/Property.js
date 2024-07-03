@@ -1,4 +1,3 @@
-// backend/models/Property.js
 const mongoose = require("mongoose");
 
 const propertySchema = new mongoose.Schema({
@@ -16,6 +15,10 @@ const propertySchema = new mongoose.Schema({
   },
   location: {
     type: String,
+    required: true,
+  },
+  image: {
+    type: [String],
     required: true,
   },
   // Add more fields as needed

@@ -1,7 +1,9 @@
+// PropertyList.tsx
 "use client";
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Image from "next/image";
 import EditPropertyForm from "./EditPropertyForm";
 import DeletePropertyButton from "./DeletePropertyButton";
 
@@ -10,6 +12,8 @@ interface Property {
   title: string;
   description: string;
   price: number;
+  location: string;
+  image: string[]; // Adjusted to string array for image URLs
 }
 
 const PropertyList: React.FC = () => {
@@ -46,6 +50,17 @@ const PropertyList: React.FC = () => {
       <ul>
         {properties.map((property) => (
           <li key={property._id}>
+            {property.image.length > 0 ? (
+              <Image
+                src={property.image[0]} // Access the first image URL from the array
+                alt={property.title}
+                width={200}
+                height={0}
+                priority // Add priority to prioritize loading
+              />
+            ) : (
+              <div>No Image Available</div>
+            )}
             <strong>{property.title}</strong> - {property.description} - AED{" "}
             {property.price}
             {editPropertyId === property._id ? (
