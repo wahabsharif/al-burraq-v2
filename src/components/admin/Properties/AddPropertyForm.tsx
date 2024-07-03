@@ -88,41 +88,87 @@ const AddPropertyForm: React.FC = () => {
 
   return (
     <div>
-      <h2>Create Property</h2>
+      <div className="mx-auto max-w-screen-sm text-center">
+        <h2 className="text-3xl text-darkGold font-extrabold mb-4 mt-4 lg:mb-16 bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 inline-block">
+          Add Properties
+        </h2>
+      </div>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="title"
-          value={formData.title}
-          onChange={handleChange}
-          placeholder="Title"
-          required
-        />
-        <textarea
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          placeholder="Description"
-          required
-        />
-        <input
-          type="number"
-          name="price"
-          value={formData.price}
-          onChange={handleChange}
-          placeholder="Price"
-          required
-        />
-        <input
-          type="text"
-          name="location"
-          value={formData.location}
-          onChange={handleChange}
-          placeholder="Location"
-          required
-        />
-        <input type="file" onChange={handleFileChange} />
-        <button type="submit">Create Property</button>
+        <div className="grid gap-6 mb-6">
+          <div>
+            <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
+              Title
+            </label>
+            <input
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              name="title"
+              type="text"
+              value={formData.title}
+              onChange={handleChange}
+              placeholder="Enter The Title"
+              required
+            />
+          </div>
+          <div>
+            <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
+              Description
+            </label>
+            <textarea
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              placeholder="Enter The Description"
+              required
+            />
+          </div>
+          <div>
+            <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
+              Price
+            </label>
+            <input
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              type="number"
+              name="price"
+              value={formData.price}
+              onChange={handleChange}
+              placeholder=" Enter The Price"
+              required
+            />
+          </div>
+          <div>
+            <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
+              Location
+            </label>
+            <input
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              type="text"
+              name="location"
+              value={formData.location}
+              onChange={handleChange}
+              placeholder="Enter The Location"
+              required
+            />
+          </div>
+          <div>
+            <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
+              Images
+            </label>
+            <input
+              className="file-input file-input-bordered file-input-info w-full max-w-xs"
+              type="file"
+              onChange={handleFileChange}
+            />
+          </div>
+          <div>
+            <button
+              type="submit"
+              className="button px-5 py-3 text-2xl text-center"
+            >
+              Create
+            </button>
+          </div>
+        </div>
       </form>
     </div>
   );

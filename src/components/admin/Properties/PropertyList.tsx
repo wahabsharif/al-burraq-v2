@@ -6,6 +6,7 @@ import axios from "axios";
 import Image from "next/image";
 import EditPropertyForm from "./EditPropertyForm";
 import DeletePropertyButton from "./DeletePropertyButton";
+import AddPropertyButton from "./AddPropertyButton";
 
 interface Property {
   _id: string;
@@ -46,42 +47,49 @@ const PropertyList: React.FC = () => {
 
   return (
     <div>
-      <h2>Property List</h2>
-      <ul>
-        {properties.map((property) => (
-          <li key={property._id}>
-            {property.image.length > 0 ? (
-              <Image
-                src={property.image[0]} // Access the first image URL from the array
-                alt={property.title}
-                width={200}
-                height={0}
-                priority // Add priority to prioritize loading
-              />
-            ) : (
-              <div>No Image Available</div>
-            )}
-            <strong>{property.title}</strong> - {property.description} - AED{" "}
-            {property.price}
-            {editPropertyId === property._id ? (
-              <EditPropertyForm
-                property={property}
-                onUpdateSuccess={handleUpdateSuccess}
-              />
-            ) : (
-              <div>
-                <button onClick={() => handleEditClick(property._id)}>
-                  Edit
-                </button>
-                <DeletePropertyButton
-                  propertyId={property._id}
-                  onDelete={fetchProperties}
+      <div className="mx-auto max-w-screen-sm text-center">
+        <h2 className="text-3xl text-darkGold font-extrabold mb-4 mt-4 lg:mb-16 bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 inline-block">
+          All Properties
+        </h2>
+      </div>
+      <AddPropertyButton />
+      <div>
+        <ul>
+          {properties.map((property) => (
+            <li key={property._id}>
+              {property.image.length > 0 ? (
+                <Image
+                  src={property.image[0]} // Access the first image URL from the array
+                  alt={property.title}
+                  width={200}
+                  height={0}
+                  priority // Add priority to prioritize loading
                 />
-              </div>
-            )}
-          </li>
-        ))}
-      </ul>
+              ) : (
+                <div>No Image Available</div>
+              )}
+              <strong>{property.title}</strong> - {property.description} - AED{" "}
+              {property.price}
+              {editPropertyId === property._id ? (
+                <EditPropertyForm
+                  property={property}
+                  onUpdateSuccess={handleUpdateSuccess}
+                />
+              ) : (
+                <div>
+                  <button onClick={() => handleEditClick(property._id)}>
+                    Edit
+                  </button>
+                  <DeletePropertyButton
+                    propertyId={property._id}
+                    onDelete={fetchProperties}
+                  />
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
