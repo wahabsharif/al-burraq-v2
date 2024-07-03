@@ -8,7 +8,7 @@ import Logo2 from "@/assets/images/trusted-developers/2.png";
 
 const TrustedDeveloper = () => {
   return (
-    <>
+    <section>
       <div className="text-white mt-6 mb-3 text-center">
         <div className="inline-block bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
           <h2 className="text-3xl font-bold text-gradient">
@@ -38,7 +38,7 @@ const TrustedDeveloper = () => {
           </div>
         </div>
       </div>
-    </>
+    </section>
   );
 };
 
