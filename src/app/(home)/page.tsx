@@ -12,12 +12,10 @@ const TrustedDeveloper = dynamic(
 export default function Home() {
   return (
     <>
-      <WebLayout>
-        <Hero />
-        <FeaturedProperties />
-        <TrustedDeveloper />
-        <Team />
-      </WebLayout>
+      <Hero />
+      <FeaturedProperties />
+      <TrustedDeveloper />
+      <Team />
     </>
   );
 }
