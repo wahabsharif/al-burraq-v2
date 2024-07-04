@@ -131,23 +131,29 @@ h1 span {
   border-radius: 8px; /* Rounded corners */
 }
 
-/* Example custom arrow styles */
-.custom-next-arrow,
-.custom-prev-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  padding: 8px 16px;
-  cursor: pointer;
-  z-index: 10;
+@-webkit-keyframes tracking-in-expand-a {
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes tracking-in-expand-a {
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
-.custom-next-arrow {
-  right: 0;
-}
-
-.custom-prev-arrow {
-  left: 0;
+.tracking-in-expand {
+  animation: tracking-in-expand-a 3s ease-in-out both;
 }
