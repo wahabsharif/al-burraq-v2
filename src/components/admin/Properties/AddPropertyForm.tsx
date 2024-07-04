@@ -9,6 +9,9 @@ interface FormData {
   price: string;
   location: string;
   image: File | null;
+  purpose: string;
+  propertyType: string;
+  area: string;
 }
 
 const AddPropertyForm: React.FC = () => {
@@ -18,10 +21,15 @@ const AddPropertyForm: React.FC = () => {
     price: "",
     location: "",
     image: null,
+    purpose: "",
+    propertyType: "",
+    area: "",
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -68,6 +76,9 @@ const AddPropertyForm: React.FC = () => {
           price: formData.price,
           location: formData.location,
           image: imageUrl, // Pass imageUrl here
+          purpose: formData.purpose,
+          propertyType: formData.propertyType,
+          area: formData.area,
         }
       );
 
@@ -79,6 +90,9 @@ const AddPropertyForm: React.FC = () => {
         price: "",
         location: "",
         image: null,
+        purpose: "",
+        propertyType: "",
+        area: "",
       });
     } catch (error) {
       console.error("Error creating property:", error);
@@ -146,29 +160,82 @@ const AddPropertyForm: React.FC = () => {
               name="location"
               value={formData.location}
               onChange={handleChange}
-              placeholder="Enter The Location"
+              placeholder=" Enter The Location"
               required
             />
           </div>
           <div>
             <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
-              Images
+              Purpose
+            </label>
+            <select
+              className="bg-slate-700 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
+              name="purpose"
+              value={formData.purpose}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Purpose</option>
+              <option value="rent">Rent</option>
+              <option value="buy">Buy</option>
+              <option value="sale">Sale</option>
+            </select>
+          </div>
+          <div>
+            <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
+              Property Type
+            </label>
+            <select
+              className="bg-slate-700 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
+              name="propertyType"
+              value={formData.propertyType}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Property Type</option>
+              <option value="Offices">Offices</option>
+              <option value="apartments">Apartments</option>
+              <option value="lands">Lands</option>
+              <option value="penthouses">Penthouses</option>
+              <option value="shops">Shops</option>
+              <option value="houses">Houses</option>
+              <option value="townhouses">Townhouses</option>
+              <option value="villas">Villas</option>
+            </select>
+          </div>
+          <div>
+            <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
+              Area (sqft)
             </label>
             <input
-              className="file-input file-input-bordered file-input-info w-full max-w-xs"
-              type="file"
-              onChange={handleFileChange}
+              className="bg-slate-700 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
+              type="number"
+              name="area"
+              value={formData.area}
+              onChange={handleChange}
+              placeholder=" Enter The Area"
+              required
             />
           </div>
           <div>
-            <button
-              type="submit"
-              className="button px-5 py-3 text-2xl text-center"
-            >
-              Create
-            </button>
+            <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
+              Image
+            </label>
+            <input
+              className="bg-slate-700 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
+              type="file"
+              name="image"
+              onChange={handleFileChange}
+              required
+            />
           </div>
         </div>
+        <button
+          className="text-white bg-slate-800 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-800 font-medium rounded-lg text-xl w-full sm:w-auto px-5 py-2.5 text-center dark:bg-slate-800 dark:hover:bg-slate-700 dark:focus:ring-slate-800"
+          type="submit"
+        >
+          Submit
+        </button>
       </form>
     </div>
   );

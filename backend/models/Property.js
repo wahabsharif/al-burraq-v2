@@ -21,6 +21,29 @@ const propertySchema = new mongoose.Schema({
     type: [String],
     required: true,
   },
+  purpose: {
+    type: String,
+    required: true,
+    enum: ["rent", "buy", "sale"],
+  },
+  propertyType: {
+    type: String,
+    required: true,
+    enum: [
+      "Offices",
+      "apartments",
+      "lands",
+      "penthouses",
+      "shops",
+      "houses",
+      "townhouses",
+      "villas",
+    ],
+  },
+  area: {
+    type: Number,
+    required: true,
+  },
   // Add more fields as needed
 });
 

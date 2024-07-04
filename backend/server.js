@@ -1,4 +1,5 @@
 // backend/server.js
+
 require("dotenv").config(); // Load environment variables from .env file
 
 const express = require("express");
@@ -32,7 +33,16 @@ app.get("/api/properties", async (req, res) => {
 
 // Create a new property
 app.post("/api/properties", async (req, res) => {
-  const { title, description, price, location, image } = req.body;
+  const {
+    title,
+    description,
+    price,
+    location,
+    image,
+    purpose,
+    propertyType,
+    area,
+  } = req.body;
 
   try {
     let imageUrl = ""; // Initialize image URL variable
@@ -66,6 +76,9 @@ app.post("/api/properties", async (req, res) => {
       price,
       location,
       image: imageUrl, // Save image URL
+      purpose,
+      propertyType,
+      area,
     });
 
     await newProperty.save();

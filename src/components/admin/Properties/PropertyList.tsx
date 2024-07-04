@@ -1,4 +1,3 @@
-// PropertyList.tsx
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -15,6 +14,9 @@ interface Property {
   price: number;
   location: string;
   image: string[]; // Adjusted to string array for image URLs
+  purpose: string; // New field
+  propertyType: string; // New field
+  area: number; // New field
 }
 
 const PropertyList: React.FC = () => {
@@ -56,7 +58,7 @@ const PropertyList: React.FC = () => {
       <div>
         <ul>
           {properties.map((property) => (
-            <li key={property._id}>
+            <li key={property._id} className="mb-6">
               {property.image.length > 0 ? (
                 <Image
                   src={property.image[0]} // Access the first image URL from the array
@@ -68,16 +70,24 @@ const PropertyList: React.FC = () => {
               ) : (
                 <div>No Image Available</div>
               )}
-              <strong>{property.title}</strong> - {property.description} - AED{" "}
-              {property.price}
+              <div className="text-xl font-bold">{property.title}</div>
+              <div>{property.description}</div>
+              <div className="text-lg">AED {property.price}</div>
+              <div>Location: {property.location}</div>
+              <div>Purpose: {property.purpose}</div>
+              <div>Property Type: {property.propertyType}</div>
+              <div>Area: {property.area} sqft</div>
               {editPropertyId === property._id ? (
                 <EditPropertyForm
                   property={property}
                   onUpdateSuccess={handleUpdateSuccess}
                 />
               ) : (
-                <div>
-                  <button onClick={() => handleEditClick(property._id)}>
+                <div className="mt-2">
+                  <button
+                    className="bg-blue-500 text-white py-1 px-3 rounded mr-2"
+                    onClick={() => handleEditClick(property._id)}
+                  >
                     Edit
                   </button>
                   <DeletePropertyButton

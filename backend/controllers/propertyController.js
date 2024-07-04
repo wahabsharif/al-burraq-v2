@@ -1,10 +1,16 @@
-// propertyController.js
-
 const Property = require("../models/Property");
-const axios = require("axios");
 
 exports.createProperty = async (req, res) => {
-  const { title, description, price, location, image } = req.body;
+  const {
+    title,
+    description,
+    price,
+    location,
+    image,
+    purpose,
+    propertyType,
+    area,
+  } = req.body;
 
   try {
     let imageUrl = ""; // Initialize image URL variable
@@ -20,6 +26,9 @@ exports.createProperty = async (req, res) => {
       price,
       location,
       image: imageUrl, // Save image URL
+      purpose,
+      propertyType,
+      area,
     });
 
     await newProperty.save();
