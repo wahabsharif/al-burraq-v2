@@ -1,3 +1,5 @@
+// src/components/admin/Properties/AddPropertyForm.tsx
+
 "use client";
 
 import React, { useState } from "react";

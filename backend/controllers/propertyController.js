@@ -1,3 +1,5 @@
+// backend/controllers/propertyController.js
+
 const Property = require("../models/Property");
 
 exports.createProperty = async (req, res) => {
