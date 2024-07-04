@@ -1,7 +1,6 @@
 // src/components/admin/Properties/AddPropertyForm.tsx
 
 "use client";
-
 import React, { useState } from "react";
 import axios from "axios";
 
@@ -27,6 +26,9 @@ const AddPropertyForm: React.FC = () => {
     propertyType: "",
     area: "",
   });
+
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<boolean>(false);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -85,25 +87,37 @@ const AddPropertyForm: React.FC = () => {
       );
 
       console.log("Property created:", response.data);
-      // Optionally, reset form fields or display a success message
-      setFormData({
-        title: "",
-        description: "",
-        price: "",
-        location: "",
-        image: null,
-        purpose: "",
-        propertyType: "",
-        area: "",
-      });
+
+      setSuccess(true);
+      setTimeout(() => {
+        setSuccess(false);
+        setFormData({
+          title: "",
+          description: "",
+          price: "",
+          location: "",
+          image: null,
+          purpose: "",
+          propertyType: "",
+          area: "",
+        });
+      }, 3000); // Reset form fields after 3 seconds
     } catch (error) {
       console.error("Error creating property:", error);
-      // Handle error state or display error message to user
+      setError("Failed to create property. Please try again.");
     }
   };
 
   return (
     <div>
+      {error && (
+        <div className="bg-red-200 text-red-800 p-3 mb-4 rounded">{error}</div>
+      )}
+      {success && (
+        <div className="bg-green-200 text-green-800 p-3 mb-4 rounded">
+          Property created successfully!
+        </div>
+      )}
       <div className="mx-auto max-w-screen-sm text-center">
         <h2 className="text-3xl text-darkGold font-extrabold mb-4 mt-4 lg:mb-16 bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 inline-block">
           Add Properties
@@ -226,17 +240,17 @@ const AddPropertyForm: React.FC = () => {
             <input
               className="bg-slate-700 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
               type="file"
-              name="image"
+              accept=".jpg,.jpeg,.png"
               onChange={handleFileChange}
               required
             />
           </div>
         </div>
         <button
-          className="text-white bg-slate-800 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-800 font-medium rounded-lg text-xl w-full sm:w-auto px-5 py-2.5 text-center dark:bg-slate-800 dark:hover:bg-slate-700 dark:focus:ring-slate-800"
+          className="rounded-lg px-6 py-3 button font-bold text-white text-xl"
           type="submit"
         >
-          Submit
+          + Add
         </button>
       </form>
     </div>
