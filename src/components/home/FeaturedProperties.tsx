@@ -37,14 +37,40 @@ const FeaturedProperties: React.FC = () => {
     }
   };
 
-  // Slick settings
   const settings = {
     infinite: true,
     speed: 500,
-    slidesToShow: 3, // Display 3 cards at a time
+    slidesToShow: 3, // Display 3 cards at a time on large screens
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2000,
+    responsive: [
+      {
+        breakpoint: 1024, // Large screens
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 768, // Medium screens
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 640, // Small screens
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   return (
