@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 import { FaSearch } from "react-icons/fa";
+import { IoLocationSharp } from "react-icons/io5";
 
 interface Property {
   _id: string;
@@ -13,17 +14,99 @@ interface Property {
   location: string;
   propertyType: string;
   purpose: string;
-  image: string;
+  area: string;
+  image: string[];
 }
+
+const Alert = ({
+  show,
+  setShow,
+}: {
+  show: boolean;
+  setShow: (show: boolean) => void;
+}) => {
+  const [progress, setProgress] = useState(100);
+
+  // Use useRef to persist the timer across renders
+  const timerRef = useRef<NodeJS.Timeout>();
+
+  useEffect(() => {
+    if (show) {
+      const decrementBy = 1;
+
+      // Start the timer only if it hasn't already been started
+      if (!timerRef.current) {
+        timerRef.current = setInterval(() => {
+          setProgress((prev) => {
+            if (prev <= 0) {
+              // Clear the interval stored in the ref
+              if (timerRef.current) clearInterval(timerRef.current);
+              setShow(false); // Hide the alert after progress completes
+              return 0;
+            }
+            return prev - decrementBy; // Correctly update the progress
+          });
+        }, 30); // Set the interval to decrease progress every 30ms
+      }
+    }
+
+    // Cleanup function to clear the timer when the component unmounts or when show becomes false
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = undefined; // Clear the ref after clearing the interval
+      }
+    };
+  }, [show, setShow]); // Depend on show and setShow to restart the timer if necessary
+
+  useEffect(() => {
+    if (!show) {
+      // Reset progress and any other state needed when show becomes false
+      setProgress(100);
+    }
+  }, [show]);
+
+  if (!show) return null;
+
+  return (
+    <div className="fixed top-0 left-0 right-0 flex justify-center z-50">
+      <div
+        className="max-w-lg w-full bg-slate-100 border-l-4 border-red-700 text-slate-700 p-4 relative rounded-md shadow-lg"
+        role="alert"
+        style={{
+          animation: `${show ? "fadeIn" : "fadeOut"} 0.3s ease-in-out forwards`,
+        }}
+      >
+        <p className="text-3xl text-red-0 font-bold mb-4 border-b-2 border-slate-700 pb-2">
+          OOPS❗ 🙁
+        </p>
+        <p className="text-xl">
+          We Apologize, But We don&apos;t Have Any Properties That Match Your
+          Search Criteria.
+        </p>
+        <p className="text-xl">Try Other Keywords.</p>
+        <div className="absolute bottom-0 left-0 right-0 h-2 overflow-hidden">
+          <div
+            className="h-full bg-red-700"
+            style={{ width: `${progress}%` }} // Dynamically set width based on progress
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const SearchBarNew = () => {
   const [purpose, setPurpose] = useState("");
   const [propertyType, setPropertyType] = useState("");
   const [location, setLocation] = useState("");
-  const [priceRange, setPriceRange] = useState([0, 10000]);
+  const [priceRange, setPriceRange] = useState([0, 10000000]);
   const [searchResults, setSearchResults] = useState<Property[]>([]);
+  const [showError, setShowError] = useState(false);
 
   const handleSearch = async () => {
+    setShowError(false); // Reset showError to false before making the API call
+
     const baseUrl = "http://localhost:5000/api/properties/search";
     const queryParams = `?purpose=${encodeURIComponent(
       purpose
@@ -36,8 +119,12 @@ const SearchBarNew = () => {
     try {
       const response = await axios.get(baseUrl + queryParams);
       setSearchResults(response.data);
+      if (response.data.length === 0) {
+        setShowError(true); // Show the alert popup if there are no search results
+      }
     } catch (error) {
       console.error("Error fetching search results:", error);
+      setShowError(true); // Show the alert popup if there's an error fetching results
     }
   };
 
@@ -51,6 +138,7 @@ const SearchBarNew = () => {
 
   return (
     <section className="p-4 mb-8">
+      <Alert show={showError} setShow={setShowError} />
       <div className="left-0 right-0 grid items-start grid-cols-12 gap-4 p-10 mx-auto rounded-lg shadow-md bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
         <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-3">
           <label className="block text-2xl font-bold text-slate-300 mb-3">
@@ -142,7 +230,7 @@ const SearchBarNew = () => {
             <input
               type="number"
               min="0"
-              max="10000"
+              max="10000000"
               step="10"
               value={priceRange[1]}
               onChange={handleMaxPriceChange}
@@ -160,32 +248,61 @@ const SearchBarNew = () => {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto mt-8 bg-white shadow-md rounded-lg p-6">
-        {searchResults.map((property: Property) => (
-          <div key={property._id} className="property-item mb-6">
-            <h3 className="text-xl font-semibold text-gray-800">
-              {property.title}
-            </h3>
-            <p className="text-gray-600">{property.description}</p>
-            <p className="text-gray-800 font-medium">Price: {property.price}</p>
-            <p className="text-gray-600">Location: {property.location}</p>
-            <p className="text-gray-600">Type: {property.propertyType}</p>
-            <p className="text-gray-600">Purpose: {property.purpose}</p>
-            {property.image ? (
-              <Image
-                src={property.image}
-                alt={property.title}
-                className="w-full h-auto mt-4 rounded-md shadow-md"
-                width={1000}
-                height={1000}
-              />
-            ) : (
-              <div className="no-image-placeholder mt-4 text-gray-500 italic">
-                No Image Available
+      {/* Render The Search Results */}
+      <div className="max-w-4xl mx-auto mt-1 p-6">
+        {searchResults.length > 0 &&
+          searchResults.map((property: Property) => (
+            <div
+              key={property._id}
+              className="property-item mb-6 flex bg-white bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 rounded-xl shadow-md p-4 ml-4"
+            >
+              {/* Image on the left */}
+              <div className="w-1/2">
+                {property.image.length > 0 ? (
+                  <Image
+                    src={property.image[0]}
+                    alt={property.title}
+                    className="w-full h-auto mt-4 rounded-md shadow-md"
+                    width={1000}
+                    height={1000}
+                  />
+                ) : (
+                  <div className="no-image-placeholder mt-4 text-gray-500 italic">
+                    No Image Available
+                  </div>
+                )}
               </div>
-            )}
+              {/* Property details on the right */}
+              <div className="w-1/2 p-4 ml-4">
+                <p className="text-gray-800 text-xl text-darkGold  mb-3">
+                  AED <span className="text-3xl"> {property.price}</span>
+                </p>
+                <div className="flex">
+                  <p className="text-xl font-bold text-gray-600 mb-2 mr-4">
+                    {property.propertyType}
+                  </p>
+                  <p className="text-xl font-bold text-gray-600 mb-2">
+                    Area:
+                    <span className="text-lg font-medium ml-1">
+                      {property.area} sqft
+                    </span>
+                  </p>
+                </div>
+                <p className="text-gray-600 mb-2">{property.purpose}</p>
+                <p className="text-gray-600 mb-2">{property.description}</p>
+                <div className="flex items-center text-xl text-slate-400">
+                  <IoLocationSharp className="text-gray-600 mr-1" />
+                  <p className="text-gray-600">{property.location}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        {/* Display message if no results */}
+        {searchResults.length === 0 && showError && (
+          <div className="flex justify-center mt-4">
+            <Alert show={true} setShow={setShowError} />
           </div>
-        ))}
+        )}
       </div>
     </section>
   );

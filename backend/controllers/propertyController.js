@@ -3,14 +3,26 @@ const Property = require("../models/Property");
 exports.searchProperties = async (req, res) => {
   const { purpose, propertyType, location, minPrice, maxPrice } = req.query;
 
-  try {
-    const query = {
-      purpose,
-      propertyType,
-      location: { $regex: location, $options: "i" }, // Case insensitive search
-      price: { $gte: parseInt(minPrice, 10), $lte: parseInt(maxPrice, 10) },
-    };
+  // Convert minPrice and maxPrice to numbers
+  const parsedMinPrice = parseInt(minPrice, 10);
+  const parsedMaxPrice = parseInt(maxPrice, 10);
 
+  // Build the query object
+  const query = {
+    purpose,
+    propertyType,
+    location: { $regex: location, $options: "i" }, // Case insensitive search
+  };
+
+  // Add price range filters if valid numbers
+  if (!isNaN(parsedMinPrice)) {
+    query.price = { $gte: parsedMinPrice };
+  }
+  if (!isNaN(parsedMaxPrice)) {
+    query.price = { ...query.price, $lte: parsedMaxPrice };
+  }
+
+  try {
     const properties = await Property.find(query);
     res.json(properties);
   } catch (err) {
