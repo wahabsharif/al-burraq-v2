@@ -73,7 +73,7 @@ const AddPropertyForm: React.FC = () => {
       }
 
       const response = await axios.post(
-        "http://localhost:5000/api/properties",
+        "https://al-burraq-backend.vercel.app/api/properties",
         {
           title: formData.title,
           description: formData.description,

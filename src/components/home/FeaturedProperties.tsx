@@ -29,7 +29,7 @@ const FeaturedProperties: React.FC = () => {
   const fetchProperties = async () => {
     try {
       const response = await axios.get<Property[]>(
-        "http://localhost:5000/api/properties"
+        "https://al-burraq-backend.vercel.app/api/properties"
       );
       setProperties(response.data);
     } catch (error) {
