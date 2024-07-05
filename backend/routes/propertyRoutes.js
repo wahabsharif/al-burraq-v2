@@ -1,9 +1,8 @@
-// backend/routes/propertyRoutes.js
-
 const express = require("express");
 const router = express.Router();
 const {
   getProperties,
+  searchProperties,
   getPropertyById,
   createProperty,
   updateProperty,
@@ -12,6 +11,9 @@ const {
 
 // GET all properties
 router.get("/properties", getProperties);
+
+// GET properties with search criteria
+router.get("/properties/search", searchProperties);
 
 // GET single property
 router.get("/properties/:id", getPropertyById);

@@ -1,18 +1,24 @@
-import dynamic from "next/dynamic";
-import WebLayout from "./layout";
-import FeaturedProperties from "@/components/home/FeaturedProperties";
+// src/app/(home)/page.tsx
 
-// Use dynamic imports for your components
+import dynamic from "next/dynamic";
+import FeaturedProperties from "@/components/home/FeaturedProperties";
+import SearchBarNew from "@/components/home/SearchBarNew";
+
 const Hero = dynamic(() => import("@/components/home/Hero"));
 const Team = dynamic(() => import("@/components/home/Team"));
 const TrustedDeveloper = dynamic(
   () => import("@/components/home/TrustedDeveloper")
 );
+const SearchBar = dynamic(() => import("@/components/home/SearchBar"), {
+  ssr: false,
+});
 
 export default function Home() {
   return (
     <>
       <Hero />
+      {/* <SearchBar /> */}
+      <SearchBarNew />
       <FeaturedProperties />
       <TrustedDeveloper />
       <Team />
