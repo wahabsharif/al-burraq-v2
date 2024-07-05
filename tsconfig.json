@@ -31,7 +31,7 @@
     "backend/models/Property.js",
     "backend/controllers/propertyController.js",
     "backend/config/db.js",
-    "backend/server.js"
+    "backend/index.js"
   ],
   "exclude": ["node_modules"]
 }
