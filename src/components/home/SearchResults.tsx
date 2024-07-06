@@ -40,7 +40,7 @@ const SearchResults = () => {
         }); // Debug statement
 
         const response = await axios.get(
-          "https://al-burraq-backend.vercel.app/api/properties/search",
+          "http://localhost:5000/api/properties/search",
           {
             params: {
               purpose,

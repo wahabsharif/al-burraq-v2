@@ -39,7 +39,7 @@ const EditPropertyForm: React.FC<EditPropertyFormProps> = ({
     e.preventDefault();
     try {
       const response = await axios.put<Property>(
-        `https://al-burraq-backend.vercel.app/api/properties/${property._id}`,
+        `http://localhost:5000/api/properties/${property._id}`,
         formData
       );
       console.log("Property updated:", response.data);
