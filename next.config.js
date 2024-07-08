@@ -11,7 +11,7 @@ const nextConfig = {
     ],
   },
   env: {
-    NEXT_PUBLIC_HOSTNAME: "http://localhost:3000/api/",
+    NEXT_PUBLIC_HOSTNAME: "http://localhost:3000",
     MONGODB_URI:
       "mongodb+srv://alburraq:alburraq123group@alburraqcluster.nu1qjnr.mongodb.net/?retryWrites=true&w=majority&appName=AlBurraqCluster",
     NEXTAUTH_SECRET: "+Vv6ktPicON2v4DGbDk6ICwIsrOFalI+Oek3YNSKrew=",

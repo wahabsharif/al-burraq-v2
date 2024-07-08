@@ -1,44 +1,47 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
-const Login = () => {
+const Register = () => {
   const router = useRouter();
-  const baseURL = process.env.NEXT_PUBLIC_HOSTNAME + "register";
+  const baseURL = process.env.NEXT_PUBLIC_HOSTNAME + "/api/register";
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const submitHandler = async (data: { email: any; password: any }) => {
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     const requestBody = {
-      email: data.email,
-      password: data.password,
+      username,
+      email,
+      password,
     };
 
-    await axios
-      .post(baseURL, requestBody)
-      .then(function (res) {
-        console.log(res);
+    try {
+      const res = await axios.post(baseURL, requestBody);
+
+      if (res.status === 201) {
+        console.log(res.data);
         alert("Account created!");
         router.push("/admin");
-      })
-      .catch(function (error) {
-        alert("Something went wrong...");
-      });
+      } else {
+        alert("Unexpected response status: " + res.status);
+      }
+    } catch (error) {
+      console.error("Error creating account:", error);
+      setError("Something went wrong...");
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="max-w-md w-full p-6 bg-white rounded-md shadow-md">
         <h2 className="text-2xl font-bold mb-4">Register</h2>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            const form = e.target as HTMLFormElement;
-            submitHandler({
-              email: (form.username as HTMLInputElement).value,
-              password: (form.password as HTMLInputElement).value,
-            });
-          }}
-        >
+        {error && <div className="mb-4 text-red-500">{error}</div>}
+        <form onSubmit={submitHandler}>
           <div className="mb-4">
             <label
               htmlFor="username"
@@ -50,7 +53,27 @@ const Login = () => {
               type="text"
               id="username"
               name="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               className="mt-1 p-2 w-full border rounded-md"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="mt-1 p-2 w-full border rounded-md"
+              required
             />
           </div>
           <div className="mb-4">
@@ -64,7 +87,10 @@ const Login = () => {
               type="password"
               id="password"
               name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="mt-1 p-2 w-full border rounded-md"
+              required
             />
           </div>
           <button
@@ -79,4 +105,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

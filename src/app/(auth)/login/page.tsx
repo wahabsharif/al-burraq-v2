@@ -1,34 +1,40 @@
+// src/app/login/page.tsx
+
 "use client";
-import React from "react";
+
+import React, { useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"; // Corrected import
 
 const Login = () => {
   const router = useRouter();
-  let resdata: any; // Declare resdata outside of submitHandler
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [error, setError] = useState("");
 
-  const submitHandler = async (data: { email: any; password: any }) => {
-    resdata = await signIn("credentials", {
-      email: data.email,
-      password: data.password,
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const resdata = await signIn("credentials", {
+      email,
+      password,
+      username,
       redirect: false,
     });
 
-    console.log(resdata);
-    if (
-      resdata.status === 400 ||
-      resdata.status === 401 ||
-      resdata.status === 403
+    if (resdata?.error) {
+      setError(resdata.error);
+    } else if (
+      resdata?.status === 400 ||
+      resdata?.status === 401 ||
+      resdata?.status === 403
     ) {
-      console.log("Invalid Credentials!");
-      alert("Invalid Credentials!");
-    } else if (resdata.status === 500) {
-      console.log("Server error!");
-      alert("Server error!");
+      setError("Invalid Credentials!");
+    } else if (resdata?.status === 500) {
+      setError("Server error!");
     } else {
       alert("Login successful!");
       router.push("/admin");
-      console.log(resdata);
     }
   };
 
@@ -36,27 +42,23 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="max-w-md w-full p-6 bg-white rounded-md shadow-md">
         <h2 className="text-2xl font-bold mb-4">Login</h2>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            submitHandler({
-              email: (e.target as HTMLFormElement).username.value,
-              password: (e.target as HTMLFormElement).password.value,
-            });
-          }}
-        >
+        {error && <div className="mb-4 text-red-500">{error}</div>}
+        <form onSubmit={submitHandler}>
           <div className="mb-4">
             <label
-              htmlFor="username"
+              htmlFor="email"
               className="block text-sm font-medium text-gray-600"
             >
-              Username
+              Email
             </label>
             <input
-              type="text"
-              id="username"
-              name="username"
+              type="email"
+              id="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="mt-1 p-2 w-full border rounded-md"
+              required
             />
           </div>
           <div className="mb-4">
@@ -70,6 +72,25 @@ const Login = () => {
               type="password"
               id="password"
               name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="mt-1 p-2 w-full border rounded-md"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               className="mt-1 p-2 w-full border rounded-md"
             />
           </div>

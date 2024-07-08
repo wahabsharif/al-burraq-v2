@@ -1,69 +1,57 @@
+// src/api/login/route.ts
+
 import dbConnect from "@/db/config/dbConnect";
 import User from "@/db/models/user";
 import bcrypt from "bcrypt";
 
 dbConnect();
 
-export async function GET(request) {
-  const users = await User.find({}).sort({ _id: -1 });
-
-  let data = JSON.stringify(users);
-  return new Response(data, {
-    status: 200,
-  });
+export async function GET(request: Request) {
+  return new Response(
+    JSON.stringify({
+      error: "POST method is not supported",
+    }),
+    { status: 405 }
+  );
 }
 
-export async function POST(request) {
+export async function POST(request: Request) {
   const { email, password } = await request.json();
 
-  // Check if email and password are provided
   if (!email || !password) {
     return new Response(
       JSON.stringify({
         success: false,
         status: 400,
         message: "email and password are required",
-        data: email,
-      })
+      }),
+      { status: 400 }
     );
   }
 
-  // Find the user in the database
   const user = await User.findOne({ email });
 
-  // If user is not found, return an error
   if (!user) {
     return new Response(
       JSON.stringify({
         success: false,
         status: 400,
         message: "Invalid credentials",
-      })
+      }),
+      { status: 400 }
     );
   }
 
-  // if(password == user.password) {
-  //     return new Response(JSON.stringify({
-  //         success: true,
-  //         status: 200,
-  //         data: user
-  //     }));
-  // }else{
-  //       return new Response(JSON.stringify({
-  //         success: false,
-  //         status: 400,
-  //         message: 'Wrong Password'
-  //     }));
-  // }
-
   const isPasswordValid = await bcrypt.compare(password, user.password);
+
   if (isPasswordValid) {
     return new Response(
       JSON.stringify({
         success: true,
         status: 200,
         data: user,
-      })
+      }),
+      { status: 200 }
     );
   } else {
     return new Response(
@@ -71,7 +59,8 @@ export async function POST(request) {
         success: false,
         status: 400,
         message: "Wrong Password",
-      })
+      }),
+      { status: 400 }
     );
   }
 }
