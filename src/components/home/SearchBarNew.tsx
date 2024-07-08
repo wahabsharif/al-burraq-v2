@@ -265,7 +265,10 @@ const SearchBarNew = () => {
                     className="w-full h-auto mt-4 rounded-md shadow-md"
                     width={1000}
                     height={1000}
-                  />
+                    style={{
+                      maxWidth: "100%",
+                      height: "auto"
+                    }} />
                 ) : (
                   <div className="no-image-placeholder mt-4 text-gray-500 italic">
                     No Image Available

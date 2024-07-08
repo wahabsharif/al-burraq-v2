@@ -31,7 +31,10 @@ const Team = () => {
                   src={member.imagePath}
                   alt={member.name}
                   width={1000}
-                />
+                  style={{
+                    maxWidth: "100%",
+                    height: "auto"
+                  }} />
               </a>
               <div className="p-5">
                 <h3 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">

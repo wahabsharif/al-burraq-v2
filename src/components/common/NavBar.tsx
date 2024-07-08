@@ -63,7 +63,10 @@ const NavBar = () => {
               src={Logo}
               alt="al-burraq-logo"
               width={120}
-            />
+              style={{
+                maxWidth: "100%",
+                height: "auto"
+              }} />
           </Link>
         </div>
         <div className="navbar-end">

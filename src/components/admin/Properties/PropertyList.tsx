@@ -61,12 +61,17 @@ const PropertyList: React.FC = () => {
             <li key={property._id} className="mb-6">
               {property.image.length > 0 ? (
                 <Image
-                  src={property.image[0]} // Access the first image URL from the array
+                  // Access the first image URL from the array
+                  src={property.image[0]}
                   alt={property.title}
                   width={200}
                   height={0}
-                  priority // Add priority to prioritize loading
-                />
+                  // Add priority to prioritize loading
+                  priority
+                  style={{
+                    maxWidth: "100%",
+                    height: "auto"
+                  }} />
               ) : (
                 <div>No Image Available</div>
               )}

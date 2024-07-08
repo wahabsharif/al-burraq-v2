@@ -89,13 +89,7 @@ const FeaturedProperties: React.FC = () => {
             <div className="bg-white mb-4 mt-4 lg:mb-16 bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
               <div className="property-slider-image">
                 {property.image.length > 0 ? (
-                  <Image
-                    src={property.image[0]}
-                    alt={property.title}
-                    width={800}
-                    height={600}
-                    layout="fixed" // Use layout="fixed" to set fixed width and height
-                  />
+                  <Image src={property.image[0]} alt={property.title} width={800} height={600} />
                 ) : (
                   <div className="no-image-placeholder">No Image Available</div>
                 )}
