@@ -15,7 +15,7 @@ const DeletePropertyButton: React.FC<DeletePropertyButtonProps> = ({
   const handleDelete = async () => {
     try {
       const response = await axios.delete(
-        `https://al-burraq-backend.vercel.app/api/properties/${propertyId}`
+        `http://localhost:5000/api/properties/${propertyId}`
       );
       console.log("Property deleted:", response.data);
       onDelete(); // Trigger parent component update

@@ -107,8 +107,7 @@ const SearchBarNew = () => {
   const handleSearch = async () => {
     setShowError(false); // Reset showError to false before making the API call
 
-    const baseUrl =
-      "https://al-burraq-backend.vercel.app/api/properties/search";
+    const baseUrl = "http://localhost:5000/api/properties/search";
     const queryParams = `?purpose=${encodeURIComponent(
       purpose
     )}&propertyType=${encodeURIComponent(

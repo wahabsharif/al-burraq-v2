@@ -3,8 +3,7 @@
 import React from "react";
 import styles from "@/styles/TrustedDeveloper.module.css";
 import Image from "next/image";
-import Logo1 from "@/assets/images/trusted-developers/1.png";
-import Logo2 from "@/assets/images/trusted-developers/2.png";
+import Logo1 from "@/assets/images/trusted-developers/Azizi-Developments.jpg";
 
 const TrustedDeveloper = () => {
   return (
@@ -20,21 +19,18 @@ const TrustedDeveloper = () => {
         <div className={styles.logosSlider}>
           <div className={styles.logosSliderContainer}>
             <Image src={Logo1} alt="Logo 1" width={150} height={100} />
-            <Image src={Logo2} alt="Logo 2" width={150} height={100} />
             <Image src={Logo1} alt="Logo 1" width={150} height={100} />
-            <Image src={Logo2} alt="Logo 2" width={150} height={100} />
             <Image src={Logo1} alt="Logo 1" width={150} height={100} />
-            <Image src={Logo2} alt="Logo 2" width={150} height={100} />
             <Image src={Logo1} alt="Logo 1" width={150} height={100} />
-            <Image src={Logo2} alt="Logo 2" width={150} height={100} />
             <Image src={Logo1} alt="Logo 1" width={150} height={100} />
-            <Image src={Logo2} alt="Logo 2" width={150} height={100} />
             <Image src={Logo1} alt="Logo 1" width={150} height={100} />
-            <Image src={Logo2} alt="Logo 2" width={150} height={100} />
             <Image src={Logo1} alt="Logo 1" width={150} height={100} />
-            <Image src={Logo2} alt="Logo 2" width={150} height={100} />
             <Image src={Logo1} alt="Logo 1" width={150} height={100} />
-            <Image src={Logo2} alt="Logo 2" width={150} height={100} />
+            <Image src={Logo1} alt="Logo 1" width={150} height={100} />
+            <Image src={Logo1} alt="Logo 1" width={150} height={100} />
+            <Image src={Logo1} alt="Logo 1" width={150} height={100} />
+            <Image src={Logo1} alt="Logo 1" width={150} height={100} />
+            <Image src={Logo1} alt="Logo 1" width={150} height={100} />
           </div>
         </div>
       </div>

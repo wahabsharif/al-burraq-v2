@@ -166,3 +166,24 @@ h1 span {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-size: 20px;
 }
+
+/* Teams */
+.team {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.team-image {
+  width: 200px; /* Adjust size as needed */
+  height: auto; /* Adjust size as needed */
+  border-radius: 50%; /* Make the image round */
+  object-fit: cover; /* Ensure the image covers the entire area */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  transition: transform 0.3s ease; /* Smooth transition for scaling */
+}
+
+.team-image:hover {
+  transform: scale(1.1); /* Scale up the image on hover */
+}
