@@ -70,6 +70,8 @@ const PropertyList: React.FC = () => {
                   priority
                   style={{
                     maxWidth: "100%",
+                    height: "auto",
+                    maxWidth: "100%",
                     height: "auto"
                   }} />
               ) : (

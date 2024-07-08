@@ -33,6 +33,8 @@ const Team = () => {
                   width={1000}
                   style={{
                     maxWidth: "100%",
+                    height: "auto",
+                    maxWidth: "100%",
                     height: "auto"
                   }} />
               </a>
