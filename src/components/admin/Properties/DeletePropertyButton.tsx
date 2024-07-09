@@ -8,6 +8,8 @@ interface DeletePropertyButtonProps {
   onDelete: () => void;
 }
 
+const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 const DeletePropertyButton: React.FC<DeletePropertyButtonProps> = ({
   propertyId,
   onDelete,
@@ -15,7 +17,7 @@ const DeletePropertyButton: React.FC<DeletePropertyButtonProps> = ({
   const handleDelete = async () => {
     try {
       const response = await axios.delete(
-        `http://localhost:5000/api/properties/${propertyId}`
+        `${NEXT_PUBLIC_API_URL}/api/properties/${propertyId}`
       );
       console.log("Property deleted:", response.data);
       onDelete(); // Trigger parent component update

@@ -18,6 +18,8 @@ interface Property {
   image: string[];
 }
 
+const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 const Alert = ({
   show,
   setShow,
@@ -107,7 +109,7 @@ const SearchBarNew = () => {
   const handleSearch = async () => {
     setShowError(false); // Reset showError to false before making the API call
 
-    const baseUrl = "http://localhost:5000/api/properties/search";
+    const baseUrl = `${NEXT_PUBLIC_API_URL}/api/properties/search`;
     const queryParams = `?purpose=${encodeURIComponent(
       purpose
     )}&propertyType=${encodeURIComponent(
@@ -250,6 +252,16 @@ const SearchBarNew = () => {
 
       {/* Render The Search Results */}
       <div className="max-w-4xl mx-auto mt-1 p-6">
+        {searchResults.length > 0 && (
+          <div className="flex justify-center items-center mb-5">
+            <div className="inline-block bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 animate-pop-up">
+              <h2 className="text-3xl font-bold text-gradient">
+                Search Results
+              </h2>
+            </div>
+          </div>
+        )}
+
         {searchResults.length > 0 &&
           searchResults.map((property: Property) => (
             <div
@@ -265,12 +277,7 @@ const SearchBarNew = () => {
                     className="w-full h-auto mt-4 rounded-md shadow-md"
                     width={1000}
                     height={1000}
-                    style={{
-                      maxWidth: "100%",
-                      height: "auto",
-                      maxWidth: "100%",
-                      height: "auto"
-                    }} />
+                  />
                 ) : (
                   <div className="no-image-placeholder mt-4 text-gray-500 italic">
                     No Image Available
@@ -302,6 +309,7 @@ const SearchBarNew = () => {
               </div>
             </div>
           ))}
+
         {/* Display message if no results */}
         {searchResults.length === 0 && showError && (
           <div className="flex justify-center mt-4">

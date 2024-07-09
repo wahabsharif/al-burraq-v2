@@ -12,6 +12,8 @@ interface Property {
   location: string;
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 const SearchResults = () => {
   const searchParams = useSearchParams();
   const [results, setResults] = useState<Property[]>([]);
@@ -37,22 +39,19 @@ const SearchResults = () => {
           location,
           minPrice,
           maxPrice,
-        }); // Debug statement
+        });
 
-        const response = await axios.get(
-          "http://localhost:5000/api/properties/search",
-          {
-            params: {
-              purpose,
-              propertyType,
-              location,
-              minPrice: minPrice || 0,
-              maxPrice: maxPrice || 1000000,
-            },
-          }
-        );
+        const response = await axios.get(`${API_URL}api/properties/search`, {
+          params: {
+            purpose,
+            propertyType,
+            location,
+            minPrice: minPrice || 0,
+            maxPrice: maxPrice || 1000000,
+          },
+        });
 
-        console.log("API response:", response.data); // Debug statement
+        console.log("API response:", response.data);
 
         setResults(response.data);
       } catch (error) {

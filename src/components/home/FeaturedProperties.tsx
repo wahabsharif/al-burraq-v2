@@ -19,6 +19,8 @@ interface Property {
   area: number; // New field
 }
 
+const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 const FeaturedProperties: React.FC = () => {
   const [properties, setProperties] = useState<Property[]>([]);
 
@@ -29,7 +31,7 @@ const FeaturedProperties: React.FC = () => {
   const fetchProperties = async () => {
     try {
       const response = await axios.get<Property[]>(
-        "http://localhost:5000/api/properties"
+        `${NEXT_PUBLIC_API_URL}/api/properties`
       );
       setProperties(response.data);
     } catch (error) {
@@ -96,8 +98,9 @@ const FeaturedProperties: React.FC = () => {
                     height={600}
                     style={{
                       maxWidth: "100%",
-                      height: "auto"
-                    }} />
+                      height: "auto",
+                    }}
+                  />
                 ) : (
                   <div className="no-image-placeholder">No Image Available</div>
                 )}

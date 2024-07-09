@@ -15,6 +15,8 @@ interface FormData {
   area: string;
 }
 
+const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 const AddPropertyForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     title: "",
@@ -73,7 +75,7 @@ const AddPropertyForm: React.FC = () => {
       }
 
       const response = await axios.post(
-        "http://localhost:5000/api/properties",
+        `${NEXT_PUBLIC_API_URL}/api/properties`,
         {
           title: formData.title,
           description: formData.description,

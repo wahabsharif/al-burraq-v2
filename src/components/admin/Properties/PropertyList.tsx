@@ -19,6 +19,8 @@ interface Property {
   area: number; // New field
 }
 
+const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 const PropertyList: React.FC = () => {
   const [properties, setProperties] = useState<Property[]>([]);
   const [editPropertyId, setEditPropertyId] = useState<string | null>(null);
@@ -30,7 +32,7 @@ const PropertyList: React.FC = () => {
   const fetchProperties = async () => {
     try {
       const response = await axios.get<Property[]>(
-        "http://localhost:5000/api/properties"
+        `${NEXT_PUBLIC_API_URL}/api/properties`
       );
       setProperties(response.data);
     } catch (error) {
@@ -68,12 +70,7 @@ const PropertyList: React.FC = () => {
                   height={0}
                   // Add priority to prioritize loading
                   priority
-                  style={{
-                    maxWidth: "100%",
-                    height: "auto",
-                    maxWidth: "100%",
-                    height: "auto"
-                  }} />
+                />
               ) : (
                 <div>No Image Available</div>
               )}

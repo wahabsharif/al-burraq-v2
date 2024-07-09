@@ -15,6 +15,8 @@ interface Property {
   price: number;
 }
 
+const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 const EditPropertyForm: React.FC<EditPropertyFormProps> = ({
   property,
   onUpdateSuccess,
@@ -39,7 +41,7 @@ const EditPropertyForm: React.FC<EditPropertyFormProps> = ({
     e.preventDefault();
     try {
       const response = await axios.put<Property>(
-        `http://localhost:5000/api/properties/${property._id}`,
+        `${NEXT_PUBLIC_API_URL}/api/properties/${property._id}`,
         formData
       );
       console.log("Property updated:", response.data);
