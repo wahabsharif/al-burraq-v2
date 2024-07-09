@@ -1,23 +1,28 @@
-import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
+"use client";
+
+import { useRouter } from "next/navigation"; // Corrected import
+import { useEffect, useState } from "react";
 
 export default function ErrorPage() {
-  const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    // Example of fetching data client-side
+    fetch("/api/path/to/your/data")
+      .then((response) => response.text())
+      .then((data) => setErrorMessage(data));
+  }, []);
+
+  const router = useRouter(); // Using useRouter hook
 
   return (
     <div>
       <h1>Authentication Error</h1>
-      <p>An error occurred during authentication. Please try again.</p>
-      <button onClick={() => router.push('/login')}>Back to Login</button>
+      <p>
+        {errorMessage ||
+          "An error occurred during authentication. Please try again."}
+      </p>
+      <button onClick={() => router.push("/login")}>Back to Login</button>
     </div>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  // You can access the error message from the context object
-  const errorMessage = context.query.message;
-
-  return {
-    props: { errorMessage },
-  };
-};

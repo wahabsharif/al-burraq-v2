@@ -15,7 +15,7 @@ const WebLayout = ({ children, title, description }: WebLayoutProps) => {
 
   return (
     <>
-      <html lang="en">
+      <html lang="en" suppressHydrationWarning>
         <head>
           <title>{pageTitle}</title>
           <meta
