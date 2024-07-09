@@ -34,9 +34,8 @@ const Team = () => {
                   style={{
                     maxWidth: "100%",
                     height: "auto",
-                    maxWidth: "100%",
-                    height: "auto"
-                  }} />
+                  }}
+                />
               </a>
               <div className="p-5">
                 <h3 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
