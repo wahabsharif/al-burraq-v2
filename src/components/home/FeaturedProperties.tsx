@@ -6,6 +6,13 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
+import Link from "next/link";
+import {
+  IoLocationOutline,
+  IoCallOutline,
+  IoMailOutline,
+  IoLogoWhatsapp,
+} from "react-icons/io5";
 
 interface Property {
   _id: string;
@@ -96,23 +103,52 @@ const FeaturedProperties: React.FC = () => {
                     alt={property.title}
                     width={800}
                     height={600}
-                    style={{
-                      maxWidth: "100%",
-                      height: "auto",
-                    }}
                   />
                 ) : (
                   <div className="no-image-placeholder">No Image Available</div>
                 )}
               </div>
-
-              <div className="text-xl font-bold mt-4">{property.title}</div>
-              <div className="text-lg">AED {property.price}</div>
-              <div className="mt-2">{property.description}</div>
-              <div className="mt-2">Location: {property.location}</div>
-              <div className="mt-2">Purpose: {property.purpose}</div>
-              <div className="mt-2">Property Type: {property.propertyType}</div>
-              <div className="mt-2">Area: {property.area} sqft</div>
+              <div>
+                <div className="mt-2 text-sm text-gradient">
+                  AED
+                  <span className="text-xl font-bold">{property.price}</span>
+                </div>
+                <div className="flex mt-2 space-x-2">
+                  <div>{property.propertyType}</div> <span>|</span>
+                  <div>{property.area} sqft</div>
+                </div>
+                <div className="text-xl font-bold mt-4">{property.title}</div>
+                <div className="mt-2">{property.description}</div>
+                <div className="flex items-center mt-2">
+                  <IoLocationOutline className="mr-2" />
+                  <div>{property.location}</div>
+                </div>
+                <div className="mt-2">For: {property.purpose}</div>
+              </div>
+              {/* Contact Icons Section */}
+              <div className="flex items-center justify-center mt-4">
+                <Link
+                  href={`tel:#`}
+                  className="shiny-btn p-2 font-bold flex items-center mr-4"
+                >
+                  <IoCallOutline className="text-2xl" />
+                  <span className="ml-1">Call</span>
+                </Link>
+                <Link
+                  href={`mailto:#`}
+                  className="shiny-btn p-2 font-bold flex items-center  mr-4"
+                >
+                  <IoMailOutline className="text-2xl" />
+                  <span className="ml-1">Mail</span>
+                </Link>
+                {/* <Link
+                  href={`mailto:#`}
+                  className="shiny-btn p-2  font-bold flex items-center mr-4"
+                >
+                  <IoLogoWhatsapp className="text-2xl" />
+                  <span className="ml-1"></span>
+                </Link> */}
+              </div>
             </div>
           </div>
         ))}
