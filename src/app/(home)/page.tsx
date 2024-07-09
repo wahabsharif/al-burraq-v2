@@ -17,7 +17,6 @@ export default function Home() {
   return (
     <>
       <Hero />
-      {/* <SearchBar /> */}
       <SearchBarNew />
       <FeaturedProperties />
       <TrustedDeveloper />

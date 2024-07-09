@@ -179,7 +179,7 @@ const Footer = () => {
                 <li>
                   <Link
                     className="text-gray-700 transition hover:text-lightGold"
-                    href="tell://971554050250"
+                    href="tell:971554050250"
                   >
                     00971 55 405 0250
                   </Link>

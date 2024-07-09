@@ -46,6 +46,9 @@ const NavBar = () => {
                 <Link href="/buy">Buy</Link>
               </li>
               <li className="tracking-in-expand">
+                <Link href="/contact">Contact</Link>
+              </li>
+              <li className="tracking-in-expand">
                 <button
                   className="lg:hidden shiny-btn select-none rounded-lg grad-bg px-4 py-2.5 text-center align-middle font-sans text-md font-extrabold uppercase text-slate-900 shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                   type="button"
@@ -66,9 +69,8 @@ const NavBar = () => {
               style={{
                 maxWidth: "100%",
                 height: "auto",
-                maxWidth: "100%",
-                height: "auto"
-              }} />
+              }}
+            />
           </Link>
         </div>
         <div className="navbar-end">
