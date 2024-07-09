@@ -139,7 +139,7 @@ const SearchBarNew = () => {
   };
 
   return (
-    <section className="p-4 mb-8">
+    <section className="mb-4">
       <Alert show={showError} setShow={setShowError} />
       <div className="left-0 right-0 grid items-start grid-cols-12 gap-4 p-10 mx-auto rounded-lg shadow-md bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
         <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-3">
