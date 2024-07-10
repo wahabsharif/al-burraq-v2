@@ -1,11 +1,20 @@
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+import React, { ReactNode } from "react";
+import { AuthProvider } from "@/contexts/AuthContext";
+// import "@/styles/admin.css";
+
+export const metadata = {
+  title: "Login",
+};
+
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html>
+      <head>
+        <title>{metadata.title}</title>
+      </head>
+      <body>
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   );
 }

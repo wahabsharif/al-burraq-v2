@@ -1,109 +1,93 @@
-// src/app/login/page.tsx
+// src/pages/login.tsx
 
 "use client";
 
 import React, { useState } from "react";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation"; // Corrected import
+import axios from "axios";
+import { useAuth } from "@/contexts/AuthContext";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import Logo from "@/assets/images/logo/al-burraq-logo-dark.svg";
+import Image from "next/image";
 
-const Login = () => {
-  const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+const LoginPage = () => {
   const [username, setUsername] = useState("");
-  const [error, setError] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const { login } = useAuth();
 
-  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const resdata = await signIn("credentials", {
-      email,
-      password,
-      username,
-      redirect: false,
-    });
-
-    if (resdata?.error) {
-      setError(resdata.error);
-    } else if (
-      resdata?.status === 400 ||
-      resdata?.status === 401 ||
-      resdata?.status === 403
-    ) {
-      setError("Invalid Credentials!");
-    } else if (resdata?.status === 500) {
-      setError("Server error!");
-    } else {
-      alert("Login successful!");
-      router.push("/admin");
+    try {
+      const response = await axios.post(
+        `${NEXT_PUBLIC_API_URL}/api/users/login`,
+        {
+          username,
+          password,
+        }
+      );
+      login(response.data.token);
+    } catch (error) {
+      console.error("Login error:", error);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full p-6 bg-white rounded-md shadow-md">
-        <h2 className="text-2xl font-bold mb-4">Login</h2>
-        {error && <div className="mb-4 text-red-500">{error}</div>}
-        <form onSubmit={submitHandler}>
-          <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-600"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 p-2 w-full border rounded-md"
-              required
-            />
+    <section className="bg-gray-100 w-full flex justify-center items-center">
+      <div className="bg-darkBg rounded-xl flex flex-col md:flex-row max-w-max p-5 items-center justify-center shadow-lg">
+        <div className="md:w-full max-w-md px-8">
+          <div className="flex justify-center items-center">
+            <h1 className="text-2xl font-bold mb-4">Login</h1>
+            {/* <Image
+              src={Logo}
+              alt="Al-Burraq Logo"
+              style={{
+                width: "2rem",
+                height: "2rem",
+              }}
+              className="w-24 h-24"
+            /> */}
           </div>
-          <div className="mb-4">
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-600"
+          <form onSubmit={handleLogin} className="w-full">
+            <div className="mb-4">
+              <input
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
+              />
+            </div>
+            <div className="mb-4">
+              <div className="relative flex items-center">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-indigo-200 pr-10"
+                />
+                <div
+                  className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer z-20 opacity-100"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-indigo-500 text-white py-2 rounded-md hover:bg-indigo-600 transition duration-200"
             >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 p-2 w-full border rounded-md"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="username"
-              className="block text-sm font-medium text-gray-600"
-            >
-              Username
-            </label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="mt-1 p-2 w-full border rounded-md"
-            />
-          </div>
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-          >
-            Login
-          </button>
-        </form>
+              Login
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 
-export default Login;
+export default LoginPage;

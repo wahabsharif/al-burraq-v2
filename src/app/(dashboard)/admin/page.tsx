@@ -8,8 +8,8 @@ const DashboardPage: React.FC = () => {
   return (
     <div>
       <h1>Admin Dashboard</h1>
-      <Login />
-      <Register />
+      {/* <Login />
+      <Register /> */}
       {/* Other dashboard content */}
     </div>
   );
