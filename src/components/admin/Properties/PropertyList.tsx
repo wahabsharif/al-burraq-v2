@@ -1,3 +1,4 @@
+// PropertyList.tsx
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -6,7 +7,7 @@ import Image from "next/image";
 import EditPropertyForm from "./EditPropertyForm";
 import DeletePropertyButton from "./DeletePropertyButton";
 import AddPropertyButton from "./AddPropertyButton";
-import Modal from "react-modal"; // Import Modal
+import Modal from "react-modal";
 
 interface Property {
   _id: string;
@@ -24,8 +25,7 @@ const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const PropertyList: React.FC = () => {
   const [properties, setProperties] = useState<Property[]>([]);
-  const [editPropertyId, setEditPropertyId] = useState<string | null>(null);
-  const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [editProperty, setEditProperty] = useState<Property | null>(null); // Track edited property
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -43,23 +43,24 @@ const PropertyList: React.FC = () => {
     }
   };
 
-  const handleEditClick = (propertyId: string) => {
-    setEditPropertyId(propertyId);
+  const handleEditClick = (property: Property) => {
+    setEditProperty(property); // Set the property to edit
+    setModalIsOpen(true); // Open the modal
   };
 
   const handleUpdateSuccess = () => {
-    setEditPropertyId(null); // Clear edit mode
+    setEditProperty(null); // Clear edited property
+    setModalIsOpen(false); // Close the modal after successful update
     fetchProperties(); // Refresh property list
-  };
-
-  const openModal = (images: string[]) => {
-    setSelectedImages(images);
-    setModalIsOpen(true);
   };
 
   const closeModal = () => {
     setModalIsOpen(false);
   };
+
+  function openModal(image: string[]): void {
+    throw new Error("Function not implemented.");
+  }
 
   return (
     <div>
@@ -72,7 +73,7 @@ const PropertyList: React.FC = () => {
       <div className="container mx-auto px-4 py-6">
         <div className="-mx-4">
           <div className="overflow-x-auto">
-            <table className="min-w-full bg-white border-gray-200 shadow-md rounded">
+            <table className="min-w-full bg-darkBg border-gray-200 shadow-md rounded-xl">
               <thead className="bg-gray-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -116,7 +117,6 @@ const PropertyList: React.FC = () => {
                               alt={property.title}
                               width={40}
                               height={40}
-                              className="rounded-full"
                             />
                           </button>
                         ) : (
@@ -157,25 +157,16 @@ const PropertyList: React.FC = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                      {editPropertyId === property._id ? (
-                        <EditPropertyForm
-                          property={property}
-                          onUpdateSuccess={handleUpdateSuccess}
-                        />
-                      ) : (
-                        <>
-                          <button
-                            className="text-indigo-600 hover:text-indigo-900 mr-2"
-                            onClick={() => handleEditClick(property._id)}
-                          >
-                            Edit
-                          </button>
-                          <DeletePropertyButton
-                            propertyId={property._id}
-                            onDelete={fetchProperties}
-                          />
-                        </>
-                      )}
+                      <button
+                        className="bg-green-800 py-2 px-4 text-slate-100 rounded-lg hover:text-indigo-900 mr-2"
+                        onClick={() => handleEditClick(property)}
+                      >
+                        Edit
+                      </button>
+                      <DeletePropertyButton
+                        propertyId={property._id}
+                        onDelete={fetchProperties}
+                      />
                     </td>
                   </tr>
                 ))}
@@ -188,25 +179,14 @@ const PropertyList: React.FC = () => {
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         className="image-modal"
+        overlayClassName="image-modal-overlay"
       >
-        <div className="flex justify-end">
-          <button onClick={closeModal} className="modal-close">
-            Close
-          </button>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {selectedImages.map((image, index) => (
-            <div key={index} className="p-2">
-              <Image
-                src={image}
-                alt={`Property Image ${index}`}
-                width={300}
-                height={300}
-                className="rounded-md"
-              />
-            </div>
-          ))}
-        </div>
+        {editProperty && (
+          <EditPropertyForm
+            property={editProperty}
+            onUpdateSuccess={handleUpdateSuccess}
+          />
+        )}
       </Modal>
     </div>
   );

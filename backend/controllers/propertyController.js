@@ -1,3 +1,5 @@
+// backend/controllers/propertyController.js
+
 const Property = require("../models/Property");
 
 exports.searchProperties = async (req, res) => {
@@ -126,17 +128,37 @@ exports.createProperty = async (req, res) => {
 
 exports.updateProperty = async (req, res) => {
   const { id } = req.params;
-  const { title, description, price, location } = req.body;
+  const {
+    title,
+    description,
+    price,
+    location,
+    image,
+    purpose,
+    propertyType,
+    area,
+  } = req.body;
 
   try {
     const updatedProperty = await Property.findByIdAndUpdate(
       id,
-      { title, description, price, location },
+      {
+        title,
+        description,
+        price,
+        location,
+        image,
+        purpose,
+        propertyType,
+        area,
+      },
       { new: true }
     );
+
     if (!updatedProperty) {
       return res.status(404).json({ error: "Property not found" });
     }
+
     res.json(updatedProperty);
   } catch (error) {
     console.error("Error updating property:", error);
