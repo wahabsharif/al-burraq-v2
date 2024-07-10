@@ -1,11 +1,12 @@
-// server.js
-require("dotenv").config(); // Load environment variables from .env file
+// backend/server.js
 
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const propertyRoutes = require("./routes/propertyRoutes"); // Import the routes
-const connectDB = require("./config/db"); // Import MongoDB connection
+const connectDB = require("./config/db");
+const userRoutes = require("./routes/userRoutes");
+const propertyRoutes = require("./routes/propertyRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -14,16 +15,23 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
+// Routes
+app.use("/api/users", userRoutes);
+app.use("/api/properties", propertyRoutes);
+
 // Default route handler
 app.get("/", (req, res) => {
-  res.send("Server is Running"); // Example response
+  res.send("Server is Running");
 });
-
-// Use the property routes
-app.use("/api", propertyRoutes);
 
 // Connect to MongoDB
 connectDB();
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
+});
 
 // Start server
 app.listen(PORT, () => {
