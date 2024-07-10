@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 
 // Routes
 app.use("/api/users", userRoutes);
-app.use("/api/properties", propertyRoutes);
+app.use("/api", propertyRoutes);
 
 // Default route handler
 app.get("/", (req, res) => {
