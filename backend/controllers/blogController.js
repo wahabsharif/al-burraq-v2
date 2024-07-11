@@ -32,16 +32,51 @@ exports.getBlogById = async (req, res) => {
   }
 };
 
-// Update a blog
 exports.updateBlog = async (req, res) => {
+  const { id } = req.params;
+  const {
+    title,
+    slug,
+    shortDescription,
+    bodyContent,
+    headings: updatedHeadings,
+    images: updatedImages,
+  } = req.body;
+
   try {
-    const blog = await Blog.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
-    if (!blog) return res.status(404).json({ error: "Blog not found" });
-    res.status(200).json(blog);
+    // Ensure all required fields are present in the request body
+    if (
+      !title ||
+      !slug ||
+      !shortDescription ||
+      !bodyContent ||
+      !updatedHeadings ||
+      !updatedImages
+    ) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    const updatedBlog = await Blog.findByIdAndUpdate(
+      id,
+      {
+        title,
+        slug,
+        shortDescription,
+        bodyContent,
+        headings: updatedHeadings,
+        images: updatedImages,
+      },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedBlog) {
+      return res.status(404).json({ error: "Blog not found" });
+    }
+
+    res.json(updatedBlog);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.error("Error updating Blog:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 

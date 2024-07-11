@@ -1,8 +1,6 @@
-// src/app/dashboard/admin/page.tsx
-
+import AddBlogForm from "@/components/admin/Blogs/AddBlogForm";
 import BlogList from "@/components/admin/Blogs/BlogList";
 import AdminLayout from "@/components/layouts/AdminLayout";
-import Link from "next/link";
 import React from "react";
 
 export const metadata = {
@@ -12,7 +10,10 @@ export const metadata = {
 const DashboardPage: React.FC = () => {
   return (
     <AdminLayout>
-      <BlogList />
+      <div>
+        <h1>Add Blogs</h1>
+        <AddBlogForm />
+      </div>
     </AdminLayout>
   );
 };

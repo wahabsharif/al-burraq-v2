@@ -22,7 +22,14 @@ const DeleteBlogButton: React.FC<DeleteBlogButtonProps> = ({
     }
   };
 
-  return <button onClick={handleDelete}>Delete</button>;
+  return (
+    <button
+      className="py-2 px-4 rounded-lg bg-red-0 text-slate-100"
+      onClick={handleDelete}
+    >
+      Delete
+    </button>
+  );
 };
 
 export default DeleteBlogButton;
