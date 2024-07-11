@@ -1,24 +1,25 @@
-// src/app/(dashboard)/admin/layout.tsx
-
+// components/AdminLayout.tsx
 import React, { ReactNode } from "react";
 import SideBar from "@/components/admin/SideBar";
-import "@/styles/admin.css";
 import ProtectedRoute from "@/components/admin/Auth/ProtectedRoute";
+import "@/styles/admin.css";
 
 export const metadata = {
   title: "Al-Burraq Dashboard",
   description: "Next.js starter app",
 };
 
-export default function AdminLayout({ children }: { children: ReactNode }) {
+const AdminLayout = ({ children }: { children: ReactNode }) => {
   return (
     <ProtectedRoute>
-      <div className="flex h-screen">
+      <div className="flex h-screen w-full">
         <SideBar />
-        <main className="flex-1 p-4 sm:ml-60 bg-gray-100 overflow-y-auto">
+        <main className="flex-1 p-4 w-full sm:ml-60 bg-gray-100 overflow-y-auto">
           {children}
         </main>
       </div>
     </ProtectedRoute>
   );
-}
+};
+
+export default AdminLayout;
