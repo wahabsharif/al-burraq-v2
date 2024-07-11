@@ -2,12 +2,27 @@
 
 const nextConfig = {
   images: {
-    domains: [
-      "i.imgur.com",
-      "ibb.co",
-      "i.ibb.co",
-      "imgbb.com",
-      "res.cloudinary.com",
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "i.imgur.com",
+      },
+      {
+        protocol: "https",
+        hostname: "ibb.co",
+      },
+      {
+        protocol: "https",
+        hostname: "i.ibb.co",
+      },
+      {
+        protocol: "https",
+        hostname: "imgbb.com",
+      },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
     ],
   },
   // env: {

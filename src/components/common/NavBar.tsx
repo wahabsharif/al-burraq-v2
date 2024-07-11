@@ -46,6 +46,9 @@ const NavBar = () => {
                 <Link href="/buy">Buy</Link>
               </li>
               <li className="tracking-in-expand">
+                <Link href="/blogs">Blogs</Link>
+              </li>
+              <li className="tracking-in-expand">
                 <Link href="/contact">Contact</Link>
               </li>
               <li className="tracking-in-expand">
