@@ -1,20 +1,27 @@
-// src/app/dashboard/admin/page.tsx
-
+import AddBlogButton from "@/components/admin/Blogs/AddBlogButton";
+import AddPropertyButton from "@/components/admin/Properties/AddPropertyButton";
 import AdminLayout from "@/components/layouts/AdminLayout";
 import React from "react";
+import { LuLayoutDashboard } from "react-icons/lu";
 
 export const metadata = {
   title: "Al-Burraq - Dashboard",
 };
 
-const DashboardPage: React.FC = () => {
+export default function page() {
   return (
     <AdminLayout>
-      <div>
-        <h1>Admin Dashboard</h1>
+      <div className="mx-auto max-w-screen-sm text-center">
+        <h2 className="text-3xl text-darkGold font-extrabold mb-4 mt-4 lg:mb-16 bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200  flex items-center justify-center space-x-2">
+          <LuLayoutDashboard />
+          <span>Dashboard</span>
+        </h2>
+      </div>
+
+      <div className="flex items-center justify-center space-x-4">
+        <AddBlogButton />
+        <AddPropertyButton />
       </div>
     </AdminLayout>
   );
-};
-
-export default DashboardPage;
+}
