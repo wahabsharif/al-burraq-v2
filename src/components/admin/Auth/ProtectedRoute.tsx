@@ -1,4 +1,4 @@
-// src/components/ProtectedRoute.tsx
+// src/components/Auth/ProtectedRoute.tsx
 
 "use client";
 

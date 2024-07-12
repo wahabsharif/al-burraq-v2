@@ -10,6 +10,7 @@ import { LuTableProperties } from "react-icons/lu";
 import { TbLogs } from "react-icons/tb";
 import { CgProfile } from "react-icons/cg";
 import { FaUsers } from "react-icons/fa";
+import LogoutButton from "@/components/admin/Auth/LogOutButton";
 
 const SideBar: React.FC = () => {
   return (
@@ -53,7 +54,7 @@ const SideBar: React.FC = () => {
         </div>
         <div className="p-4 flex items-center">
           <Link
-            href="/admin/blogs"
+            href="/admin/users"
             passHref
             className="flex items-center text-gray-300 hover:bg-gray-700 hover:text-white py-2 px-4 rounded-md"
           >
@@ -88,14 +89,8 @@ const SideBar: React.FC = () => {
             </Link>
           </div>
           <div className="p-2 flex items-center">
-            <Link
-              href="/admin/"
-              passHref
-              className="flex items-center text-gray-300 hover:bg-gray-700 hover:text-white px-1 rounded-md"
-            >
-              <MdLogout className="text-xl mr-2" />
-              Logout
-            </Link>
+            <MdLogout className="text-xl mx-2" />
+            <LogoutButton />
           </div>
         </nav>
       </div>
