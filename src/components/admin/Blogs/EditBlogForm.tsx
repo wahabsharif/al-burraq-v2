@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+import "react-quill/dist/quill.snow.css";
+
+const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+// Dynamic import of react-quill to avoid SSR issues
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 interface EditBlogFormProps {
   blogId: string;
@@ -11,22 +18,21 @@ interface Blog {
   title: string;
   slug: string;
   shortDescription: string;
-  bodyContent: string;
+  bodyContent: { type: string; content: string }[];
   headings: string[];
-  images: string[]; // Adjusted to string array for image URLs
+  images: string[]; // Change images type to string[] for storing URLs
 }
-
-const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const EditBlogForm: React.FC<EditBlogFormProps> = ({ blogId, onUpdate }) => {
   const [blog, setBlog] = useState<Partial<Blog>>({
     title: "",
     slug: "",
     shortDescription: "",
-    bodyContent: "",
+    bodyContent: [{ type: "paragraph", content: "" }],
     headings: [],
     images: [],
   });
+
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -63,27 +69,53 @@ const EditBlogForm: React.FC<EditBlogFormProps> = ({ blogId, onUpdate }) => {
     }
   };
 
-  const addHeading = () =>
-    setBlog({ ...blog, headings: [...(blog.headings || []), ""] });
-  const handleHeadingChange = (index: number, value: string) => {
-    setBlog({
-      ...blog,
-      headings: (blog.headings || []).map((h, i) => (i === index ? value : h)),
-    });
-  };
-  const handleRemoveHeading = (index: number) => {
-    setBlog({
-      ...blog,
-      headings: (blog.headings || []).filter((_, i) => i !== index),
-    });
-  };
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;
     if (!fileList) return;
+
     const fileArray = Array.from(fileList);
-    const fileURLs = fileArray.map((file) => URL.createObjectURL(file));
-    setBlog({ ...blog, images: fileURLs });
+
+    try {
+      const uploadedImageURLs = await Promise.all(
+        fileArray.map(async (file) => {
+          const formData = new FormData();
+          formData.append("image", file);
+
+          const NEXT_PUBLIC_IMGBB_API_KEY =
+            process.env.NEXT_PUBLIC_IMGBB_API_KEY;
+
+          if (!NEXT_PUBLIC_IMGBB_API_KEY) {
+            throw new Error("NEXT_PUBLIC_IMGBB_API_KEY must be defined");
+          }
+
+          formData.append("key", NEXT_PUBLIC_IMGBB_API_KEY);
+
+          const response = await axios.post(
+            `https://api.imgbb.com/1/upload?key=${NEXT_PUBLIC_IMGBB_API_KEY}`,
+            formData
+          );
+
+          if (response.data && response.data.data && response.data.data.url) {
+            return response.data.data.url; // Assuming imgBB returns URL in this format
+          } else {
+            throw new Error("Image upload failed: Invalid response from imgBB");
+          }
+        })
+      );
+
+      // Filter out null values from uploadedImageURLs
+      const validImageURLs = uploadedImageURLs.filter((url) => url !== null);
+
+      // Update blog state with new image URLs
+      setBlog((prevBlog) => ({
+        ...prevBlog,
+        images: [...prevBlog.images!, ...validImageURLs], // Use spread operator to concatenate arrays
+      }));
+    } catch (error) {
+      console.error("Error uploading image to imgBB", error);
+      setErrorMessage("Failed to upload image. Please try again later.");
+      setTimeout(() => setErrorMessage(null), 3000);
+    }
   };
 
   const handleRemoveImage = (index: number) => {
@@ -126,68 +158,36 @@ const EditBlogForm: React.FC<EditBlogFormProps> = ({ blogId, onUpdate }) => {
             className="bg-slate-700 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
             required
           />
-          <textarea
-            placeholder="Body Content"
-            value={blog.bodyContent}
-            onChange={(e) => setBlog({ ...blog, bodyContent: e.target.value })}
-            className="bg-slate-700 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
-            required
-          />
-        </div>
-        <div className="grid grid-cols-1 gap-4">
-          <div>
-            <h3>Headings</h3>
-            {(blog.headings || []).map((heading, index) => (
-              <div key={index} className="flex space-x-2 items-center">
-                <input
-                  type="text"
-                  placeholder="Heading"
-                  value={heading}
-                  onChange={(e) => handleHeadingChange(index, e.target.value)}
-                  className="bg-slate-700 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
-                />
-                <button
-                  type="button"
-                  className="bg-red-500 text-slate-100 px-2 py-1 rounded-lg"
-                  onClick={() => handleRemoveHeading(index)}
-                >
-                  Remove
-                </button>
-              </div>
-            ))}
-            <button
-              type="button"
-              onClick={addHeading}
-              className="bg-green-800 text-slate-100 py-2 px-4 rounded-lg mt-2"
-            >
-              Add Heading
-            </button>
+          <div className="bg-slate-700 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800">
+            <ReactQuill
+              theme="snow"
+              value={blog.bodyContent?.map((pc) => pc.content).join("\n")}
+              onChange={(content) => {
+                const newBodyContent = content
+                  .split("\n")
+                  .map((content) => ({ type: "paragraph", content }));
+                setBlog({ ...blog, bodyContent: newBodyContent });
+              }}
+            />
           </div>
-          <div>
-            <h3>Images</h3>
-            {(blog.images ?? []).map((preview, index) => (
-              <div key={index} className="flex space-x-2 items-center">
+        </div>
+        <div>
+          <h3>Images</h3>
+          <div className="grid grid-cols-3 gap-4 mt-4">
+            {blog.images?.map((image, index) => (
+              <div key={index} className="relative flex items-center">
                 <div className="relative w-32 h-32">
                   <Image
-                    src={preview}
+                    src={image}
                     alt={`Image ${index + 1}`}
                     layout="fill"
                     objectFit="cover"
                     className="rounded-lg"
                   />
                 </div>
-                <label className="bg-green-800 py-2 px-4 text-slate-100 rounded-lg hover:text-indigo-900 mr-2 cursor-pointer">
-                  Change Image
-                  <input
-                    type="file"
-                    className="hidden"
-                    onChange={handleImageChange}
-                    accept="image/*"
-                  />
-                </label>
                 <button
                   type="button"
-                  className="bg-red-500 text-slate-100 px-2 py-1 rounded-lg"
+                  className="bg-red-500 text-slate-100 px-2 py-1 rounded-lg absolute top-2 right-2"
                   onClick={() => handleRemoveImage(index)}
                 >
                   Remove
@@ -195,6 +195,12 @@ const EditBlogForm: React.FC<EditBlogFormProps> = ({ blogId, onUpdate }) => {
               </div>
             ))}
           </div>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="mt-4"
+          />
         </div>
         <button
           type="submit"

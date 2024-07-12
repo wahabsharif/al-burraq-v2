@@ -20,7 +20,7 @@ interface Blog {
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const BlogList = () => {
-  const [blogs, setBlogs] = useState<Blog[]>([]); // Use the Blog interface to type the blogs state
+  const [blogs, setBlogs] = useState<Blog[]>([]); // Initialize with an empty array
   const [editingBlogId, setEditingBlogId] = useState<string | null>(null);
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
@@ -43,9 +43,9 @@ const BlogList = () => {
   };
 
   const handleUpdateSuccess = () => {
-    setEditingBlogId(null); // Clear edited property
+    setEditingBlogId(null); // Clear edited blog ID
     setModalIsOpen(false); // Close the modal after successful update
-    fetchBlogs(); // Refresh property list
+    fetchBlogs(); // Refresh blog list
   };
 
   const closeModal = () => {
@@ -81,50 +81,58 @@ const BlogList = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {blogs.map((blog) => (
-                  <tr key={blog._id}>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div>
-                        {blog.images.map((imageUrl, index) => (
-                          <Image
-                            key={index}
-                            src={imageUrl}
-                            alt={`Image ${index + 1}`}
-                            width={60}
-                            height={60}
-                            className="rounded-lg"
-                            style={{
-                              maxWidth: "60px",
-                              maxHeight: "60px",
-                            }}
-                          />
-                        ))}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <h3 className="text-sm font-medium text-gray-900">
-                        {blog.title}
-                      </h3>
-                    </td>
-                    <td className="px-6 py-4 max-w-xs">
-                      <p className="text-sm text-gray-900 truncate">
-                        {blog.shortDescription}
-                      </p>
-                    </td>
-                    <td>
-                      <button
-                        className="bg-green-800 py-2 px-4 text-slate-100 rounded-lg hover:text-indigo-900 mr-2"
-                        onClick={() => handleEditClick(blog)}
-                      >
-                        Edit
-                      </button>
-                      <DeleteBlogButton
-                        blogId={blog._id}
-                        onDelete={fetchBlogs}
-                      />
+                {blogs.length > 0 ? (
+                  blogs.map((blog) => (
+                    <tr key={blog._id}>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div>
+                          {blog.images?.map((imageUrl, index) => (
+                            <Image
+                              key={index}
+                              src={imageUrl}
+                              alt={`Image ${index + 1}`}
+                              width={60}
+                              height={60}
+                              className="rounded-lg"
+                              style={{
+                                maxWidth: "60px",
+                                maxHeight: "60px",
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <h3 className="text-sm font-medium text-gray-900">
+                          {blog.title}
+                        </h3>
+                      </td>
+                      <td className="px-6 py-4 max-w-xs">
+                        <p className="text-sm text-gray-900 truncate">
+                          {blog.shortDescription}
+                        </p>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-center">
+                        <button
+                          className="bg-green-800 py-2 px-4 text-slate-100 rounded-lg hover:text-indigo-900 mr-2"
+                          onClick={() => handleEditClick(blog)}
+                        >
+                          Edit
+                        </button>
+                        <DeleteBlogButton
+                          blogId={blog._id}
+                          onDelete={fetchBlogs}
+                        />
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={4} className="px-6 py-4 text-center">
+                      No blogs available.
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>

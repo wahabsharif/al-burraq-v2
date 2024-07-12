@@ -1,5 +1,17 @@
 const mongoose = require("mongoose");
 
+const paragraphSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    enum: ["paragraph", "heading", "bold", "italic", "underline"],
+    required: true,
+  },
+  content: {
+    type: String,
+    required: true,
+  },
+});
+
 const blogSchema = new mongoose.Schema(
   {
     title: {
@@ -15,20 +27,14 @@ const blogSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    bodyContent: {
-      type: String,
+    images: {
+      type: [String],
       required: true,
     },
-    headings: [
-      {
-        type: String,
-      },
-    ],
-    images: [
-      {
-        type: String,
-      },
-    ],
+    bodyContent: {
+      type: [paragraphSchema],
+      required: true,
+    },
   },
   { timestamps: true }
 );

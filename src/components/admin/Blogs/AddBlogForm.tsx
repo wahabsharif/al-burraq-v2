@@ -3,16 +3,20 @@
 import { useState } from "react";
 import axios from "axios";
 import slugify from "slugify"; // Import slugify for generating slugs
+import dynamic from "next/dynamic"; // To dynamically import react-quill
 
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
-const IMGBB_API_KEY = "a53c2a4a94f3dd313d50711ac901dc17";
+const NEXT_PUBLIC_IMGBB_API_KEY = "a53c2a4a94f3dd313d50711ac901dc17";
+
+// Dynamic import of react-quill to avoid SSR issues
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+import "react-quill/dist/quill.snow.css";
 
 const AddBlogForm = () => {
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
   const [shortDescription, setShortDescription] = useState("");
   const [bodyContent, setBodyContent] = useState("");
-  const [headings, setHeadings] = useState<string[]>([]);
   const [images, setImages] = useState<File[]>([]); // Store File objects for uploaded images
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,8 +37,7 @@ const AddBlogForm = () => {
         title,
         slug,
         shortDescription,
-        bodyContent,
-        headings,
+        bodyContent: [{ type: "paragraph", content: bodyContent }],
         images: uploadedImageURLs,
       });
       console.log(response.data);
@@ -50,9 +53,10 @@ const AddBlogForm = () => {
     try {
       const formData = new FormData();
       formData.append("image", image);
+      console.log("Uploading image: ", image);
 
       const imgBBResponse = await axios.post(
-        `https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`,
+        `https://api.imgbb.com/1/upload?key=${NEXT_PUBLIC_IMGBB_API_KEY}`,
         formData,
         {
           headers: {
@@ -60,6 +64,7 @@ const AddBlogForm = () => {
           },
         }
       );
+      console.log("Image uploaded successfully: ", imgBBResponse.data.data.url);
       return imgBBResponse.data.data.url;
     } catch (error) {
       console.error("Error uploading image to imgBB", error);
@@ -71,17 +76,15 @@ const AddBlogForm = () => {
     if (e.target.files) {
       const selectedImages = Array.from(e.target.files);
       setImages(selectedImages);
+      console.log("Selected images: ", selectedImages);
     }
   };
-
-  const addHeading = () => setHeadings([...headings, ""]);
 
   const resetForm = () => {
     setTitle("");
     setSlug("");
     setShortDescription("");
     setBodyContent("");
-    setHeadings([]);
     setImages([]);
   };
 
@@ -107,31 +110,11 @@ const AddBlogForm = () => {
         onChange={(e) => setShortDescription(e.target.value)}
         required
       />
-      <textarea
-        placeholder="Body Content"
+      <ReactQuill
         value={bodyContent}
-        onChange={(e) => setBodyContent(e.target.value)}
-        required
+        onChange={setBodyContent}
+        placeholder="Write your blog content here..."
       />
-      <div>
-        <h3>Headings</h3>
-        {headings.map((heading, index) => (
-          <input
-            key={index}
-            type="text"
-            placeholder="Heading"
-            value={heading}
-            onChange={(e) =>
-              setHeadings(
-                headings.map((h, i) => (i === index ? e.target.value : h))
-              )
-            }
-          />
-        ))}
-        <button type="button" onClick={addHeading}>
-          Add Heading
-        </button>
-      </div>
       <div>
         <h3>Images</h3>
         <input

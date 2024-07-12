@@ -1,9 +1,24 @@
 const Blog = require("../models/Blog");
 
-// Create a new blog
 exports.createBlog = async (req, res) => {
+  console.log("Request Body:", req.body); // Log the request body
+
   try {
-    const blog = new Blog(req.body);
+    const { title, slug, shortDescription, bodyContent, images } = req.body;
+
+    // Check if required fields are missing
+    if (!title || !slug || !shortDescription || !bodyContent) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    const blog = new Blog({
+      title,
+      slug,
+      shortDescription,
+      bodyContent,
+      images,
+    });
+
     await blog.save();
     res.status(201).json(blog);
   } catch (error) {
@@ -32,27 +47,14 @@ exports.getBlogById = async (req, res) => {
   }
 };
 
+// Update a blog
 exports.updateBlog = async (req, res) => {
   const { id } = req.params;
-  const {
-    title,
-    slug,
-    shortDescription,
-    bodyContent,
-    headings: updatedHeadings,
-    images: updatedImages,
-  } = req.body;
+  const { title, slug, shortDescription, bodyContent, images } = req.body;
 
   try {
-    // Ensure all required fields are present in the request body
-    if (
-      !title ||
-      !slug ||
-      !shortDescription ||
-      !bodyContent ||
-      !updatedHeadings ||
-      !updatedImages
-    ) {
+    // Check if required fields are missing
+    if (!title || !slug || !shortDescription || !bodyContent) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
@@ -63,8 +65,7 @@ exports.updateBlog = async (req, res) => {
         slug,
         shortDescription,
         bodyContent,
-        headings: updatedHeadings,
-        images: updatedImages,
+        images,
       },
       { new: true } // Return the updated document
     );
