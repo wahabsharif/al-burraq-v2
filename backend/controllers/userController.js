@@ -1,5 +1,3 @@
-// backend/controllers/userController.js
-
 const User = require("../models/User");
 
 // Register user
@@ -49,6 +47,54 @@ exports.loginUser = async (req, res) => {
     res.json({ token });
   } catch (error) {
     console.error("Error logging in:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Get all users
+exports.getUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Update user
+exports.updateUser = async (req, res) => {
+  const { id } = req.params;
+  const updates = req.body;
+
+  try {
+    const user = await User.findByIdAndUpdate(id, updates, { new: true });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error("Error updating user:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Delete user
+exports.deleteUser = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await User.findByIdAndDelete(id);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json({ message: "User deleted" });
+  } catch (error) {
+    console.error("Error deleting user:", error);
     res.status(500).json({ error: error.message });
   }
 };

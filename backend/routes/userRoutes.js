@@ -2,12 +2,22 @@
 
 const express = require("express");
 const router = express.Router();
-const { registerUser, loginUser } = require("../controllers/userController");
+const {
+  registerUser,
+  loginUser,
+  getUsers,
+  updateUser,
+  deleteUser,
+} = require("../controllers/userController");
+const auth = require("../middleware/auth");
 
 // Register route
-router.post("/register", registerUser);
-
+router.post("/user/register", registerUser);
 // Login route
-router.post("/login", loginUser);
+router.post("/user/login", loginUser);
+// CRUD routes (only accessible to admins)
+router.get("/user", auth, getUsers);
+router.put("/user/:id", auth, updateUser);
+router.delete("/user/:id", auth, deleteUser);
 
 module.exports = router;

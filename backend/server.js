@@ -17,7 +17,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Routes
-app.use("/api/users", userRoutes);
+app.use("/api", userRoutes);
 app.use("/api", propertyRoutes);
 app.use("/api", blogRoutes);
 
