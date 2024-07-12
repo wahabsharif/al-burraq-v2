@@ -89,43 +89,86 @@ const AddBlogForm = () => {
   };
 
   return (
-    <form onSubmit={handleAddBlog}>
-      <input
-        type="text"
-        placeholder="Title"
-        value={title}
-        onChange={handleTitleChange} // Use handleTitleChange to update title and slug
-        required
-      />
-      <input
-        type="text"
-        placeholder="Slug"
-        value={slug}
-        onChange={(e) => setSlug(e.target.value)} // Allow manual editing of slug if needed
-        required
-      />
-      <textarea
-        placeholder="Short Description"
-        value={shortDescription}
-        onChange={(e) => setShortDescription(e.target.value)}
-        required
-      />
-      <ReactQuill
-        value={bodyContent}
-        onChange={setBodyContent}
-        placeholder="Write your blog content here..."
-      />
-      <div>
-        <h3>Images</h3>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-          multiple
-        />
+    <section>
+      <div className="mx-auto max-w-screen-sm text-center">
+        <h2 className="text-3xl text-darkGold font-extrabold mb-4 mt-4 lg:mb-16 bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 inline-block">
+          Add Blogs
+        </h2>
       </div>
-      <button type="submit">Add Blog</button>
-    </form>
+      <form onSubmit={handleAddBlog}>
+        <div className="grid gap-6 mb-6">
+          <div>
+            <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
+              Title
+            </label>
+            <input
+              className="bg-slate-700 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
+              type="text"
+              placeholder="Enter The Title"
+              value={title}
+              onChange={handleTitleChange} // Use handleTitleChange to update title and slug
+              required
+            />
+          </div>
+          <div>
+            <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
+              Slug
+            </label>
+            <input
+              className="bg-slate-700 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
+              type="text"
+              placeholder="Slug"
+              value={slug}
+              onChange={(e) => setSlug(e.target.value)} // Allow manual editing of slug if needed
+              required
+            />
+          </div>
+          <div>
+            <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
+              Short Description
+            </label>
+            <textarea
+              className="bg-slate-700 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
+              placeholder="Enter The Short Description"
+              value={shortDescription}
+              onChange={(e) => setShortDescription(e.target.value)}
+              rows={4}
+              required
+            />
+          </div>
+          <div className="bg-slate-700 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800">
+            <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
+              Body Content
+            </label>
+            <ReactQuill
+              id="bodyContent"
+              theme="snow"
+              value={bodyContent}
+              onChange={setBodyContent}
+              placeholder="Write your blog content here..."
+            />
+          </div>
+          <div>
+            <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
+              Image
+            </label>{" "}
+            <input
+              className="bg-slate-700 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              multiple
+            />
+          </div>
+        </div>
+        <button
+          className="rounded-lg px-6 py-3 button font-bold text-white text-xl"
+          type="submit"
+        >
+          + Add Blog
+        </button>
+      </form>
+    </section>
   );
 };
 

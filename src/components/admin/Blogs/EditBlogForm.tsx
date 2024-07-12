@@ -20,7 +20,7 @@ interface Blog {
   shortDescription: string;
   bodyContent: { type: string; content: string }[];
   headings: string[];
-  images: string[]; // Change images type to string[] for storing URLs
+  images: string[];
 }
 
 const EditBlogForm: React.FC<EditBlogFormProps> = ({ blogId, onUpdate }) => {
@@ -49,6 +49,13 @@ const EditBlogForm: React.FC<EditBlogFormProps> = ({ blogId, onUpdate }) => {
     };
     fetchBlog();
   }, [blogId]);
+
+  const generateSlug = (title: string) => {
+    return title
+      .toLowerCase()
+      .replace(/[^a-zA-Z0-9 -]/g, "")
+      .replace(/\s+/g, "-");
+  };
 
   const handleEditBlog = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -109,7 +116,7 @@ const EditBlogForm: React.FC<EditBlogFormProps> = ({ blogId, onUpdate }) => {
       // Update blog state with new image URLs
       setBlog((prevBlog) => ({
         ...prevBlog,
-        images: [...prevBlog.images!, ...validImageURLs], // Use spread operator to concatenate arrays
+        images: [...prevBlog.images!, ...validImageURLs],
       }));
     } catch (error) {
       console.error("Error uploading image to imgBB", error);
@@ -133,33 +140,51 @@ const EditBlogForm: React.FC<EditBlogFormProps> = ({ blogId, onUpdate }) => {
       </div>
       <form onSubmit={handleEditBlog} className="space-y-4">
         <div className="grid grid-cols-1 gap-4">
-          <input
-            type="text"
-            placeholder="Title"
-            value={blog.title}
-            onChange={(e) => setBlog({ ...blog, title: e.target.value })}
-            className="bg-slate-700 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
-            required
-          />
-          <input
-            type="text"
-            placeholder="Slug"
-            value={blog.slug}
-            onChange={(e) => setBlog({ ...blog, slug: e.target.value })}
-            className="bg-slate-700 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
-            required
-          />
-          <textarea
-            placeholder="Short Description"
-            value={blog.shortDescription}
-            onChange={(e) =>
-              setBlog({ ...blog, shortDescription: e.target.value })
-            }
-            className="bg-slate-700 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
-            required
-          />
+          <div className="grid grid-cols-1 gap-4">
+            <label htmlFor="title" className="text-lg text-gray-700">
+              Title
+            </label>
+            <input
+              type="text"
+              id="title"
+              placeholder="Title"
+              value={blog.title}
+              onChange={(e) => {
+                const newTitle = e.target.value;
+                setBlog({
+                  ...blog,
+                  title: newTitle,
+                  slug: generateSlug(newTitle),
+                });
+              }}
+              className="bg-slate-700 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
+              required
+            />
+            {blog.slug && (
+              <span className="text-sm text-gray-500">Slug: {blog.slug}</span>
+            )}
+          </div>
+          <div>
+            <label htmlFor="shortDescription" className="text-lg text-gray-700">
+              Short Description
+            </label>
+            <textarea
+              id="shortDescription"
+              placeholder="Short Description"
+              value={blog.shortDescription}
+              onChange={(e) =>
+                setBlog({ ...blog, shortDescription: e.target.value })
+              }
+              className="bg-slate-700 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
+              required
+            />
+          </div>
           <div className="bg-slate-700 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800">
+            <label htmlFor="bodyContent" className="text-lg text-gray-700">
+              Body Content
+            </label>
             <ReactQuill
+              id="bodyContent"
               theme="snow"
               value={blog.bodyContent?.map((pc) => pc.content).join("\n")}
               onChange={(content) => {

@@ -10,10 +10,7 @@ export const metadata = {
 const DashboardPage: React.FC = () => {
   return (
     <AdminLayout>
-      <div>
-        <h1>Add Blogs</h1>
-        <AddBlogForm />
-      </div>
+      <AddBlogForm />
     </AdminLayout>
   );
 };

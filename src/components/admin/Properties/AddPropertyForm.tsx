@@ -242,7 +242,7 @@ const AddPropertyForm: React.FC = () => {
             <input
               className="bg-slate-700 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
               type="file"
-              accept=".jpg,.jpeg,.png"
+              accept="image/*"
               onChange={handleFileChange}
               required
             />
@@ -252,7 +252,7 @@ const AddPropertyForm: React.FC = () => {
           className="rounded-lg px-6 py-3 button font-bold text-white text-xl"
           type="submit"
         >
-          + Add
+          + Add Property
         </button>
       </form>
     </div>
