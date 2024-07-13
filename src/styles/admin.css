@@ -110,3 +110,57 @@ img {
 .ql-toolbar {
   background-color: #1e293b;
 }
+
+.box {
+  width: 400px;
+  padding: 40px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(10, 10, 10, 0.9);
+  border-radius: 60px;
+  box-shadow: 10px 12px 10px 6px rgba(10, 10, 50, 0.9);
+  text-align: center;
+}
+
+.box input[type="text"],
+.box input[type="password"] {
+  border: 2px;
+  background: none;
+  display: block;
+  margin: 20px auto;
+  text-align: center;
+  border: 4px double #4433dd;
+  padding: 12px 14px;
+  width: 200px;
+  outline: none;
+  color: white;
+  border-radius: 25px;
+  transition: 0.2s;
+}
+
+.box input[type="text"]:focus,
+.box input[type="password"]:focus {
+  width: 280px;
+  border-color: #1bbb55;
+}
+
+.box button[type="submit"] {
+  border: 4px double;
+  background: none;
+  display: block;
+  margin: 15px auto;
+  text-align: center;
+  border: 4px double #1bbb55;
+  padding: 12px 20px;
+  outline: none;
+  color: white;
+  border-radius: 25px;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.box button[type="submit"]:hover {
+  background: #1168;
+}
