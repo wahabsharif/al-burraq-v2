@@ -11,6 +11,7 @@ import { TbLogs } from "react-icons/tb";
 import { CgProfile } from "react-icons/cg";
 import { FaUsers } from "react-icons/fa";
 import LogoutButton from "./Auth/LogoutButton";
+import CurrentUser from "@/components/admin/Users/CurrentUser";
 
 const SideBar: React.FC = () => {
   return (
@@ -72,12 +73,22 @@ const SideBar: React.FC = () => {
             <Link
               href="/admin/profile"
               passHref
+              className="flex items-center uppercase font-bold text-xl text-darkGold hover:bg-gray-700 hover:text-white px-1 rounded-md"
+            >
+              <CgProfile className="text-xl mr-2" />
+              <CurrentUser />
+            </Link>
+          </div>
+          {/* <div className="p-2 flex items-center">
+            <Link
+              href="/admin/profile"
+              passHref
               className="flex items-center text-gray-300 hover:bg-gray-700 hover:text-white px-1 rounded-md"
             >
               <CgProfile className="text-xl mr-2" />
               Profile
             </Link>
-          </div>
+          </div> */}
           <div className="p-2 flex items-center">
             <Link
               href="/admin/settings"

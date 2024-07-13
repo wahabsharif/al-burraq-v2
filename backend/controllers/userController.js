@@ -99,3 +99,12 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+// Get current user details
+exports.getCurrentUser = async (req, res) => {
+  try {
+    res.json({ username: req.user.username });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

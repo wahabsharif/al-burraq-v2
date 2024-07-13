@@ -1,8 +1,7 @@
-// backend/middleware/auth.js
-
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
+// Middleware for general authentication
 const auth = async (req, res, next) => {
   const authHeader = req.header("Authorization");
 
@@ -15,7 +14,7 @@ const auth = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findOne({ _id: decoded._id });
 
-    if (!user || !user.isAdmin) {
+    if (!user) {
       throw new Error();
     }
 
@@ -26,4 +25,14 @@ const auth = async (req, res, next) => {
   }
 };
 
-module.exports = auth;
+// Middleware for admin authentication
+const adminAuth = async (req, res, next) => {
+  await auth(req, res, async () => {
+    if (!req.user.isAdmin) {
+      return res.status(403).json({ error: "Access forbidden: Admins only" });
+    }
+    next();
+  });
+};
+
+module.exports = { auth, adminAuth };
