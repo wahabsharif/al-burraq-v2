@@ -1,8 +1,8 @@
 // AddUserForm.tsx
-// AddUserForm.tsx
 "use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const NEXT_PUBLIC_API_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
@@ -21,6 +21,7 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ onUserAdd }) => {
   const [passwordMatchMsg, setPasswordMatchMsg] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
@@ -121,27 +122,43 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ onUserAdd }) => {
             <label className="block mb-2 text-lg font-medium text-gray-900 dark:text-white">
               Password
             </label>
-            <input
-              className="bg-slate-700 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
-              type="password"
-              placeholder="Enter The Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <div className="relative flex items-center">
+              <input
+                className="bg-slate-700 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter The Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <div
+                className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer z-20 opacity-100"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </div>
+            </div>{" "}
           </div>
           <div>
             <label className="block mb-2 text-lg font-medium text-gray-900 dark:text-white">
               Confirm Password
             </label>
-            <input
-              className="bg-slate-700 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
-              type="password"
-              placeholder="Re-enter The Password"
-              value={confirmPassword}
-              onChange={handleConfirmPasswordChange}
-              required
-            />
+            <div className="relative flex items-center">
+              <input
+                className="bg-slate-700 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
+                type={showPassword ? "text" : "password"}
+                placeholder="Re-enter The Password"
+                value={confirmPassword}
+                onChange={handleConfirmPasswordChange}
+                required
+              />
+              <div
+                className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer z-20 opacity-100"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </div>
+            </div>
             <div
               className={`text-lg ${
                 passwordMatchMsg === "Passwords matched😊"
