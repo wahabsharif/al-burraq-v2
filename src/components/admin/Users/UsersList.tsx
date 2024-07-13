@@ -34,7 +34,7 @@ const UsersList = () => {
         });
         setUserData(response.data as UserData[]);
       } catch (error) {
-        setError("Error fetching user data. Please try again later.");
+        // setError("Error fetching user data. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -56,6 +56,20 @@ const UsersList = () => {
     return <p>{error}</p>;
   }
 
+  // Display unauthorized message if userData is null
+  if (!userData) {
+    return (
+      <div className="flex justify-center items-center">
+        <p className="text-center mt-4">
+          <span className="text-4xl text-red-300">OOPS!😔</span> <br />
+          <span className="text-3xl text-green-100">
+            Contact Admin for access to the Users List.
+          </span>
+        </p>
+      </div>
+    );
+  }
+
   return (
     <section>
       <AddUserForm onUserAdd={() => setRefreshKey((prevKey) => prevKey + 1)} />
@@ -64,7 +78,7 @@ const UsersList = () => {
           Users List
         </h2>
       </div>
-      {userData && userData.length > 0 ? (
+      {userData.length > 0 ? (
         <table className="min-w-full bg-darkBg border-gray-200 shadow-md rounded-xl">
           <thead className="bg-gray-50">
             <tr>
