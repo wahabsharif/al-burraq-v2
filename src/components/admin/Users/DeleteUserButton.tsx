@@ -3,7 +3,6 @@ import axios from "axios";
 
 interface Props {
   userId: string;
-
   onDelete: () => void;
 }
 
@@ -25,11 +24,8 @@ const DeleteUserButton: React.FC<Props> = ({ userId, onDelete }) => {
       });
 
       onDelete();
-      console.log("User deleted successfully");
-      // Optionally, you can handle success state or update user list
     } catch (error) {
       console.error("Error deleting user:", error);
-      // Optionally, you can handle error state
     }
   };
 

@@ -17,7 +17,7 @@ export default function page() {
             <span>Users</span>
           </h2>
         </div>
-        <AddUserForm />
+        {/* <AddUserForm /> */}
         <UsersList />
       </AdminLayout>
     </>

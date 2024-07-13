@@ -1,14 +1,17 @@
-// src/components/admin/Users/AddUserForm.tsx
-
+// AddUserForm.tsx
+// AddUserForm.tsx
 "use client";
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const NEXT_PUBLIC_API_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
-const AddUserForm: React.FC = () => {
+interface AddUserFormProps {
+  onUserAdd: () => void; // Define the prop type for the callback
+}
+
+const AddUserForm: React.FC<AddUserFormProps> = ({ onUserAdd }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -16,6 +19,22 @@ const AddUserForm: React.FC = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [error, setError] = useState("");
   const [passwordMatchMsg, setPasswordMatchMsg] = useState("");
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showError, setShowError] = useState(false);
+
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+
+    if (showSuccess) {
+      timeoutId = setTimeout(() => setShowSuccess(false), 3000);
+    }
+
+    if (showError) {
+      timeoutId = setTimeout(() => setShowError(false), 3000);
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [showSuccess, showError]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,10 +53,23 @@ const AddUserForm: React.FC = () => {
           isAdmin,
         }
       );
-      // Optionally, you can handle success state or reset form fields
+      setError(""); // Clear any previous error
+      setShowSuccess(true);
+      onUserAdd(); // Trigger callback to refresh user list
+      resetForm();
     } catch (error) {
-      // Optionally, you can handle error state
+      // setError("Failed to add user.");
+      setShowError(true);
     }
+  };
+
+  const resetForm = () => {
+    setUsername("");
+    setPassword("");
+    setConfirmPassword("");
+    setEmail("");
+    setIsAdmin(false);
+    setPasswordMatchMsg("");
   };
 
   const handleConfirmPasswordChange = (
@@ -47,10 +79,9 @@ const AddUserForm: React.FC = () => {
     if (password === e.target.value) {
       setPasswordMatchMsg("Passwords matched😊");
     } else {
-      setPasswordMatchMsg("Password do not matched ☹️");
+      setPasswordMatchMsg("Passwords do not match ☹️");
     }
   };
-
   return (
     <section className="mb-6">
       <div className="mx-auto ml-0 max-w-screen-sm">
@@ -136,6 +167,10 @@ const AddUserForm: React.FC = () => {
           </div>
           {error && <div className="text-red-500">{error}</div>}
         </div>
+        {showSuccess && (
+          <div className="text-green-500">User added successfully!</div>
+        )}
+        {showError && <div className="text-red-500">Failed to add user.</div>}
         <button
           className="rounded-lg px-3 py-1 my-2 button font-bold text-white text-lg"
           type="submit"
