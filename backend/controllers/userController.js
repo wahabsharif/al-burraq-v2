@@ -1,8 +1,10 @@
+// backend/controller/userController.js
+
 const User = require("../models/User");
 
 // Register user
 exports.registerUser = async (req, res) => {
-  const { username, password, email } = req.body;
+  const { username, password, email, isAdmin } = req.body;
 
   try {
     const existingUser = await User.findOne({ username });
@@ -11,12 +13,16 @@ exports.registerUser = async (req, res) => {
       return res.status(400).json({ error: "Username already exists" });
     }
 
-    const newUser = new User({ username, password, email });
+    const newUser = new User({
+      username,
+      password,
+      email,
+      isAdmin, // Set isAdmin based on the request body
+    });
     await newUser.save();
 
     res.status(201).json(newUser);
   } catch (error) {
-    console.error("Error in registration:", error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -43,10 +49,8 @@ exports.loginUser = async (req, res) => {
     // Password is correct, generate JWT token
     const token = user.generateAuthToken();
 
-    // Optionally, you can send additional user information as needed
     res.json({ token });
   } catch (error) {
-    console.error("Error logging in:", error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -57,7 +61,6 @@ exports.getUsers = async (req, res) => {
     const users = await User.find();
     res.json(users);
   } catch (error) {
-    console.error("Error fetching users:", error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -76,7 +79,6 @@ exports.updateUser = async (req, res) => {
 
     res.json(user);
   } catch (error) {
-    console.error("Error updating user:", error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -94,7 +96,6 @@ exports.deleteUser = async (req, res) => {
 
     res.json({ message: "User deleted" });
   } catch (error) {
-    console.error("Error deleting user:", error);
     res.status(500).json({ error: error.message });
   }
 };

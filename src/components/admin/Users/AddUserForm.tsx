@@ -12,6 +12,7 @@ const AddUserForm: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,12 +23,11 @@ const AddUserForm: React.FC = () => {
           username,
           password,
           email,
+          isAdmin,
         }
       );
-      console.log("User added:", response.data);
       // Optionally, you can handle success state or reset form fields
     } catch (error) {
-      console.error("Error adding user:", error);
       // Optionally, you can handle error state
     }
   };
@@ -55,6 +55,20 @@ const AddUserForm: React.FC = () => {
         onChange={(e) => setEmail(e.target.value)}
         required
       />
+      <label>
+        <input
+          type="checkbox"
+          checked={isAdmin}
+          onChange={(e) => {
+            if (e.target.checked) {
+              setIsAdmin(true);
+            } else {
+              setIsAdmin(false);
+            }
+          }}
+        />
+        Is Admin
+      </label>
       <button type="submit">Add User</button>
     </form>
   );

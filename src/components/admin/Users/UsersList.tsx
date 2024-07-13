@@ -1,3 +1,5 @@
+// src/components/admin/Users/UsersList.tsx
+
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -21,13 +23,10 @@ const UsersList = () => {
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
-  // ...
-
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const token = localStorage.getItem("token");
-        console.log("Token:", token); // Check token in console
         if (!token) {
           throw new Error("Token not found in localStorage");
         }
@@ -36,10 +35,8 @@ const UsersList = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log("API Response:", response.data); // Log API response data
         setUserData(response.data as UserData[]);
       } catch (error) {
-        console.error("Error fetching user data:", error);
         setError("Error fetching user data. Please try again later.");
       } finally {
         setLoading(false);
@@ -48,8 +45,6 @@ const UsersList = () => {
 
     fetchUserData();
   }, []);
-
-  // ...
 
   if (loading) {
     return <p>Loading...</p>;
