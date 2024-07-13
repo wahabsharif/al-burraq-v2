@@ -2,14 +2,13 @@
 
 "use client";
 
-import React, { useState } from "react";
-import axios from "axios";
 import { useAuth } from "@/contexts/AuthContext";
+import axios from "axios";
+import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import Logo from "@/assets/images/logo/al-burraq-logo-dark.svg";
-import Image from "next/image";
 
-const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
+const NEXT_PUBLIC_API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
@@ -21,7 +20,8 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `${NEXT_PUBLIC_API_URL}/api/users/login`,
+        // "http://localhost:5000/api/user/login",
+        `${NEXT_PUBLIC_API_URL}/api/user/login`,
         {
           username,
           password,

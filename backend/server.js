@@ -17,9 +17,9 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Routes
-app.use("/api", userRoutes);
-app.use("/api", propertyRoutes);
-app.use("/api", blogRoutes);
+app.use("/api", userRoutes); // Example: /api/users/login
+app.use("/api", propertyRoutes); // Example: /api/properties
+app.use("/api", blogRoutes); // Example: /api/blogs
 
 // Default route handler
 app.get("/", (req, res) => {
