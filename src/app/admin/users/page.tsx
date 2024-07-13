@@ -16,7 +16,7 @@ export default function page() {
             <FaUserShield />
             <span>Users</span>
           </h2>
-        </div>{" "}
+        </div>
         <AddUserForm />
         <UsersList />
       </AdminLayout>
