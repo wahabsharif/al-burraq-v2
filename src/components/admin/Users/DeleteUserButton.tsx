@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 interface Props {
   userId: string;
+  username: string;
   onDelete: () => void;
 }
 
 const NEXT_PUBLIC_API_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
-const DeleteUserButton: React.FC<Props> = ({ userId, onDelete }) => {
+const DeleteUserButton: React.FC<Props> = ({ userId, username, onDelete }) => {
+  const [confirmDelete, setConfirmDelete] = useState(false);
+
   const handleDelete = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -29,13 +32,55 @@ const DeleteUserButton: React.FC<Props> = ({ userId, onDelete }) => {
     }
   };
 
+  const toggleConfirmation = () => {
+    setConfirmDelete(!confirmDelete);
+  };
+
   return (
-    <button
-      className="py-2 px-4 rounded-lg bg-red-0 text-slate-100"
-      onClick={handleDelete}
-    >
-      Delete
-    </button>
+    <div className="relative inline-block">
+      {!confirmDelete && (
+        <button
+          className="py-2 px-4 rounded-lg bg-red-0 text-slate-100"
+          onClick={toggleConfirmation}
+        >
+          Delete
+        </button>
+      )}
+      {confirmDelete && (
+        <>
+          <div className="fixed inset-0 flex bg-white bg-black backdrop-blur-xl backdrop-saturate-200 items-center justify-center z-50">
+            <div className="bg-white border-4 border-red-0 shadow-lg rounded-lg p-4">
+              <p className="mb-4 text-2xl">
+                Are you sure you want to delete{" "}
+                <span className="uppercase font-bold text-3xl text-lightGold2">
+                  {" "}
+                  {username}
+                </span>
+                😕 ?
+              </p>
+              <div className="flex justify-center">
+                <button
+                  className="py-2 px-4 rounded-lg bg-red-0 text-slate-100 mr-2"
+                  onClick={handleDelete}
+                >
+                  YES
+                </button>
+                <button
+                  className="py-2 px-4 bg-green-800 rounded-lg text-slate-100"
+                  onClick={toggleConfirmation}
+                >
+                  NO
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            className="fixed inset-0 bg-black opacity-50 z-40"
+            onClick={toggleConfirmation}
+          ></div>
+        </>
+      )}
+    </div>
   );
 };
 

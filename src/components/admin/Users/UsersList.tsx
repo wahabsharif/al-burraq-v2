@@ -97,6 +97,7 @@ const UsersList = () => {
                 <td className="px-6 py-4 whitespace-nowrap text-start">
                   <DeleteUserButton
                     userId={user._id}
+                    username={user.username}
                     onDelete={() => {
                       handleUserDelete();
                     }}
