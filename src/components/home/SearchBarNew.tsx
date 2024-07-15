@@ -245,7 +245,7 @@ const SearchBarNew = () => {
             onClick={handleSearch}
             className="shiny-btn py-2 px-3 text-3xl font-bold flex items-center"
           >
-            Search <FaSearch className="ml-1" />
+            <FaSearch className="ml-1" />
           </button>
         </div>
       </div>

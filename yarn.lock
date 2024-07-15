@@ -109,6 +109,18 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@lordicon/helpers@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@lordicon/helpers/-/helpers-1.6.0.tgz#c4ebaa8960e6321c6b2b9e731b5009e60d709af4"
+  integrity sha512-iEw6q1gycHf77e4o+PdTg1Ua4yXdREVnCsErTw/f4eaAUDYFF/qWQSq3mJJuiwvZ/JT1vwctQ2dKr1FxUY1W2w==
+
+"@lordicon/react@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@lordicon/react/-/react-1.6.0.tgz#7f16d5089c95b435faf366aaa673df9374c112ae"
+  integrity sha512-SqDdc9/ReRpO3D8t1WG+yOKAFwQsewuw9hf6++faJhGk/ZgUOA4mqPke4R/pc0pMhXHOeET9DPgvNi1dmRpxxw==
+  dependencies:
+    "@lordicon/helpers" "^1.6.0"
+
 "@mapbox/node-pre-gyp@^1.0.11":
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/@mapbox/node-pre-gyp/-/node-pre-gyp-1.0.11.tgz#417db42b7f5323d79e93b34a6d7a2a12c0df43fa"
@@ -767,11 +779,6 @@ clone@^2.1.1:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/clone/-/clone-2.1.2.tgz#1b7f4b9f591f1e8f83670401600345a02887435f"
   integrity sha512-3Pe/CF1Nn94hyhIYpjtiLhdCoEoz0DqQ+988E9gmeEdQZlojxnOb74wctFyuwWQHzqyf9X7C7MG8juUpqBJT8w==
-
-clsx@^2.1.0:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/clsx/-/clsx-2.1.1.tgz#eed397c9fd8bd882bfb18deab7102049a2f32999"
-  integrity sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==
 
 color-convert@^2.0.1:
   version "2.0.1"
@@ -3089,13 +3096,6 @@ react-slick@^0.30.2:
     json2mq "^0.2.0"
     lodash.debounce "^4.0.8"
     resize-observer-polyfill "^1.5.0"
-
-react-toastify@^10.0.5:
-  version "10.0.5"
-  resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-10.0.5.tgz#6b8f8386060c5c856239f3036d1e76874ce3bd1e"
-  integrity sha512-mNKt2jBXJg4O7pSdbNUfDdTsK9FIdikfsIE/yUCxbAEXl4HMyJaivrVFcn3Elvt5xvCQYhUZm+hqTIu1UXM3Pw==
-  dependencies:
-    clsx "^2.1.0"
 
 react@^18.3.1:
   version "18.3.1"
