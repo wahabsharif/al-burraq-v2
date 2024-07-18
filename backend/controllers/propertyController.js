@@ -1,5 +1,6 @@
 const Property = require("../models/Property");
 const slugify = require("slugify");
+const axios = require("axios");
 
 const generateUniqueSlug = async (title) => {
   let slug = slugify(title, { lower: true });

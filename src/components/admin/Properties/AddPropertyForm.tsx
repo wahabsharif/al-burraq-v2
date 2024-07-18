@@ -1,8 +1,8 @@
-// src/components/admin/Properties/AddPropertyForm.tsx
-
 "use client";
 import React, { useState } from "react";
 import axios from "axios";
+import slugify from "slugify";
+import Image from "next/image";
 
 interface FormData {
   title: string;
@@ -13,6 +13,7 @@ interface FormData {
   purpose: string;
   propertyType: string;
   area: string;
+  slug: string;
 }
 
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -27,22 +28,43 @@ const AddPropertyForm: React.FC = () => {
     purpose: "",
     propertyType: "",
     area: "",
+    slug: "",
   });
 
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
+  const [imageURL, setImageURL] = useState<string>("");
 
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+      ...(name === "title" && { slug: slugify(value, { lower: true }) }), // Auto-generate slug
+    }));
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setFormData({ ...formData, image: e.target.files[0] });
+      const file = e.target.files[0];
+      setFormData({ ...formData, image: file });
+
+      // Create a new FileReader instance
+      const reader = new FileReader();
+
+      // When the file is loaded, set the image URL state
+      reader.onload = () => {
+        if (typeof reader.result === "string") {
+          setImageURL(reader.result);
+        }
+      };
+
+      // Read the file as a data URL
+      reader.readAsDataURL(file);
     }
   };
 
@@ -62,16 +84,6 @@ const AddPropertyForm: React.FC = () => {
         );
 
         imageUrl = imgBBResponse.data.data.url;
-
-        // Uncomment below lines to use Cloudinary instead of ImgBB
-        /*
-        const cloudinaryResponse = await axios.post(
-          `https://api.cloudinary.com/v1_1/YOUR_CLOUDINARY_NAME/image/upload`,
-          uploadData
-        );
-
-        imageUrl = cloudinaryResponse.data.secure_url;
-        */
       }
 
       const response = await axios.post(
@@ -81,10 +93,11 @@ const AddPropertyForm: React.FC = () => {
           description: formData.description,
           price: formData.price,
           location: formData.location,
-          image: imageUrl, // Pass imageUrl here
+          image: imageUrl,
           purpose: formData.purpose,
           propertyType: formData.propertyType,
           area: formData.area,
+          slug: formData.slug, // Pass slug here
         }
       );
 
@@ -102,8 +115,10 @@ const AddPropertyForm: React.FC = () => {
           purpose: "",
           propertyType: "",
           area: "",
+          slug: "",
         });
-      }, 3000); // Reset form fields after 3 seconds
+        setImageURL("");
+      }, 3000);
     } catch (error) {
       console.error("Error creating property:", error);
       setError("Failed to create property. Please try again.");
@@ -111,7 +126,7 @@ const AddPropertyForm: React.FC = () => {
   };
 
   return (
-    <div>
+    <section className="px-10 mb-5 h-full w-full">
       {error && (
         <div className="bg-red-200 text-red-800 p-3 mb-4 rounded">{error}</div>
       )}
@@ -124,10 +139,10 @@ const AddPropertyForm: React.FC = () => {
         <h2 className="text-3xl text-darkGold font-extrabold mb-4 mt-4 lg:mb-16 bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 inline-block">
           Add Properties
         </h2>
-      </div>
-      <form onSubmit={handleSubmit}>
-        <div className="grid gap-6 mb-6">
-          <div>
+      </div>{" "}
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="text-start">
             <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
               Title
             </label>
@@ -141,20 +156,39 @@ const AddPropertyForm: React.FC = () => {
               required
             />
           </div>
-          <div>
+          <div className="text-start">
             <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
-              Description
+              Slug
             </label>
-            <textarea
+            <input
               className="bg-slate-700 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
-              name="description"
-              value={formData.description}
+              name="slug"
+              type="text"
+              value={formData.slug}
               onChange={handleChange}
-              placeholder="Enter The Description"
+              placeholder="Enter The Slug"
+              required
+              readOnly
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="text-start">
+            <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
+              Area
+            </label>
+            <input
+              className="bg-slate-700 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
+              type="text"
+              name="area"
+              value={formData.area}
+              onChange={handleChange}
+              placeholder=" Enter The Area"
               required
             />
           </div>
-          <div>
+          <div className="text-start">
             <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
               Price
             </label>
@@ -168,21 +202,10 @@ const AddPropertyForm: React.FC = () => {
               required
             />
           </div>
-          <div>
-            <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
-              Location
-            </label>
-            <input
-              className="bg-slate-700 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
-              type="text"
-              name="location"
-              value={formData.location}
-              onChange={handleChange}
-              placeholder=" Enter The Location"
-              required
-            />
-          </div>
-          <div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="text-start">
             <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
               Purpose
             </label>
@@ -199,7 +222,7 @@ const AddPropertyForm: React.FC = () => {
               <option value="sale">Sale</option>
             </select>
           </div>
-          <div>
+          <div className="text-start">
             <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
               Property Type
             </label>
@@ -221,41 +244,64 @@ const AddPropertyForm: React.FC = () => {
               <option value="villas">Villas</option>
             </select>
           </div>
-          <div>
-            <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
-              Area (sqft)
-            </label>
-            <input
-              className="bg-slate-700 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
-              type="number"
-              name="area"
-              value={formData.area}
-              onChange={handleChange}
-              placeholder=" Enter The Area"
-              required
-            />
-          </div>
-          <div>
-            <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
-              Image
-            </label>
-            <input
-              className="bg-slate-700 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              required
-            />
-          </div>
+        </div>
+
+        <div>
+          <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
+            Location
+          </label>
+          <input
+            className="bg-slate-700 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
+            type="text"
+            name="location"
+            value={formData.location}
+            onChange={handleChange}
+            placeholder=" Enter The Location"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
+            Description
+          </label>
+          <textarea
+            className="bg-slate-700 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            placeholder="Enter The Description"
+            rows={6}
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
+            Image
+          </label>
+          <input
+            className="bg-slate-700 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
+            type="file"
+            name="image"
+            onChange={handleFileChange}
+            accept="image/*"
+            required
+          />
+          {imageURL && (
+            <div className="w-full h-auto mt-2">
+              <Image src={imageURL} alt="Preview" width={100} height={100} />
+            </div>
+          )}
         </div>
         <button
-          className="rounded-lg px-6 py-3 button font-bold text-white text-xl"
           type="submit"
+          className="bg-slate-900 text-white p-4 rounded-lg hover:bg-slate-700 focus:ring-4 focus:ring-slate-700"
         >
-          + Add Property
+          Submit
         </button>
       </form>
-    </div>
+    </section>
   );
 };
 
