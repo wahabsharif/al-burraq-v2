@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Image from "next/image";
+import slugify from "slugify";
 
 interface EditPropertyFormProps {
   property: Property;
@@ -17,6 +18,7 @@ interface Property {
   purpose: string; // New field
   propertyType: string; // New field
   area: number; // New field
+  slug: string; // New field
 }
 
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -34,6 +36,7 @@ const EditPropertyForm: React.FC<EditPropertyFormProps> = ({
     purpose: property.purpose,
     propertyType: property.propertyType,
     area: property.area,
+    slug: property.slug || slugify(property.title, { lower: true }),
   });
 
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -44,7 +47,13 @@ const EditPropertyForm: React.FC<EditPropertyFormProps> = ({
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+      slug:
+        name === "title" ? slugify(value, { lower: true }) : prevFormData.slug,
+    }));
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,7 +93,6 @@ const EditPropertyForm: React.FC<EditPropertyFormProps> = ({
         </h3>
       </div>
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Title and Price Inputs */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="text-start">
             <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
@@ -102,21 +110,20 @@ const EditPropertyForm: React.FC<EditPropertyFormProps> = ({
           </div>
           <div className="text-start">
             <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
-              Price
+              Slug
             </label>
             <input
-              type="number"
-              name="price"
-              value={formData.price || ""}
+              type="text"
+              name="slug"
+              value={formData.slug || ""}
               onChange={handleChange}
-              className="bg-slate-700 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
-              placeholder="Price"
+              className="bg-slate-700 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
+              placeholder="Slug"
               required
             />
           </div>
         </div>
 
-        {/* Purpose and Property Type Select */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="text-start">
             <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
@@ -159,7 +166,6 @@ const EditPropertyForm: React.FC<EditPropertyFormProps> = ({
           </div>
         </div>
 
-        {/* Area and Location Inputs */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="text-start">
             <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
@@ -177,21 +183,34 @@ const EditPropertyForm: React.FC<EditPropertyFormProps> = ({
           </div>
           <div className="text-start">
             <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
-              Location
+              Price
             </label>
             <input
-              type="text"
-              name="location"
-              value={formData.location || ""}
+              type="number"
+              name="price"
+              value={formData.price || ""}
               onChange={handleChange}
               className="bg-slate-700 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
-              placeholder="Location"
+              placeholder="Price"
               required
             />
           </div>
         </div>
 
-        {/* Description Textarea */}
+        <div className="text-start">
+          <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
+            Location
+          </label>
+          <input
+            type="text"
+            name="location"
+            value={formData.location || ""}
+            onChange={handleChange}
+            className="bg-slate-700 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
+            placeholder="Location"
+            required
+          />
+        </div>
         <div className="text-start">
           <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
             Description
@@ -207,7 +226,6 @@ const EditPropertyForm: React.FC<EditPropertyFormProps> = ({
           />
         </div>
 
-        {/* Image Upload and Display */}
         <div className="grid grid-cols-1 gap-4">
           <div className="text-start">
             <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
@@ -221,7 +239,7 @@ const EditPropertyForm: React.FC<EditPropertyFormProps> = ({
               className="bg-slate-700 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
             />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-2">
             {formData.image &&
               formData.image.map((imageUrl, index) => (
                 <div key={index} className="relative">
@@ -244,7 +262,6 @@ const EditPropertyForm: React.FC<EditPropertyFormProps> = ({
           </div>
         </div>
 
-        {/* Submit Button */}
         <div className="py-5">
           <button
             type="submit"
@@ -255,7 +272,6 @@ const EditPropertyForm: React.FC<EditPropertyFormProps> = ({
         </div>
       </form>
 
-      {/* Success and Error Messages */}
       {successMessage && (
         <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded-lg relative mt-4">
           {successMessage}

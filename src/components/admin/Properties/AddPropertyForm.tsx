@@ -74,7 +74,7 @@ const AddPropertyForm: React.FC = () => {
       let imageUrl = "";
 
       if (formData.image) {
-        // Upload the image to ImgBB or Cloudinary and get the URL
+        // Upload the image to ImgBB to get the URL
         const uploadData = new FormData();
         uploadData.append("image", formData.image);
 
@@ -97,7 +97,7 @@ const AddPropertyForm: React.FC = () => {
           purpose: formData.purpose,
           propertyType: formData.propertyType,
           area: formData.area,
-          slug: formData.slug, // Pass slug here
+          slug: formData.slug,
         }
       );
 

@@ -1,4 +1,3 @@
-// components/admin/properties/PropertyList.tsx
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -19,6 +18,7 @@ interface Property {
   purpose: string; // New field
   propertyType: string; // New field
   area: number; // New field
+  slug: string; // New field for slug
 }
 
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -63,7 +63,7 @@ const PropertyList: React.FC = () => {
   }
 
   return (
-    <div>
+    <section>
       <div className="mx-auto max-w-screen-sm text-center">
         <h2 className="text-3xl text-darkGold font-extrabold mb-4 mt-4 lg:mb-16 bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 inline-block">
           All Properties
@@ -81,6 +81,9 @@ const PropertyList: React.FC = () => {
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Title
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Slug
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Price
@@ -129,6 +132,11 @@ const PropertyList: React.FC = () => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900">
                         {property.title}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900">
+                        {property.slug}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -188,7 +196,7 @@ const PropertyList: React.FC = () => {
           />
         )}
       </Modal>
-    </div>
+    </section>
   );
 };
 
