@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
-import { FaSearch } from "react-icons/fa";
+import { FaFilter } from "react-icons/fa6";
+
 import { IoLocationSharp } from "react-icons/io5";
 
 interface Property {
@@ -243,9 +244,10 @@ const SearchBarNew = () => {
         <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-2 flex items-center justify-center mt-auto mb-0">
           <button
             onClick={handleSearch}
-            className="shiny-btn py-2 px-3 text-3xl font-bold flex items-center"
+            className="shiny-btn py-2 px-3 text-3xl flex  font-semibold items-center"
           >
-            <FaSearch className="ml-1" />
+            Filter
+            <FaFilter className="ml-1" />
           </button>
         </div>
       </div>
