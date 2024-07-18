@@ -1,6 +1,19 @@
-// backend/controllers/propertyController.js
-
 const Property = require("../models/Property");
+const slugify = require("slugify");
+
+const generateUniqueSlug = async (title) => {
+  let slug = slugify(title, { lower: true });
+  let existingProperty = await Property.findOne({ slug });
+  let count = 1;
+
+  while (existingProperty) {
+    slug = `${slugify(title, { lower: true })}-${count}`;
+    existingProperty = await Property.findOne({ slug });
+    count++;
+  }
+
+  return slug;
+};
 
 exports.searchProperties = async (req, res) => {
   const { purpose, propertyType, location, minPrice, maxPrice } = req.query;
@@ -106,6 +119,8 @@ exports.createProperty = async (req, res) => {
       */
     }
 
+    const slug = await generateUniqueSlug(title);
+
     const newProperty = new Property({
       title,
       description,
@@ -115,6 +130,7 @@ exports.createProperty = async (req, res) => {
       purpose,
       propertyType,
       area,
+      slug,
     });
 
     await newProperty.save();
@@ -140,6 +156,8 @@ exports.updateProperty = async (req, res) => {
   } = req.body;
 
   try {
+    const slug = await generateUniqueSlug(title);
+
     const updatedProperty = await Property.findByIdAndUpdate(
       id,
       {
@@ -151,6 +169,7 @@ exports.updateProperty = async (req, res) => {
         purpose,
         propertyType,
         area,
+        slug,
       },
       { new: true }
     );

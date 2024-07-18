@@ -1,4 +1,4 @@
-// PropertyList.tsx
+// components/admin/properties/PropertyList.tsx
 "use client";
 
 import React, { useState, useEffect } from "react";
