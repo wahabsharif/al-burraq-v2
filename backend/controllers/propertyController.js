@@ -2,6 +2,7 @@ const Property = require("../models/Property");
 const slugify = require("slugify");
 const axios = require("axios");
 
+// Generate a unique slug for a property
 const generateUniqueSlug = async (title) => {
   let slug = slugify(title, { lower: true });
   let existingProperty = await Property.findOne({ slug });
@@ -16,6 +17,7 @@ const generateUniqueSlug = async (title) => {
   return slug;
 };
 
+// Get properties based on search filters
 exports.searchProperties = async (req, res) => {
   const { purpose, propertyType, location, minPrice, maxPrice } = req.query;
 
@@ -47,6 +49,7 @@ exports.searchProperties = async (req, res) => {
   }
 };
 
+// Get properties with filters
 exports.getProperties = async (req, res) => {
   const { purpose, propertyType, location, minPrice, maxPrice } = req.query;
 
@@ -67,6 +70,7 @@ exports.getProperties = async (req, res) => {
   }
 };
 
+// Get property by ID
 exports.getPropertyById = async (req, res) => {
   const { id } = req.params;
 
@@ -82,6 +86,23 @@ exports.getPropertyById = async (req, res) => {
   }
 };
 
+// Get property by slug
+exports.getPropertyBySlug = async (req, res) => {
+  const { slug } = req.params;
+
+  try {
+    const property = await Property.findOne({ slug });
+    if (!property) {
+      return res.status(404).json({ error: "Property not found" });
+    }
+    res.json(property);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+// Create a new property
 exports.createProperty = async (req, res) => {
   const {
     title,
@@ -137,6 +158,7 @@ exports.createProperty = async (req, res) => {
   }
 };
 
+// Update an existing property
 exports.updateProperty = async (req, res) => {
   const { id } = req.params;
   const {
@@ -184,6 +206,7 @@ exports.updateProperty = async (req, res) => {
   }
 };
 
+// Delete a property
 exports.deleteProperty = async (req, res) => {
   const { id } = req.params;
 

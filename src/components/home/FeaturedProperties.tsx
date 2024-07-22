@@ -4,6 +4,7 @@ import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   IoCallOutline,
   IoLocationOutline,
@@ -13,8 +14,10 @@ import "swiper/css";
 import "swiper/css/bundle";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import ShimmerButton from "@/components/magicui/shimmer-button";
 
 interface Property {
+  slug: string;
   _id: string;
   title: string;
   price: number;
@@ -29,6 +32,7 @@ const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const FeaturedProperties: React.FC = () => {
   const [properties, setProperties] = useState<Property[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     fetchProperties();
@@ -45,7 +49,10 @@ const FeaturedProperties: React.FC = () => {
     }
   };
 
-  // Function to format numbers with commas
+  const handlePropertyClick = (slug: string) => {
+    router.push(`/properties/${slug}`);
+  };
+
   const formatNumber = (num: number) => {
     return num.toLocaleString();
   };
@@ -126,6 +133,16 @@ const FeaturedProperties: React.FC = () => {
                   </div>
                 </div>
               </div>
+              <div className="flex justify-center mt-2">
+                <ShimmerButton
+                  className="shadow-2xl align-center px-3 py-1"
+                  onClick={() => handlePropertyClick(property.slug)}
+                >
+                  <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white dark:from-white dark:to-slate-900/10 lg:text-lg">
+                    Explore More
+                  </span>
+                </ShimmerButton>
+              </div>
               {/* Contact Icons Section */}
               <div className="flex items-center justify-center mt-4">
                 <Link
@@ -143,12 +160,12 @@ const FeaturedProperties: React.FC = () => {
                   <span className="ml-1">Mail</span>
                 </Link>
                 {/* <Link
-                  href={`mailto:#`}
-                  className="shiny-btn p-2 font-bold flex items-center mr-4"
-                >
-                  <IoLogoWhatsapp className="text-2xl" />
-                  <span className="ml-1"></span>
-                </Link> */}
+        href={`mailto:#`}
+        className="shiny-btn p-2 font-bold flex items-center mr-4"
+      >
+        <IoLogoWhatsapp className="text-2xl" />
+        <span className="ml-1"></span>
+      </Link> */}
               </div>
             </div>
           </SwiperSlide>

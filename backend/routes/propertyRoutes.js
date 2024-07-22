@@ -6,6 +6,7 @@ const {
   getProperties,
   searchProperties,
   getPropertyById,
+  getPropertyBySlug,
   createProperty,
   updateProperty,
   deleteProperty,
@@ -19,6 +20,7 @@ router.get("/properties/search", searchProperties);
 
 // GET single property
 router.get("/properties/:id", getPropertyById);
+router.get("/properties/slug/:slug", getPropertyBySlug); // New route for slug
 
 // POST create a property
 router.post("/properties", createProperty);

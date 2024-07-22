@@ -39,7 +39,7 @@ const propertySchema = new mongoose.Schema({
       "apartments",
       "lands",
       "penthouses",
-      "shops",
+      -"shops",
       "houses",
       "townhouses",
       "villas",
