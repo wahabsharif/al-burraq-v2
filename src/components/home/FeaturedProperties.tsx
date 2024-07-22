@@ -1,29 +1,28 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
 import Link from "next/link";
+import React, { useEffect, useState } from "react";
 import {
-  IoLocationOutline,
   IoCallOutline,
+  IoLocationOutline,
   IoMailOutline,
-  IoLogoWhatsapp,
 } from "react-icons/io5";
+import "swiper/css";
+import "swiper/css/bundle";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 interface Property {
   _id: string;
   title: string;
-  description: string;
   price: number;
   location: string;
-  image: string[]; // Adjusted to string array for image URLs
-  purpose: string; // New field
-  propertyType: string; // New field
-  area: number; // New field
+  image: string[];
+  purpose: string;
+  propertyType: string;
+  area: number;
 }
 
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -46,44 +45,13 @@ const FeaturedProperties: React.FC = () => {
     }
   };
 
-  const settings = {
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3, // Display 3 cards at a time on large screens
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2000,
-    responsive: [
-      {
-        breakpoint: 1024, // Large screens
-        settings: {
-          slidesToShow: 3,
-        },
-      },
-      {
-        breakpoint: 768, // Medium screens
-        settings: {
-          slidesToShow: 2,
-        },
-      },
-      {
-        breakpoint: 640, // Small screens
-        settings: {
-          slidesToShow: 1,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
+  // Function to format numbers with commas
+  const formatNumber = (num: number) => {
+    return num.toLocaleString();
   };
 
   return (
-    <section className="mx-auto max-w-screen-lg text-white mt-6 mb-3 ">
+    <section className="mx-auto max-w-screen-lg text-white mt-6 mb-3">
       <div className="flex justify-center items-center mb-5">
         <div className="inline-block bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
           <h2 className="text-3xl font-bold text-gradient">
@@ -91,10 +59,38 @@ const FeaturedProperties: React.FC = () => {
           </h2>
         </div>
       </div>
-
-      <Slider {...settings}>
+      <Swiper
+        modules={[Autoplay, Pagination, Navigation]}
+        spaceBetween={30}
+        slidesPerView={3}
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
+        }}
+        pagination={{ clickable: true }}
+        navigation={{
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        }}
+        loop
+        breakpoints={{
+          1024: {
+            slidesPerView: 3,
+          },
+          768: {
+            slidesPerView: 2,
+          },
+          640: {
+            slidesPerView: 1,
+          },
+          480: {
+            slidesPerView: 1,
+          },
+        }}
+        className="mySwiper"
+      >
         {properties.map((property) => (
-          <div key={property._id} className="px-2">
+          <SwiperSlide key={property._id} className="px-2">
             <div className="bg-white mb-4 mt-4 lg:mb-16 bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
               <div className="property-slider-image">
                 {property.image.length > 0 ? (
@@ -110,20 +106,25 @@ const FeaturedProperties: React.FC = () => {
               </div>
               <div>
                 <div className="mt-2 text-sm text-gradient">
-                  AED
-                  <span className="text-xl font-bold">{property.price}</span>
+                  AED{" "}
+                  <span className="text-xl font-bold">
+                    {formatNumber(property.price)}
+                  </span>
                 </div>
-                <div className="flex mt-2 space-x-2">
-                  <div>{property.propertyType}</div> <span>|</span>
-                  <div>{property.area} sqft</div>
+                <div className="mt-2 flex items-center text-sm text-gray-400">
+                  <div className="capitalize">{property.propertyType}</div>
+                  <span className="mx-2">|</span>
+                  <div className="mx-2 capitalize">{property.purpose}</div>
+                  <span className="mx-2">|</span>
+                  <div>Area: {formatNumber(property.area)} sq. ft.</div>
                 </div>
                 <div className="text-xl font-bold mt-4">{property.title}</div>
-                <div className="mt-2">{property.description}</div>
-                <div className="flex items-center mt-2">
-                  <IoLocationOutline className="mr-2" />
-                  <div>{property.location}</div>
+                <div className="flex items-center mt-2 max-w-full overflow-hidden">
+                  <IoLocationOutline className="mr-2 text-2xl" />
+                  <div className="text-ellipsis whitespace-nowrap overflow-hidden max-w-full">
+                    {property.location}
+                  </div>
                 </div>
-                <div className="mt-2">For: {property.purpose}</div>
               </div>
               {/* Contact Icons Section */}
               <div className="flex items-center justify-center mt-4">
@@ -136,23 +137,25 @@ const FeaturedProperties: React.FC = () => {
                 </Link>
                 <Link
                   href={`mailto:#`}
-                  className="shiny-btn p-2 font-bold flex items-center  mr-4"
+                  className="shiny-btn p-2 font-bold flex items-center mr-4"
                 >
                   <IoMailOutline className="text-2xl" />
                   <span className="ml-1">Mail</span>
                 </Link>
                 {/* <Link
                   href={`mailto:#`}
-                  className="shiny-btn p-2  font-bold flex items-center mr-4"
+                  className="shiny-btn p-2 font-bold flex items-center mr-4"
                 >
                   <IoLogoWhatsapp className="text-2xl" />
                   <span className="ml-1"></span>
                 </Link> */}
               </div>
             </div>
-          </div>
+          </SwiperSlide>
         ))}
-      </Slider>
+        <div className="swiper-button-prev"></div>
+        <div className="swiper-button-next"></div>
+      </Swiper>
     </section>
   );
 };

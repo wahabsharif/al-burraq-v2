@@ -95,6 +95,10 @@ exports.createProperty = async (req, res) => {
   } = req.body;
 
   try {
+    // Remove commas from price and area
+    const cleanedPrice = parseFloat(price.replace(/,/g, ""));
+    const cleanedArea = parseFloat(area.replace(/,/g, ""));
+
     let imageUrl = ""; // Initialize image URL variable
 
     if (image) {
@@ -108,16 +112,6 @@ exports.createProperty = async (req, res) => {
       );
 
       imageUrl = imgBBResponse.data.data.url;
-
-      // Uncomment below lines to use Cloudinary instead of ImgBB
-      /*
-      const cloudinaryResponse = await axios.post(
-        `https://api.cloudinary.com/v1_1/YOUR_CLOUDINARY_NAME/image/upload`,
-        uploadData
-      );
-
-      imageUrl = cloudinaryResponse.data.secure_url;
-      */
     }
 
     const slug = await generateUniqueSlug(title);
@@ -125,12 +119,12 @@ exports.createProperty = async (req, res) => {
     const newProperty = new Property({
       title,
       description,
-      price,
+      price: cleanedPrice, // Save cleaned price
       location,
       image: imageUrl, // Save image URL
       purpose,
       propertyType,
-      area,
+      area: cleanedArea, // Save cleaned area
       slug,
     });
 
@@ -157,6 +151,10 @@ exports.updateProperty = async (req, res) => {
   } = req.body;
 
   try {
+    // Remove commas from price and area
+    const cleanedPrice = parseFloat(price.replace(/,/g, ""));
+    const cleanedArea = parseFloat(area.replace(/,/g, ""));
+
     const slug = await generateUniqueSlug(title);
 
     const updatedProperty = await Property.findByIdAndUpdate(
@@ -164,12 +162,12 @@ exports.updateProperty = async (req, res) => {
       {
         title,
         description,
-        price,
+        price: cleanedPrice, // Save cleaned price
         location,
         image,
         purpose,
         propertyType,
-        area,
+        area: cleanedArea, // Save cleaned area
         slug,
       },
       { new: true }
