@@ -9,7 +9,7 @@ import {
 import { LuTableProperties } from "react-icons/lu";
 import { TbLogs } from "react-icons/tb";
 import { CgProfile } from "react-icons/cg";
-import { FaUsers } from "react-icons/fa";
+import { FaUsers, FaComments } from "react-icons/fa";
 import LogoutButton from "./Auth/LogoutButton";
 import CurrentUser from "@/components/admin/Users/CurrentUser";
 
@@ -51,6 +51,16 @@ const SideBar: React.FC = () => {
           >
             <TbLogs className="text-2xl mr-2" />
             Blogs
+          </Link>
+        </div>
+        <div className="p-4 flex items-center">
+          <Link
+            href="/admin/comments"
+            passHref
+            className="flex items-center text-gray-300 hover:bg-gray-700 hover:text-white py-2 px-4 rounded-md"
+          >
+            <FaComments className="text-2xl mr-2" />
+            Comments
           </Link>
         </div>
         <div className="p-4 flex items-center">
