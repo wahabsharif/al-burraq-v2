@@ -1,14 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import axios from "axios";
-import slugify from "slugify"; // Import slugify for generating slugs
-import dynamic from "next/dynamic"; // To dynamically import react-quill
+import slugify from "slugify";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 const NEXT_PUBLIC_IMGBB_API_KEY = "a53c2a4a94f3dd313d50711ac901dc17";
 
-// Dynamic import of react-quill to avoid SSR issues
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
 
@@ -17,22 +18,23 @@ const AddBlogForm = () => {
   const [slug, setSlug] = useState("");
   const [shortDescription, setShortDescription] = useState("");
   const [bodyContent, setBodyContent] = useState("");
-  const [images, setImages] = useState<File[]>([]); // Store File objects for uploaded images
+  const [images, setImages] = useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter(); // useRouter from next/navigation
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const titleValue = e.target.value;
     setTitle(titleValue);
-    const generatedSlug = slugify(titleValue, { lower: true }); // Generate slug from title
+    const generatedSlug = slugify(titleValue, { lower: true });
     setSlug(generatedSlug);
   };
 
   const handleAddBlog = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      // Upload images to imgBB first
       const uploadedImageURLs = await Promise.all(images.map(uploadImage));
 
-      // Create blog with uploaded image URLs
       const response = await axios.post(`${NEXT_PUBLIC_API_URL}/api/blogs`, {
         title,
         slug,
@@ -41,11 +43,10 @@ const AddBlogForm = () => {
         images: uploadedImageURLs,
       });
       console.log(response.data);
-      // Handle success (e.g., clear form, display success message)
       resetForm();
+      router.push("/admin/blogs"); // Navigate to /admin/blogs on success
     } catch (error) {
       console.error("Error adding blog", error);
-      // Handle error
     }
   };
 
@@ -76,6 +77,10 @@ const AddBlogForm = () => {
     if (e.target.files) {
       const selectedImages = Array.from(e.target.files);
       setImages(selectedImages);
+      const imageUrls = selectedImages.map((image) =>
+        URL.createObjectURL(image)
+      );
+      setImagePreviews(imageUrls);
       console.log("Selected images: ", selectedImages);
     }
   };
@@ -86,6 +91,11 @@ const AddBlogForm = () => {
     setShortDescription("");
     setBodyContent("");
     setImages([]);
+    setImagePreviews([]);
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   return (
@@ -106,7 +116,7 @@ const AddBlogForm = () => {
               type="text"
               placeholder="Enter The Title"
               value={title}
-              onChange={handleTitleChange} // Use handleTitleChange to update title and slug
+              onChange={handleTitleChange}
               required
             />
           </div>
@@ -119,7 +129,7 @@ const AddBlogForm = () => {
               type="text"
               placeholder="Slug"
               value={slug}
-              onChange={(e) => setSlug(e.target.value)} // Allow manual editing of slug if needed
+              onChange={(e) => setSlug(e.target.value)}
               required
             />
           </div>
@@ -151,21 +161,34 @@ const AddBlogForm = () => {
           <div>
             <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
               Image
-            </label>{" "}
+            </label>
             <input
               className="bg-slate-700 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
               type="file"
               accept="image/*"
               onChange={handleImageChange}
               multiple
+              ref={fileInputRef}
             />
+          </div>
+          <div className="image-preview grid grid-cols-2 gap-4">
+            {imagePreviews.map((url, index) => (
+              <Image
+                key={index}
+                src={url}
+                alt={`Preview ${index + 1}`}
+                width={1080}
+                height={1000}
+                className="w-full h-auto object-cover rounded-lg"
+              />
+            ))}
           </div>
         </div>
         <button
-          className="rounded-lg px-6 py-3 button font-bold text-white text-xl"
+          className="rounded-lg px-6 py-1 button font-bold text-white text-xl"
           type="submit"
         >
-          + Add Blog
+          + Upload
         </button>
       </form>
     </section>
