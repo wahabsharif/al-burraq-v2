@@ -45,15 +45,6 @@ const BlogsDetails: React.FC<BlogsDetailsProps> = ({ slug }) => {
 
   return (
     <section className="container mx-auto p-6">
-      {/* Heading */}
-      <div className="flex justify-center items-center mb-5">
-        <div className="inline-block bg-black shadow-md p-2 mb-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
-          <BlurIn
-            word={blog.title}
-            className="font-bold text-3xl text-gradient"
-          />
-        </div>
-      </div>
       {/* Images */}
       <div className="mb-6">
         {blog.images.map((image, index) => (
@@ -79,6 +70,16 @@ const BlogsDetails: React.FC<BlogsDetailsProps> = ({ slug }) => {
           })}
         </p>
       </div>
+      {/* Heading */}
+      <div className="flex justify-center items-center mb-5">
+        <div className="inline-block bg-black shadow-md p-2 mb-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
+          <BlurIn
+            word={blog.title}
+            className="font-bold text-3xl text-gradient"
+          />
+        </div>
+      </div>
+
       {/* Body Content */}
       <BlurFade
         delay={0.25 * 2}
