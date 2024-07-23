@@ -8,6 +8,7 @@ const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const propertyRoutes = require("./routes/propertyRoutes");
 const blogRoutes = require("./routes/blogRoutes");
+const commentRoutes = require("./routes/commentRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -20,6 +21,7 @@ app.use(bodyParser.json());
 app.use("/api", userRoutes); // Example: /api/users/login
 app.use("/api", propertyRoutes); // Example: /api/properties
 app.use("/api", blogRoutes); // Example: /api/blogs
+app.use("/api", commentRoutes);
 
 // Default route handler
 app.get("/", (req, res) => {
