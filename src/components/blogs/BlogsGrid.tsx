@@ -1,3 +1,5 @@
+// src/components/BlogsGrid.tsx
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -5,14 +7,15 @@ import axios from "axios";
 import Image from "next/image";
 import ShineBorder from "@/components/magicui/shine-border";
 import ShimmerButton from "@/components/magicui/shimmer-button";
+import Link from "next/link";
 
-// Define the Blog interface
 interface Blog {
   _id: string;
   images: string[];
   title: string;
   shortDescription: string;
   createdAt: string;
+  slug: string; // Add slug to the Blog interface
 }
 
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -74,11 +77,13 @@ export function BlogsGrid() {
                   {blog.shortDescription}
                 </p>
               </div>
-              <ShimmerButton className="shadow-2xl mt-4">
-                <span className="whitespace-pre-wrap font-bold text-center text-sm leading-none tracking-tight text-white dark:from-white dark:to-slate-900/10 lg:text-lg">
-                  Read More...
-                </span>
-              </ShimmerButton>
+              <Link href={`/blogs/${blog.slug}`}>
+                <ShimmerButton className="shadow-2xl mt-4 cursor-pointer">
+                  <span className="whitespace-pre-wrap font-bold text-center text-sm leading-none tracking-tight text-white dark:from-white dark:to-slate-900/10 lg:text-lg">
+                    Read More...
+                  </span>
+                </ShimmerButton>
+              </Link>
             </ShineBorder>
           </div>
         ))}

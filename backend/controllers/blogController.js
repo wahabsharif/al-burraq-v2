@@ -1,3 +1,5 @@
+// backend/controller/blogController.js
+
 const Blog = require("../models/Blog");
 
 exports.createBlog = async (req, res) => {
@@ -40,6 +42,17 @@ exports.getAllBlogs = async (req, res) => {
 exports.getBlogById = async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id);
+    if (!blog) return res.status(404).json({ error: "Blog not found" });
+    res.status(200).json(blog);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+// Get a blog by slug
+exports.getBlogBySlug = async (req, res) => {
+  try {
+    const blog = await Blog.findOne({ slug: req.params.slug });
     if (!blog) return res.status(404).json({ error: "Blog not found" });
     res.status(200).json(blog);
   } catch (error) {

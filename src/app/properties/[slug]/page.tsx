@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import WebLayout from "@/components/layouts/WebLayout";
 
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 const Banner = dynamic(() => import("@/components/common/Banner"));
 const PropertyDetails = dynamic(
   () => import("@/components/home/PropertyDetails"),
