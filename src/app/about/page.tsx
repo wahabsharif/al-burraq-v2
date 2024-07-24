@@ -1,9 +1,8 @@
 import dynamic from "next/dynamic";
 import WebLayout from "@/components/layouts/WebLayout";
-import AboutIntro from "@/components/about/AboutIntro";
 
-// Use dynamic import for the Banner component
 const Banner = dynamic(() => import("@/components/common/Banner"));
+const AboutIntro = dynamic(() => import("@/components/about/AboutIntro"));
 
 export const metadata = {
   title: "Al-Burraq - About",

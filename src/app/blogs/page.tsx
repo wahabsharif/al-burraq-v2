@@ -1,10 +1,10 @@
 import dynamic from "next/dynamic";
-import WebLayout from "@/components/layouts/WebLayout";
 import { BlogsGrid } from "@/components/blogs/BlogsGrid";
 import { ClientsComments } from "@/components/common/ClientsComments";
-import CommentForm from "@/components/common/CommentForm";
 
+const WebLayout = dynamic(() => import("@/components/layouts/WebLayout"));
 const Banner = dynamic(() => import("@/components/common/Banner"));
+const CommentForm = dynamic(() => import("@/components/common/CommentForm"));
 
 export const metadata = {
   title: "Al-Burraq - Our Blogs",

@@ -1,13 +1,13 @@
 import dynamic from "next/dynamic";
-import WebLayout from "@/components/layouts/WebLayout";
-import ContactArea from "@/components/contact/ContactArea";
 
 export const metadata = {
   title: "Al-Burraq -Contact",
 };
 
 // Use dynamic import for the Banner component
+const WebLayout = dynamic(() => import("@/components/layouts/WebLayout"));
 const Banner = dynamic(() => import("@/components/common/Banner"));
+const ContactArea = dynamic(() => import("@/components/contact/ContactArea"));
 
 export default function Contact() {
   return (

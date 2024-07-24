@@ -1,11 +1,18 @@
-import WebLayout from "@/components/layouts/WebLayout";
-import Hero from "@/components/home/Hero";
-import SearchBarNew from "@/components/home/SearchBarNew";
-import FeaturedProperties from "@/components/home/FeaturedProperties";
-import TrustedDeveloper from "@/components/home/TrustedDeveloper";
-import Team from "@/components/home/Team";
 import { ClientsComments } from "@/components/common/ClientsComments";
-import CommentForm from "@/components/common/CommentForm";
+import dynamic from "next/dynamic";
+
+const WebLayout = dynamic(() => import("@/components/layouts/WebLayout"));
+const Hero = dynamic(() => import("@/components/home/Hero"));
+const SearchBarNew = dynamic(() => import("@/components/home/SearchBarNew"));
+const FeaturedProperties = dynamic(
+  () => import("@/components/home/FeaturedProperties")
+);
+const TrustedDeveloper = dynamic(
+  () => import("@/components/home/TrustedDeveloper")
+);
+const Team = dynamic(() => import("@/components/home/Team"));
+
+const CommentForm = dynamic(() => import("@/components/common/CommentForm"));
 
 export const metadata = {
   title: "Al-Burraq",

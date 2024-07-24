@@ -1,5 +1,3 @@
-// components/layouts/WebLayout
-
 import React, { ReactNode } from "react";
 import NavBar from "@/components/common/NavBar";
 import Footer from "@/components/common/Footer";

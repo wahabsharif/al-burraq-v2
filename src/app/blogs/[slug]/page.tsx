@@ -1,10 +1,10 @@
-import BlogsDetails from "@/components/blogs/BlogsDetails";
 import React from "react";
 import dynamic from "next/dynamic";
-import WebLayout from "@/components/layouts/WebLayout";
 import { BlogsList } from "@/components/blogs/BlogsList";
 
+const WebLayout = dynamic(() => import("@/components/layouts/WebLayout"));
 const Banner = dynamic(() => import("@/components/common/Banner"));
+const BlogsDetails = dynamic(() => import("@/components/blogs/BlogsDetails"));
 
 export const metadata = {
   title: "Al-Burraq - Blog Details",
