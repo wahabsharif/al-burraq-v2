@@ -1,38 +1,12 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import Marquee from "@/components/magicui/marquee";
 import Image from "next/image";
 import UserImageIcon from "@/assets/icons/comment-users-icon.svg";
 
-const comments = [
-  {
-    name: "Jack",
-    comment:
-      "I've never seen anything like this before. It's amazing. I love it.",
-  },
-  {
-    name: "Jill",
-    comment: "I don't know what to say. I'm speechless. This is amazing.",
-  },
-  {
-    name: "John",
-    comment: "I'm at a loss for words. This is amazing. I love it.",
-  },
-  {
-    name: "Jane",
-    comment: "I'm at a loss for words. This is amazing. I love it.",
-  },
-  {
-    name: "Jenny",
-    comment: "I'm at a loss for words. This is amazing. I love it.",
-  },
-  {
-    name: "James",
-    comment: "I'm at a loss for words. This is amazing. I love it.",
-  },
-];
-
-const firstRow = comments.slice(0, comments.length / 2);
-const secondRow = comments.slice(comments.length / 2);
+const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const CommentCard = ({ name, comment }: { name: string; comment: string }) => {
   return (
@@ -54,7 +28,7 @@ const CommentCard = ({ name, comment }: { name: string; comment: string }) => {
           src={UserImageIcon}
         />
         <div className="flex flex-col">
-          <figcaption className="text-lg font-bold dark:text-white">
+          <figcaption className="text-2xl capitalize font-bold dark:text-white">
             {name}
           </figcaption>
         </div>
@@ -65,8 +39,36 @@ const CommentCard = ({ name, comment }: { name: string; comment: string }) => {
 };
 
 export function BlogComments() {
+  const [comments, setComments] = useState<{ name: string; comment: string }[]>(
+    []
+  );
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const response = await fetch(`${NEXT_PUBLIC_API_URL}/api/comments`);
+        const data = await response.json();
+        setComments(data);
+      } catch (error) {
+        console.error("Error fetching comments:", error);
+      }
+    };
+
+    fetchComments();
+  }, []);
+
+  const firstRow = comments.slice(0, comments.length / 2);
+  const secondRow = comments.slice(comments.length / 2);
+
   return (
-    <div className="relative flex h-[500px] w-full flex-col items-center justify-center overflow-hidden md:shadow-xl">
+    <div className="relative flex h-[500px] w-full flex-col mt-10 items-center justify-center overflow-hidden md:shadow-xl">
+      <div className="flex justify-center items-center mb-5">
+        <div className="inline-block bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
+          <h2 className="text-3xl font-bold text-gradient">
+            What they are saying.
+          </h2>
+        </div>
+      </div>
       <Marquee pauseOnHover className="[--duration:20s]">
         {firstRow.map((comment) => (
           <CommentCard key={comment.name} {...comment} />
