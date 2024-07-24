@@ -28,8 +28,12 @@ const CommentsList: React.FC = () => {
         if (!response.ok) {
           throw new Error("Failed to fetch comments");
         }
-        const data = await response.json();
-        setComments(data);
+        const data: Comment[] = await response.json();
+        const sortedData = data.sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+        setComments(sortedData);
       } catch (err) {
         if (err instanceof Error) {
           setError(err.message);
