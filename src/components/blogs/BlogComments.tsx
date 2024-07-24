@@ -1,40 +1,39 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
 import Marquee from "@/components/magicui/marquee";
 import Image from "next/image";
 import UserImageIcon from "@/assets/icons/comment-users-icon.svg";
+import ShineBorder from "@/components/magicui/shine-border";
+import TypingAnimation from "@/components/magicui/typing-animation";
 
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const CommentCard = ({ name, comment }: { name: string; comment: string }) => {
   return (
-    <figure
-      className={cn(
-        "relative w-64 cursor-pointer overflow-hidden rounded-xl border p-4 bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200",
-        // light styles
-        "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
-        // dark styles
-        "dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]"
-      )}
+    <ShineBorder
+      className="p-4 border border-gray-200 rounded-lg shadow-md h-full flex flex-col justify-between relative w-64 cursor-pointer overflow-hidden bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200"
+      color={["#A07CFE", "#FE8FB5", "#FFBE7B"]}
     >
-      <div className="flex flex-row items-center gap-2">
-        <Image
-          className="rounded-full"
-          width="40"
-          height="40"
-          alt=""
-          src={UserImageIcon}
-        />
-        <div className="flex flex-col">
-          <figcaption className="text-2xl capitalize font-bold dark:text-white">
-            {name}
-          </figcaption>
+      <figure>
+        <div className="flex flex-row items-center gap-2">
+          <Image
+            className="rounded-full"
+            width="40"
+            height="40"
+            alt=""
+            src={UserImageIcon}
+          />
+          <div className="flex flex-col">
+            <figcaption className="text-2xl capitalize font-bold dark:text-white">
+              {name}
+            </figcaption>
+          </div>
         </div>
-      </div>
-      <blockquote className="mt-2 text-md">{comment}</blockquote>
-    </figure>
+        <TypingAnimation className="mt-2 text-md" text={comment} />
+        {/* <blockquote className="mt-2 text-md">{comment}</blockquote> */}
+      </figure>
+    </ShineBorder>
   );
 };
 
