@@ -31,7 +31,6 @@ const CommentCard = ({ name, comment }: { name: string; comment: string }) => {
           </div>
         </div>
         <TypingAnimation className="mt-2 text-md" text={comment} />
-        {/* <blockquote className="mt-2 text-md">{comment}</blockquote> */}
       </figure>
     </ShineBorder>
   );
@@ -56,7 +55,7 @@ export function BlogComments() {
     fetchComments();
   }, []);
 
-  const firstRow = comments.slice(0, comments.length / 2);
+  const firstRow = comments.slice(comments.length / 2);
   const secondRow = comments.slice(comments.length / 2);
 
   return (
@@ -68,12 +67,12 @@ export function BlogComments() {
           </h2>
         </div>
       </div>
-      <Marquee pauseOnHover className="[--duration:20s]">
+      <Marquee pauseOnHover className="[--duration:30s]">
         {firstRow.map((comment) => (
           <CommentCard key={comment.name} {...comment} />
         ))}
       </Marquee>
-      <Marquee reverse pauseOnHover className="[--duration:20s]">
+      <Marquee reverse pauseOnHover className="[--duration:30s]">
         {secondRow.map((comment) => (
           <CommentCard key={comment.name} {...comment} />
         ))}
