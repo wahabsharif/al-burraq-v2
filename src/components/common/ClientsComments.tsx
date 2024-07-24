@@ -36,7 +36,7 @@ const CommentCard = ({ name, comment }: { name: string; comment: string }) => {
   );
 };
 
-export function BlogComments() {
+export function ClientsComments() {
   const [comments, setComments] = useState<{ name: string; comment: string }[]>(
     []
   );

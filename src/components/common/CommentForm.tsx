@@ -94,9 +94,9 @@ const CommentForm = () => {
   };
 
   return (
-    <section className="max-w mx-auto p-4 shadow-md flex flex-col justify-between relative overflow-hidden backdrop-blur-2xl backdrop-saturate-200">
+    <section className="max-w mx-auto flex flex-col justify-between relative">
       <div className="flex justify-center items-center mb-5">
-        <div className="inline-block mt-5">
+        <div className="inline-block mt-3 p-4 rounded-xl shadow-md backdrop-blur-2xl backdrop-saturate-200">
           <h2 className="text-5xl font-bold text-gradient">Leave A Comment.</h2>
         </div>
       </div>
@@ -113,9 +113,9 @@ const CommentForm = () => {
         </div>
 
         {/* Input Form */}
-        <div className="md:w-1/2 mt-8 md:mt-0 md:ml-8">
+        <div className="md:w-1/2 mt-8 md:mt-0 md:ml-8  p-4 rounded-xl shadow-md backdrop-blur-2xl backdrop-saturate-200">
           <form onSubmit={handleSubmit}>
-            <div>
+            <div className="mt-5">
               <label className="block mt-2 text-xl font-bold text-lightGold2">
                 Your Name
               </label>
@@ -135,7 +135,7 @@ const CommentForm = () => {
                 />
               </div>
             </div>
-            <div>
+            <div className="mt-5">
               <label className="block mt-2 text-xl font-bold text-lightGold2">
                 Phone Number
               </label>
@@ -155,7 +155,7 @@ const CommentForm = () => {
                 />
               </div>
             </div>
-            <div>
+            <div className="mt-5">
               <label className="block mt-2 text-xl font-bold text-lightGold2">
                 Your Email
               </label>
@@ -175,7 +175,7 @@ const CommentForm = () => {
                 />
               </div>
             </div>
-            <div>
+            <div className="mt-5">
               <label className="block mt-2 text-xl font-bold text-lightGold2">
                 Your message
               </label>
