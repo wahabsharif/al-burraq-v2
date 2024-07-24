@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import WebLayout from "@/components/layouts/WebLayout";
 import { BlogsGrid } from "@/components/blogs/BlogsGrid";
 import { BlogComments } from "@/components/blogs/BlogComments";
+import CommentForm from "@/components/blogs/CommentForm";
 
 const Banner = dynamic(() => import("@/components/common/Banner"));
 
@@ -15,6 +16,7 @@ export default function About() {
       <Banner title="Our Blogs" />
       <BlogsGrid />
       <BlogComments />
+      <CommentForm />
     </WebLayout>
   );
 }
