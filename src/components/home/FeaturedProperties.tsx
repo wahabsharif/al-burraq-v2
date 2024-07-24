@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import Image from "next/image";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -10,11 +10,13 @@ import {
   IoLocationOutline,
   IoMailOutline,
 } from "react-icons/io5";
-import "swiper/css";
-import "swiper/css/bundle";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ShimmerButton from "@/components/magicui/shimmer-button";
+import "swiper/css";
+import "swiper/css/bundle";
+
+const DynamicImage = dynamic(() => import("next/image"), { ssr: false });
 
 interface Property {
   slug: string;
@@ -101,11 +103,12 @@ const FeaturedProperties: React.FC = () => {
             <div className="bg-white mb-4 mt-4 lg:mb-16 bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
               <div className="property-slider-image">
                 {property.image.length > 0 ? (
-                  <Image
+                  <DynamicImage
                     src={property.image[0]}
                     alt={property.title}
                     width={800}
                     height={600}
+                    priority
                   />
                 ) : (
                   <div className="no-image-placeholder">No Image Available</div>
@@ -159,13 +162,6 @@ const FeaturedProperties: React.FC = () => {
                   <IoMailOutline className="text-2xl" />
                   <span className="ml-1">Mail</span>
                 </Link>
-                {/* <Link
-        href={`mailto:#`}
-        className="shiny-btn p-2 font-bold flex items-center mr-4"
-      >
-        <IoLogoWhatsapp className="text-2xl" />
-        <span className="ml-1"></span>
-      </Link> */}
               </div>
             </div>
           </SwiperSlide>

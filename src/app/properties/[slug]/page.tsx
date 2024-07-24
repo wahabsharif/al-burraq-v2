@@ -1,15 +1,16 @@
 import dynamic from "next/dynamic";
 import WebLayout from "@/components/layouts/WebLayout";
+import PropertyDetails from "@/components/home/PropertyDetails";
 
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const Banner = dynamic(() => import("@/components/common/Banner"));
-const PropertyDetails = dynamic(
-  () => import("@/components/home/PropertyDetails"),
-  {
-    ssr: false,
-  }
-);
+// const PropertyDetails = dynamic(
+//   () => import("@/components/home/PropertyDetails"),
+//   {
+//     ssr: false,
+//   }
+// );
 
 const fetchPropertyData = async (slug: string) => {
   const response = await fetch(

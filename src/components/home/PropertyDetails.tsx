@@ -25,20 +25,26 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ property }) => {
 
   return (
     <section className="mx-auto max-w-screen-lg text-white mt-6 mb-3">
-      <h2 className="text-3xl font-bold text-gradient">{property.title}</h2>
+      <h2 className="text-3xl text-center font-bold text-gradient">
+        {property.title}
+      </h2>
       <div className="bg-white mb-4 mt-4 lg:mb-16 bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
-        <div className="property-slider-image">
+        <div className="relative w-full h-full">
           {property.image.length > 0 ? (
             <Image
               src={property.image[0]}
               alt={property.title}
-              width={800}
-              height={600}
+              width={1000}
+              height={800}
+              className="object-cover w-full h-full rounded-md"
             />
           ) : (
-            <div className="no-image-placeholder">No Image Available</div>
+            <div className="no-image-placeholder flex items-center justify-center w-full h-full bg-gray-200 rounded-md text-gray-500">
+              No Image Available
+            </div>
           )}
         </div>
+
         <div>
           <div className="mt-2 text-sm text-gradient">
             AED{" "}
