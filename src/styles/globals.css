@@ -192,6 +192,7 @@ h1 span {
   position: relative;
 }
 
+/* Default styles */
 .swiper-button-prev,
 .swiper-button-next {
   width: 50px; /* Set button width */
@@ -205,9 +206,47 @@ h1 span {
 }
 
 .swiper-button-prev {
-  left: 1px; /* Position to the left */
+  left: 2rem; /* Position to the left */
 }
 
 .swiper-button-next {
-  right: 1px; /* Position to the right */
+  right: 2rem; /* Position to the right */
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  content: "";
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    width: 40px; /* Adjust button width for tablets */
+    height: 40px; /* Adjust button height for tablets */
+  }
+
+  .swiper-button-prev {
+    left: 5px; /* Adjust position for tablets */
+  }
+
+  .swiper-button-next {
+    right: 5px; /* Adjust position for tablets */
+  }
+}
+
+@media (max-width: 480px) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    width: 30px; /* Adjust button width for mobile phones */
+    height: 30px; /* Adjust button height for mobile phones */
+  }
+
+  .swiper-button-prev {
+    left: 3px; /* Adjust position for mobile phones */
+  }
+
+  .swiper-button-next {
+    right: 3px; /* Adjust position for mobile phones */
+  }
 }

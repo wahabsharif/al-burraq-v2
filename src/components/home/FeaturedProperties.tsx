@@ -15,6 +15,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import ShimmerButton from "@/components/magicui/shimmer-button";
 import "swiper/css";
 import "swiper/css/bundle";
+import { FaArrowCircleLeft, FaArrowCircleRight } from "react-icons/fa";
 
 const DynamicImage = dynamic(() => import("next/image"), { ssr: false });
 
@@ -60,7 +61,7 @@ const FeaturedProperties: React.FC = () => {
   };
 
   return (
-    <section className="mx-auto max-w-screen-lg text-white mt-6 mb-3">
+    <section className="mx-auto text-white mt-6 mb-3 relative">
       <div className="flex justify-center items-center mb-5">
         <div className="inline-block bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
           <h2 className="text-3xl font-bold text-gradient">
@@ -68,107 +69,119 @@ const FeaturedProperties: React.FC = () => {
           </h2>
         </div>
       </div>
-      <Swiper
-        modules={[Autoplay, Pagination, Navigation]}
-        spaceBetween={30}
-        slidesPerView={3}
-        autoplay={{
-          delay: 3000,
-          disableOnInteraction: false,
-        }}
-        pagination={{ clickable: true }}
-        navigation={{
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        }}
-        loop
-        breakpoints={{
-          1024: {
-            slidesPerView: 3,
-          },
-          768: {
-            slidesPerView: 2,
-          },
-          640: {
-            slidesPerView: 1,
-          },
-          480: {
-            slidesPerView: 1,
-          },
-        }}
-        className="mySwiper"
-      >
-        {properties.map((property) => (
-          <SwiperSlide key={property._id} className="px-2">
-            <div className="bg-white mb-4 mt-4 lg:mb-16 bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
-              <div className="property-slider-image">
-                {property.image.length > 0 ? (
-                  <DynamicImage
-                    src={property.image[0]}
-                    alt={property.title}
-                    width={800}
-                    height={600}
-                    priority
-                  />
-                ) : (
-                  <div className="no-image-placeholder">No Image Available</div>
-                )}
-              </div>
-              <div>
-                <div className="mt-2 text-sm text-gradient">
-                  AED{" "}
-                  <span className="text-xl font-bold">
-                    {formatNumber(property.price)}
-                  </span>
+      <div className="relative mx-auto max-w-screen-xl">
+        <Swiper
+          modules={[Autoplay, Pagination, Navigation]}
+          spaceBetween={30}
+          slidesPerView={3}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+          }}
+          pagination={{ clickable: true }}
+          navigation={{
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+          }}
+          loop
+          breakpoints={{
+            1024: {
+              slidesPerView: 3,
+            },
+            768: {
+              slidesPerView: 2,
+            },
+            640: {
+              slidesPerView: 1,
+            },
+            480: {
+              slidesPerView: 1,
+            },
+            320: {
+              slidesPerView: 1,
+            },
+          }}
+          className="mySwiper w-full"
+        >
+          {properties.map((property) => (
+            <SwiperSlide key={property._id} className="px-2">
+              <div className="bg-white mb-4 mt-4 lg:mb-16 bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
+                <div className="property-slider-image">
+                  {property.image.length > 0 ? (
+                    <DynamicImage
+                      src={property.image[0]}
+                      alt={property.title}
+                      width={800}
+                      height={600}
+                      priority
+                    />
+                  ) : (
+                    <div className="no-image-placeholder">
+                      No Image Available
+                    </div>
+                  )}
                 </div>
-                <div className="mt-2 flex items-center text-sm text-gray-400">
-                  <div className="capitalize">{property.propertyType}</div>
-                  <span className="mx-2">|</span>
-                  <div className="mx-2 capitalize">{property.purpose}</div>
-                  <span className="mx-2">|</span>
-                  <div>Area: {formatNumber(property.area)} sq. ft.</div>
-                </div>
-                <div className="text-xl font-bold mt-4">{property.title}</div>
-                <div className="flex items-center mt-2 max-w-full overflow-hidden">
-                  <IoLocationOutline className="mr-2 text-2xl" />
-                  <div className="text-ellipsis whitespace-nowrap overflow-hidden max-w-full">
-                    {property.location}
+                <div>
+                  <div className="mt-2 text-sm text-gradient">
+                    AED{" "}
+                    <span className="text-xl font-bold">
+                      {formatNumber(property.price)}
+                    </span>
+                  </div>
+                  <div className="mt-2 flex items-center text-sm text-gray-400">
+                    <div className="capitalize">{property.propertyType}</div>
+                    <span className="mx-2">|</span>
+                    <div className="mx-2 capitalize">{property.purpose}</div>
+                    <span className="mx-2">|</span>
+                    <div>Area: {formatNumber(property.area)} sq. ft.</div>
+                  </div>
+                  <div className="text-xl font-bold mt-4">{property.title}</div>
+                  <div className="flex items-center mt-2 max-w-full overflow-hidden">
+                    <IoLocationOutline className="mr-2 text-2xl" />
+                    <div className="text-ellipsis whitespace-nowrap overflow-hidden max-w-full">
+                      {property.location}
+                    </div>
                   </div>
                 </div>
+                <div className="flex justify-center mt-2">
+                  <ShimmerButton
+                    className="shadow-2xl align-center px-3 py-1"
+                    onClick={() => handlePropertyClick(property.slug)}
+                  >
+                    <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white dark:from-white dark:to-slate-900/10 lg:text-lg">
+                      Explore More
+                    </span>
+                  </ShimmerButton>
+                </div>
+                {/* Contact Icons Section */}
+                <div className="flex items-center justify-center mt-4">
+                  <Link
+                    href={`tel:#`}
+                    className="shiny-btn p-2 font-bold flex items-center mr-4"
+                  >
+                    <IoCallOutline className="text-2xl" />
+                    <span className="ml-1">Call</span>
+                  </Link>
+                  <Link
+                    href={`mailto:#`}
+                    className="shiny-btn p-2 font-bold flex items-center mr-4"
+                  >
+                    <IoMailOutline className="text-2xl" />
+                    <span className="ml-1">Mail</span>
+                  </Link>
+                </div>
               </div>
-              <div className="flex justify-center mt-2">
-                <ShimmerButton
-                  className="shadow-2xl align-center px-3 py-1"
-                  onClick={() => handlePropertyClick(property.slug)}
-                >
-                  <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white dark:from-white dark:to-slate-900/10 lg:text-lg">
-                    Explore More
-                  </span>
-                </ShimmerButton>
-              </div>
-              {/* Contact Icons Section */}
-              <div className="flex items-center justify-center mt-4">
-                <Link
-                  href={`tel:#`}
-                  className="shiny-btn p-2 font-bold flex items-center mr-4"
-                >
-                  <IoCallOutline className="text-2xl" />
-                  <span className="ml-1">Call</span>
-                </Link>
-                <Link
-                  href={`mailto:#`}
-                  className="shiny-btn p-2 font-bold flex items-center mr-4"
-                >
-                  <IoMailOutline className="text-2xl" />
-                  <span className="ml-1">Mail</span>
-                </Link>
-              </div>
-            </div>
-          </SwiperSlide>
-        ))}
-        <div className="swiper-button-prev"></div>
-        <div className="swiper-button-next"></div>
-      </Swiper>
+            </SwiperSlide>
+          ))}
+          {/* Custom Navigation */}
+        </Swiper>
+      </div>
+      <div className="swiper-button-prev absolute top-1/2 left-0 transform -translate-y-1/2 p-2">
+        <FaArrowCircleLeft className="text-3xl text-white" />
+      </div>
+      <div className="swiper-button-next absolute top-1/2 right-0 transform -translate-y-1/2 p-2">
+        <FaArrowCircleRight className="text-3xl text-white" />
+      </div>
     </section>
   );
 };
