@@ -3,13 +3,18 @@ import VisionIcon from "@/assets/icons/vision-icon.svg";
 import MissionIcon from "@/assets/icons/mission-icon.svg";
 import HistoryIcon from "@/assets/icons/history-icon.svg";
 import Image from "next/image";
+import BlurFade from "@/components/magicui/blur-fade";
 
 const AboutIntro: React.FC = () => {
   return (
     <section>
       <div className="h-full min-h-screen w-full bg-gray-800 mt-10 p-4">
         <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          <div className="text-center bg-white mb-4 mt-4 lg:mb-16 bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
+          <BlurFade
+            className="text-center bg-white mb-4 mt-4 lg:mb-16 bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200"
+            delay={0.25}
+            inView
+          >
             <div className="mx-auto flex h-20 w-20 -translate-y-12 transform items-center justify-center rounded-full shadow-lg bg-lightGold shadow-slate-100/40">
               <Image
                 src={VisionIcon}
@@ -29,9 +34,13 @@ const AboutIntro: React.FC = () => {
               where every client finds their dream property with ease and
               confidence, supported by our dedicated team of professionals.
             </p>
-          </div>
+          </BlurFade>
 
-          <div className="text-center bg-white mb-4 mt-4 lg:mb-16 bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
+          <BlurFade
+            className="text-center bg-white mb-4 mt-4 lg:mb-16 bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200"
+            delay={0.35}
+            inView
+          >
             <div className="mx-auto flex h-20 w-20 -translate-y-12 transform items-center justify-center rounded-full shadow-lg bg-lightGold shadow-slate-100/40">
               <Image
                 src={MissionIcon}
@@ -52,9 +61,13 @@ const AboutIntro: React.FC = () => {
               Burraq Real Estate, we prioritize client satisfaction and
               long-term relationships built on trust and integrity.
             </p>
-          </div>
+          </BlurFade>
 
-          <div className="text-center bg-white mb-4 mt-4 lg:mb-16 bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
+          <BlurFade
+            className="text-center bg-white mb-4 mt-4 lg:mb-16 bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200"
+            delay={0.4}
+            inView
+          >
             <div className="mx-auto flex h-20 w-20 -translate-y-12 transform items-center justify-center rounded-full shadow-lg bg-lightGold shadow-slate-100/40">
               <Image
                 src={HistoryIcon}
@@ -76,7 +89,7 @@ const AboutIntro: React.FC = () => {
               innovation, and an unwavering dedication to meeting the diverse
               needs of our clients.
             </p>
-          </div>
+          </BlurFade>
         </div>
       </div>
     </section>
