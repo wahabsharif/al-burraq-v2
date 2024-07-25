@@ -16,6 +16,7 @@ import ShimmerButton from "@/components/magicui/shimmer-button";
 import "swiper/css";
 import "swiper/css/bundle";
 import { FaArrowCircleLeft, FaArrowCircleRight } from "react-icons/fa";
+import ItemsLoader from "@/components/common/ItemsLoader"; // Import the ItemsLoader component
 
 const DynamicImage = dynamic(() => import("next/image"), { ssr: false });
 
@@ -35,10 +36,17 @@ const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const FeaturedProperties: React.FC = () => {
   const [properties, setProperties] = useState<Property[]>([]);
+  const [loading, setLoading] = useState<boolean>(true); // State to manage loading
+  const [delayLoading, setDelayLoading] = useState<boolean>(true); // State to manage delay
   const router = useRouter();
 
   useEffect(() => {
-    fetchProperties();
+    const timer = setTimeout(() => {
+      setDelayLoading(false);
+      fetchProperties();
+    }, 3000); // Set the delay to 3 seconds
+
+    return () => clearTimeout(timer);
   }, []);
 
   const fetchProperties = async () => {
@@ -47,8 +55,10 @@ const FeaturedProperties: React.FC = () => {
         `${NEXT_PUBLIC_API_URL}/api/properties`
       );
       setProperties(response.data);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching properties:", error);
+      setLoading(false);
     }
   };
 
@@ -59,6 +69,10 @@ const FeaturedProperties: React.FC = () => {
   const formatNumber = (num: number) => {
     return num.toLocaleString();
   };
+
+  if (loading || delayLoading) {
+    return <ItemsLoader />;
+  }
 
   return (
     <section className="mx-auto text-white mt-6 mb-3 relative">
