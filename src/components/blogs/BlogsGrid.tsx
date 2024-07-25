@@ -1,5 +1,3 @@
-// src/components/BlogsGrid.tsx
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -8,6 +6,7 @@ import Image from "next/image";
 import ShineBorder from "@/components/magicui/shine-border";
 import ShimmerButton from "@/components/magicui/shimmer-button";
 import Link from "next/link";
+import ItemsLoader from "@/components/common/ItemsLoader"; // Import the ItemsLoader component
 
 interface Blog {
   _id: string;
@@ -15,26 +14,44 @@ interface Blog {
   title: string;
   shortDescription: string;
   createdAt: string;
-  slug: string; // Add slug to the Blog interface
+  slug: string;
 }
 
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export function BlogsGrid() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState<boolean>(true); // State to manage loading
+  const [displayContent, setDisplayContent] = useState<boolean>(false); // State to manage display content
 
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
         const response = await axios.get(`${NEXT_PUBLIC_API_URL}/api/blogs`);
         setBlogs(response.data);
+
+        // Set a timeout to delay the display of data
+        setTimeout(() => {
+          setLoading(false);
+          setDisplayContent(true);
+        }, 3000); // 3-second delay
       } catch (error) {
         console.error("Error fetching blogs:", error);
+        setLoading(false);
       }
     };
 
     fetchBlogs();
   }, []);
+
+  if (loading) {
+    return <ItemsLoader />; // Display loader while fetching data
+  }
+
+  if (!displayContent) {
+    // If content is not yet displayed, show the loader
+    return <ItemsLoader />;
+  }
 
   return (
     <section className="mx-auto max-w-screen-lg text-white mt-6 mb-3">
