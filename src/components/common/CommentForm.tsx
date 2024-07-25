@@ -94,14 +94,16 @@ const CommentForm = () => {
   };
 
   return (
-    <section className="max-w mx-auto flex flex-col justify-between relative">
-      <div className="flex justify-center items-center mb-5">
-        <div className="inline-block mt-3 p-4 rounded-xl shadow-md backdrop-blur-2xl backdrop-saturate-200">
-          <h2 className="text-5xl font-bold text-gradient">Leave A Comment.</h2>
+    <section className="max-w mx-auto my-4 flex flex-col justify-between relative">
+      <div className="flex justify-center items-center mb-5 w-full">
+        <div className="inline-block bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gradient">
+            Leave A Comment.
+          </h2>
         </div>
       </div>
       <div className="flex flex-col md:flex-row items-center">
-        {/* Image with Heading */}
+        {/* Image */}
         <div className="flex flex-col items-center md:w-1/2 text-center">
           <Image
             src={LeaveCommentImage}

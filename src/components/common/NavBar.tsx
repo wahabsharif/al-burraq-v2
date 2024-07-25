@@ -19,7 +19,7 @@ const NavBar = () => {
           <div className="dropdown">
             <button
               onClick={toggleDropdown}
-              className="text-4xl p-3 shadow bg-base-100 rounded-full"
+              className="text-2xl p-3 shadow bg-base-100 rounded-full"
             >
               <motion.div
                 initial={{ rotate: 0 }}
@@ -54,7 +54,7 @@ const NavBar = () => {
                 </li>
                 <li className="tracking-in-expand">
                   <button
-                    className="lg:hidden shiny-btn select-none rounded-lg grad-bg px-4 py-2.5 text-center align-middle font-sans text-md font-extrabold uppercase text-slate-900 shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                    className="lg:hidden select-none rounded-lg grad-bg px-4 py-2.5 text-center align-middle font-sans text-sm font-bold uppercase text-slate-900 shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                     type="button"
                   >
                     <Link href="#">Instant Call</Link>
@@ -65,7 +65,7 @@ const NavBar = () => {
           </div>
         </div>
 
-        <div className="navbar-center">
+        <div className="navbar-center lg:mx-auto lg:w-auto w-full flex justify-center lg:justify-start">
           <Link href={"/"}>
             <Image
               className="logo-shadow tracking-in-expand"

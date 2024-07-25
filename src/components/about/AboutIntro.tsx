@@ -3,11 +3,12 @@ import VisionIcon from "@/assets/icons/vision-icon.svg";
 import MissionIcon from "@/assets/icons/mission-icon.svg";
 import HistoryIcon from "@/assets/icons/history-icon.svg";
 import Image from "next/image";
+
 const AboutIntro: React.FC = () => {
   return (
     <section>
       <div className="h-full min-h-screen w-full bg-gray-800 mt-10 p-4">
-        <div className="grid gap-4 grid-cols-3 ">
+        <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           <div className="text-center bg-white mb-4 mt-4 lg:mb-16 bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
             <div className="mx-auto flex h-20 w-20 -translate-y-12 transform items-center justify-center rounded-full shadow-lg bg-lightGold shadow-slate-100/40">
               <Image
@@ -26,7 +27,7 @@ const AboutIntro: React.FC = () => {
               Dubai, recognized for its exceptional customer service, innovative
               solutions, and commitment to excellence. We envision a future
               where every client finds their dream property with ease and
-              confidence, supported by our dedicated team of professionals.{" "}
+              confidence, supported by our dedicated team of professionals.
             </p>
           </div>
 
@@ -49,7 +50,7 @@ const AboutIntro: React.FC = () => {
               transparent, and efficient solutions, ensuring a seamless
               experience in buying, selling, and renting properties. At Al
               Burraq Real Estate, we prioritize client satisfaction and
-              long-term relationships built on trust and integrity.{" "}
+              long-term relationships built on trust and integrity.
             </p>
           </div>
 
@@ -73,7 +74,7 @@ const AboutIntro: React.FC = () => {
               finding their ideal homes and investment properties. Our journey
               is marked by a relentless pursuit of excellence, continuous
               innovation, and an unwavering dedication to meeting the diverse
-              needs of our clients.{" "}
+              needs of our clients.
             </p>
           </div>
         </div>

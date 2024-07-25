@@ -12,25 +12,25 @@ const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 const CommentCard = ({ name, comment }: { name: string; comment: string }) => {
   return (
     <ShineBorder
-      className="p-4 border border-gray-200 rounded-lg shadow-md h-full flex flex-col justify-between relative w-64 cursor-pointer overflow-hidden bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200"
+      className="p-4 border border-gray-200 rounded-lg shadow-md h-full flex flex-col justify-between relative w-full sm:w-12 cursor-pointer overflow-hidden bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200"
       color={["#A07CFE", "#FE8FB5", "#FFBE7B"]}
     >
-      <figure>
+      <figure className="flex flex-col">
         <div className="flex flex-row items-center gap-2">
           <Image
             className="rounded-full"
-            width="40"
-            height="40"
-            alt=""
+            width={40}
+            height={40}
+            alt="User Icon"
             src={UserImageIcon}
           />
           <div className="flex flex-col">
-            <figcaption className="text-2xl capitalize font-bold dark:text-white">
+            <figcaption className="text-lg sm:text-2xl capitalize font-bold dark:text-white">
               {name}
             </figcaption>
           </div>
         </div>
-        <TypingAnimation className="mt-2 text-md" text={comment} />
+        <TypingAnimation className="mt-2 text-sm sm:text-md" text={comment} />
       </figure>
     </ShineBorder>
   );
@@ -55,28 +55,33 @@ export function ClientsComments() {
     fetchComments();
   }, []);
 
-  const firstRow = comments.slice(comments.length / 2);
-  const secondRow = comments.slice(comments.length / 2);
+  const halfLength = Math.ceil(comments.length / 2);
+  const firstRow = comments.slice(0, halfLength);
+  const secondRow = comments.slice(halfLength);
 
   return (
-    <div className="relative flex h-[500px] w-full flex-col mt-10 items-center justify-center overflow-hidden md:shadow-xl">
-      <div className="flex justify-center items-center mb-5">
+    <div className="relative flex flex-col items-center justify-center overflow-hidden mt-10 px-4 md:px-6 lg:px-8">
+      <div className="flex justify-center items-center mb-5 w-full">
         <div className="inline-block bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
-          <h2 className="text-3xl font-bold text-gradient">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gradient">
             What they are saying.
           </h2>
         </div>
       </div>
-      <Marquee pauseOnHover className="[--duration:30s]">
-        {firstRow.map((comment) => (
-          <CommentCard key={comment.name} {...comment} />
-        ))}
-      </Marquee>
-      <Marquee reverse pauseOnHover className="[--duration:30s]">
-        {secondRow.map((comment) => (
-          <CommentCard key={comment.name} {...comment} />
-        ))}
-      </Marquee>
+      <div className="w-full">
+        <Marquee pauseOnHover className="[--duration:30s]">
+          {firstRow.map((comment) => (
+            <CommentCard key={comment.name} {...comment} />
+          ))}
+        </Marquee>
+      </div>
+      <div className="w-full">
+        <Marquee reverse pauseOnHover className="[--duration:30s]">
+          {secondRow.map((comment) => (
+            <CommentCard key={comment.name} {...comment} />
+          ))}
+        </Marquee>
+      </div>
       <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-white dark:from-background"></div>
       <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-white dark:from-background"></div>
     </div>

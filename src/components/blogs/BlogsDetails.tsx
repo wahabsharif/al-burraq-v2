@@ -5,6 +5,7 @@ import BlurIn from "@/components/magicui/blur-in";
 import axios from "axios";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { FadeLoader } from "react-spinners";
 
 interface BlogsDetailsProps {
   slug: string;
@@ -19,10 +20,15 @@ interface Blog {
 
 const BlogsDetails: React.FC<BlogsDetailsProps> = ({ slug }) => {
   const [blog, setBlog] = useState<Blog | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [initialDelay, setInitialDelay] = useState<boolean>(true);
 
   useEffect(() => {
+    // Simulate a 3-second delay before starting to fetch the data
+    const delayTimer = setTimeout(() => {
+      setInitialDelay(false);
+    }, 2000);
+
     const fetchBlog = async () => {
       try {
         const response = await axios.get(
@@ -31,28 +37,46 @@ const BlogsDetails: React.FC<BlogsDetailsProps> = ({ slug }) => {
         setBlog(response.data as Blog);
       } catch (err) {
         setError("Failed to fetch blog");
-      } finally {
-        setLoading(false);
       }
     };
 
-    fetchBlog();
-  }, [slug]);
+    // Start fetching data after the initial delay
+    if (!initialDelay) {
+      fetchBlog();
+      clearTimeout(delayTimer);
+    }
 
-  if (loading) return <div>Loading...</div>;
+    // Cleanup timeout if component unmounts
+    return () => clearTimeout(delayTimer);
+  }, [slug, initialDelay]);
+
+  if (initialDelay) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <FadeLoader
+          color="#3498db"
+          height={15}
+          width={10}
+          radius={5}
+          margin={5}
+        />
+      </div>
+    );
+  }
+
   if (error) return <div>Error: {error}</div>;
   if (!blog) return <div>No blog found</div>;
 
   return (
-    <section className="container mx-auto p-6">
+    <section className="container mx-auto p-6 sm:px-4 sm:py-4">
       {/* Images */}
-      <div className="mb-6">
+      <div className="mb-3 flex flex-wrap justify-center">
         {blog.images.map((image, index) => (
           <BlurFade key={image} delay={0.25 * 0.1} inView>
             <Image
-              className="mb-4 size-full rounded-lg object-contain"
+              className="mb-4 max-w-full h-auto rounded-lg object-contain"
               src={image || ""}
-              alt={`Blog Details Image `}
+              alt={`Blog Details Image ${index}`}
               width={3500}
               height={2480}
             />
@@ -60,7 +84,7 @@ const BlogsDetails: React.FC<BlogsDetailsProps> = ({ slug }) => {
         ))}
       </div>
       {/* Create Date */}
-      <div className="flex justify-end mb-4">
+      <div className="flex justify-end m-2">
         <p className="text-sm text-slate-100">
           Created At:{" "}
           {new Date(blog.createdAt).toLocaleDateString("en-US", {
@@ -75,7 +99,7 @@ const BlogsDetails: React.FC<BlogsDetailsProps> = ({ slug }) => {
         <div className="inline-block bg-black shadow-md p-2 mb-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
           <BlurIn
             word={blog.title}
-            className="font-bold text-3xl text-gradient"
+            className="font-bold text-lg md:text-2xl lg:text-4xl text-gradient"
           />
         </div>
       </div>
@@ -84,13 +108,14 @@ const BlogsDetails: React.FC<BlogsDetailsProps> = ({ slug }) => {
       <BlurFade
         delay={0.25 * 2}
         inView
-        className="inline-block bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200"
+        className="bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 w-full"
       >
         {blog.bodyContent.length > 0 ? (
           blog.bodyContent.map((item, index) => (
             <div
               key={index}
               dangerouslySetInnerHTML={{ __html: item.content || "" }}
+              className="w-full"
             />
           ))
         ) : (

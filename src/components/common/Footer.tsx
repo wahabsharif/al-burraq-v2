@@ -5,31 +5,28 @@ import {
   FaTiktok,
   FaYoutube,
 } from "react-icons/fa";
-import { FaSquareXTwitter, FaLocationDot } from "react-icons/fa6";
-
+import { FaSquareXTwitter } from "react-icons/fa6";
 import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="block w-full px-4 py-2 mx-auto text-white bg-black shadow-md rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 lg:px-8 lg:py-4">
-      <div className="mx-auto px-4 pb-8 pt-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-md">
-          <strong className="block text-center text-xl font-bold text-darkGold sm:text-3xl">
+    <footer className="w-full px-4 py-6 mx-auto text-white bg-black shadow-md rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 lg:px-8 lg:py-8">
+      <div className="container mx-auto px-4 pb-8 pt-16 sm:px-6 lg:px-8">
+        <div className="text-center mb-8">
+          <strong className="block text-xl font-bold text-darkGold sm:text-3xl">
             Want us to email you with the latest blockbuster news?
           </strong>
-          <form className="mt-6">
-            <div className="relative max-w-lg">
+          <form className="mt-6 flex justify-center">
+            <div className="relative max-w-md w-full">
               <label className="sr-only" htmlFor="email">
                 Email
               </label>
-
               <input
                 className="w-full rounded-full bg-slate-700 p-4 pe-32 text-sm font-medium dark:bg-gray-800 dark:text-white"
                 id="email"
                 type="email"
                 placeholder="info@alburraqgroup.com"
               />
-
               <button className="absolute end-1 top-1/2 -translate-y-1/2 rounded-full bg-blue-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-blue-700">
                 Subscribe
               </button>
@@ -37,16 +34,16 @@ const Footer = () => {
           </form>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 lg:gap-32">
-          <div className="ml-0 align-items-start mx-auto max-w-sm lg:max-w-none">
-            <p className="mt-4 text-start text-gray-500 lg:text-left lg:text-lg dark:text-gray-400">
+        <div className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16">
+          <div className="text-left">
+            <p className="text-gray-500 lg:text-lg dark:text-gray-400">
               Your Dream Property <br />
               Our Marketing Expertise.
             </p>
 
             <div className="mt-6 flex justify-center gap-4 lg:justify-start">
               <Link
-                className="text-gray-700 transition hover:text-darkGold "
+                className="text-gray-700 transition hover:text-darkGold"
                 href="#"
                 target="_blank"
                 rel="noreferrer"
@@ -54,7 +51,7 @@ const Footer = () => {
                 <FaFacebook className="w-8 h-8" />
               </Link>
               <Link
-                className="text-gray-700 transition hover:text-darkGold "
+                className="text-gray-700 transition hover:text-darkGold"
                 href="#"
                 target="_blank"
                 rel="noreferrer"
@@ -62,7 +59,7 @@ const Footer = () => {
                 <FaInstagramSquare className="w-8 h-8" />
               </Link>
               <Link
-                className="text-gray-700 transition hover:text-darkGold "
+                className="text-gray-700 transition hover:text-darkGold"
                 href="#"
                 target="_blank"
                 rel="noreferrer"
@@ -70,7 +67,7 @@ const Footer = () => {
                 <FaLinkedinIn className="w-8 h-8" />
               </Link>
               <Link
-                className="text-gray-700 transition hover:text-darkGold "
+                className="text-gray-700 transition hover:text-darkGold"
                 href="#"
                 target="_blank"
                 rel="noreferrer"
@@ -78,7 +75,7 @@ const Footer = () => {
                 <FaSquareXTwitter className="w-8 h-8" />
               </Link>
               <Link
-                className="text-gray-700 transition hover:text-darkGold "
+                className="text-gray-700 transition hover:text-darkGold"
                 href="#"
                 target="_blank"
                 rel="noreferrer"
@@ -86,7 +83,7 @@ const Footer = () => {
                 <FaTiktok className="w-8 h-8" />
               </Link>
               <Link
-                className="text-gray-700 transition hover:text-darkGold "
+                className="text-gray-700 transition hover:text-darkGold"
                 href="#"
                 target="_blank"
                 rel="noreferrer"
@@ -96,12 +93,12 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 text-center lg:grid-cols-3 lg:text-left">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 text-left">
             <div>
               <strong className="font-medium text-lightGold dark:text-white">
                 Looking For
               </strong>
-              <ul className="mt-6 space-y-1">
+              <ul className="mt-6 space-y-2">
                 <li>
                   <Link
                     className="text-gray-700 transition hover:text-lightGold"
@@ -113,7 +110,7 @@ const Footer = () => {
                 <li>
                   <Link
                     className="text-gray-700 transition hover:text-lightGold"
-                    href="Buy"
+                    href="/buy"
                   >
                     Buy
                   </Link>
@@ -133,8 +130,7 @@ const Footer = () => {
               <strong className="font-medium text-lightGold dark:text-white">
                 Useful Links
               </strong>
-
-              <ul className="mt-6 space-y-1">
+              <ul className="mt-6 space-y-2">
                 <li>
                   <Link
                     className="text-gray-700 transition hover:text-lightGold"
@@ -166,8 +162,7 @@ const Footer = () => {
               <strong className="font-medium text-lightGold dark:text-white">
                 Contact Us
               </strong>
-
-              <ul className="mt-6 space-y-1">
+              <ul className="mt-6 space-y-2">
                 <li>
                   <Link
                     className="text-gray-700 transition hover:text-lightGold"
@@ -179,7 +174,7 @@ const Footer = () => {
                 <li>
                   <Link
                     className="text-gray-700 transition hover:text-lightGold"
-                    href="tell:971554050250"
+                    href="tel:971554050250"
                   >
                     00971 55 405 0250
                   </Link>
@@ -197,17 +192,17 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-16 border-t border-gray-100 pt-8 dark:border-gray-800">
-          <p className="text-center text-lg text-gray-500 dark:text-gray-400">
-            © 2022 <span className="text-darkGold ">Al-Burraq</span>. All rights
+        <div className="mt-1 border-t border-gray-100 pt-2 dark:border-gray-800">
+          <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
+            © 2022 <span className="text-darkGold">Al-Burraq</span>. All rights
             reserved.
             <br />
             Designed and Developed with Passion by{" "}
             <Link
               href="#"
-              className="text-darkGold underline transition hover:text-lightGold "
+              className="text-darkGold underline transition hover:text-lightGold"
             >
-              Beacon Techh
+              Beacon Tech
             </Link>
             .
           </p>

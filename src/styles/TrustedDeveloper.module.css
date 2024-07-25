@@ -7,13 +7,12 @@
 
 .logosSliderContainer {
   display: flex;
-  gap: 5rem;
-  animation: slide 30s linear infinite;
+  gap: 2rem; /* Adjust gap for smaller screens */
+  animation: slide 20s linear infinite;
 }
 
 .logosSliderContainer img {
-  width: 150px;
-  max-width: 100%; /* Ensure images scale properly */
+  width: 100px; /* Adjust size for smaller screens */
   height: auto; /* Maintain aspect ratio */
 }
 
@@ -23,5 +22,36 @@
   }
   100% {
     transform: translateX(-100%);
+  }
+}
+
+/* Responsive styles */
+@media (min-width: 640px) {
+  .logosSliderContainer {
+    gap: 3rem; /* Increase gap for medium screens */
+  }
+
+  .logosSliderContainer img {
+    width: 3rem; /* Increase size for medium screens */
+  }
+}
+
+@media (min-width: 768px) {
+  .logosSliderContainer {
+    gap: 4rem; /* Increase gap for larger screens */
+  }
+
+  .logosSliderContainer img {
+    width: 150px; /* Set size for larger screens */
+  }
+}
+
+@media (min-width: 1024px) {
+  .logosSliderContainer {
+    gap: 5rem; /* Default gap for extra-large screens */
+  }
+
+  .logosSliderContainer img {
+    width: 150px; /* Default size for extra-large screens */
   }
 }
