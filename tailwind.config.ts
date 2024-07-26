@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 import daisyui from "daisyui";
+import tailwindScrollbarPlugin from "tailwind-scrollbar";
 
 const config: Config = {
   content: [
@@ -107,6 +108,14 @@ const config: Config = {
       lightGold2: "rgb(255,230,158)",
     },
   },
-  plugins: [daisyui],
+  plugins: [
+    daisyui,
+    require("tailwindcss"),
+    tailwindScrollbarPlugin({
+      scrollbar: {
+        thumb: "rounded-full", // Ensuring the scrollbar thumb has rounded corners
+      },
+    }),
+  ],
 };
 export default config;
