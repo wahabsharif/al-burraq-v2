@@ -1,5 +1,5 @@
 "use client";
-import LeaveCommentImage from "@/assets/images/leave-comment-image.svg";
+import LeaveCommentImage from "@/assets/images/leave-a-comment-image.png";
 import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
@@ -10,6 +10,7 @@ import {
   FaPhoneAlt,
   FaUserCircle,
 } from "react-icons/fa";
+import { IoMail } from "react-icons/io5";
 import { MdError } from "react-icons/md";
 
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -163,7 +164,7 @@ const CommentForm = () => {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                  <FaPhoneAlt className="w-6 h-6 text-gray-500 dark:text-gray-400" />
+                  <IoMail className="w-6 h-6 text-gray-500 dark:text-gray-400" />
                 </div>
                 <input
                   type="text"
