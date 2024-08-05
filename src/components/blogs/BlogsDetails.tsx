@@ -5,7 +5,7 @@ import BlurIn from "@/components/magicui/blur-in";
 import axios from "axios";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { FadeLoader } from "react-spinners";
+import { DotLoader } from "react-spinners";
 
 interface BlogsDetailsProps {
   slug: string;
@@ -53,13 +53,7 @@ const BlogsDetails: React.FC<BlogsDetailsProps> = ({ slug }) => {
   if (initialDelay) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <FadeLoader
-          color="#3498db"
-          height={15}
-          width={10}
-          radius={5}
-          margin={5}
-        />
+        <DotLoader color="rgb(198, 148, 57)" />
       </div>
     );
   }

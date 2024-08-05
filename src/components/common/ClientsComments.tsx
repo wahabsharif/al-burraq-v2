@@ -13,7 +13,7 @@ const CommentCard = ({ name, comment }: { name: string; comment: string }) => {
   return (
     <ShineBorder
       className="p-4 border border-gray-200 rounded-lg shadow-md h-full flex flex-col justify-between relative w-full sm:w-12 cursor-pointer overflow-hidden bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200"
-      color={["#A07CFE", "#FE8FB5", "#FFBE7B"]}
+      color={["rgb(198, 148, 57)", "#FE8FB5", "#FFBE7B"]}
     >
       <figure className="flex flex-col">
         <div className="flex flex-row items-center gap-2">

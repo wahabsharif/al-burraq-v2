@@ -8,6 +8,7 @@ import {
 } from "react-icons/io5";
 import ShineBorder from "@/components/magicui/shine-border";
 import Link from "next/link";
+import DotLoader from "react-spinners/DotLoader";
 
 interface Property {
   _id: string;
@@ -25,20 +26,33 @@ interface Property {
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 interface BuyPropertyDetailsProps {
-  property: Property;
+  property: Property | null;
+  loading: boolean;
 }
 
-const BuyPropertyDetails = ({ property }: BuyPropertyDetailsProps) => {
+const BuyPropertyDetails = ({ property, loading }: BuyPropertyDetailsProps) => {
   const formatNumber = (num: number) => {
     return num.toLocaleString();
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <DotLoader color="rgb(198, 148, 57)" />
+      </div>
+    );
+  }
+
+  if (!property) {
+    return <div className="text-center text-red-500">Property not found.</div>;
+  }
 
   return (
     <section className="container mx-auto p-6 sm:px-4 sm:py-4">
       <div className="flex justify-center">
         <ShineBorder
           className="p-4 border border-gray-200 rounded-lg shadow-md w-full max-w-3xl"
-          color={["#A07CFE", "#FE8FB5", "#FFBE7B"]}
+          color={["rgb(198, 148, 57)", "#FE8FB5", "#FFBE7B"]}
         >
           <Image
             src={property.image[0]}
@@ -101,15 +115,25 @@ const BuyPropertyDetails = ({ property }: BuyPropertyDetailsProps) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { slug } = context.params!;
-  const response = await axios.get(
-    `${NEXT_PUBLIC_API_URL}/api/properties/slug/${slug}`
-  );
+  try {
+    const response = await axios.get(
+      `${NEXT_PUBLIC_API_URL}/api/properties/slug/${slug}`
+    );
 
-  return {
-    props: {
-      property: response.data,
-    },
-  };
+    return {
+      props: {
+        property: response.data,
+        loading: false,
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        property: null,
+        loading: false,
+      },
+    };
+  }
 };
 
 export default BuyPropertyDetails;

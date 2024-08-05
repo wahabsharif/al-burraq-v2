@@ -67,7 +67,7 @@ export function BlogsGrid() {
           <div key={blog._id} className="w-full">
             <ShineBorder
               className="p-4 border border-gray-200 rounded-lg shadow-md h-full flex flex-col justify-between"
-              color={["#A07CFE", "#FE8FB5", "#FFBE7B"]}
+              color={["rgb(198, 148, 57)", "#FE8FB5", "#FFBE7B"]}
             >
               <div className="mb-4">
                 <div className="relative w-full h-40 mb-4">

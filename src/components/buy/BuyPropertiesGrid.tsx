@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IoLocationOutline } from "react-icons/io5";
+import DotLoader from "react-spinners/DotLoader";
 
 interface Property {
   _id: string;
@@ -49,7 +50,11 @@ const BuyPropertiesGrid = () => {
   };
 
   if (loading) {
-    return <div className="text-center">Loading...</div>;
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <DotLoader color="rgb(198, 148, 57)" />
+      </div>
+    );
   }
 
   if (error) {
@@ -71,7 +76,7 @@ const BuyPropertiesGrid = () => {
             <Link key={property._id} href={`/buy/${property.slug}`}>
               <ShineBorder
                 className="p-4 border border-gray-200 rounded-lg shadow-md h-full flex flex-col justify-between"
-                color={["#A07CFE", "#FE8FB5", "#FFBE7B"]}
+                color={["rgb(198, 148, 57)", "#FE8FB5", "#FFBE7B"]}
               >
                 <Image
                   src={property.image[0]}
@@ -101,7 +106,7 @@ const BuyPropertiesGrid = () => {
                       {property.location}
                     </div>
                   </div>
-                </div>{" "}
+                </div>
               </ShineBorder>
             </Link>
           ))

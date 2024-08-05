@@ -5,7 +5,7 @@ import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import ShineBorder from "@/components/magicui/shine-border";
-import { FadeLoader } from "react-spinners";
+import { DotLoader } from "react-spinners";
 
 interface Blog {
   _id: string;
@@ -55,13 +55,7 @@ export function BlogsList({ currentSlug }: BlogsListProps) {
   if (initialDelay) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <FadeLoader
-          color="#3498db"
-          height={15}
-          width={10}
-          radius={5}
-          margin={5}
-        />
+        <DotLoader color="rgb(198, 148, 57)" />
       </div>
     );
   }
@@ -69,13 +63,7 @@ export function BlogsList({ currentSlug }: BlogsListProps) {
   if (loading)
     return (
       <div className="flex items-center justify-center h-screen">
-        <FadeLoader
-          color="#3498db"
-          height={15}
-          width={10}
-          radius={5}
-          margin={5}
-        />
+        <DotLoader color="rgb(198, 148, 57)" />
       </div>
     );
 
@@ -95,7 +83,7 @@ export function BlogsList({ currentSlug }: BlogsListProps) {
               <Link href={`/blogs/${blog.slug}`} className="w-full">
                 <ShineBorder
                   className="flex items-center p-2 border border-gray-200 rounded-lg shadow-md border-gray-200 w-[25rem] space-x-1"
-                  color={["#A07CFE", "#FE8FB5", "#FFBE7B"]}
+                  color={["rgb(198, 148, 57)", "#FE8FB5", "#FFBE7B"]}
                 >
                   <div className="relative w-16 h-10 flex-shrink-0 lg:w-24 lg:h-16">
                     <Image

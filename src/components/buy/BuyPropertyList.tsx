@@ -1,5 +1,3 @@
-// components/Buy/BuyPropertyList.tsx
-
 "use client";
 
 import ShineBorder from "@/components/magicui/shine-border";
@@ -8,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IoLocationOutline } from "react-icons/io5";
+import DotLoader from "react-spinners/DotLoader";
 
 interface Property {
   _id: string;
@@ -16,7 +15,6 @@ interface Property {
   image: string[];
   purpose: string;
   propertyType: string;
-
   slug: string;
 }
 
@@ -49,7 +47,11 @@ const BuyPropertyList = () => {
   };
 
   if (loading) {
-    return <div className="text-center">Loading...</div>;
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <DotLoader color="rgb(198, 148, 57)" />
+      </div>
+    );
   }
 
   if (error) {
@@ -76,7 +78,7 @@ const BuyPropertyList = () => {
               <Link key={property._id} href={`/Buy/${property.slug}`}>
                 <ShineBorder
                   className="flex p-2 border border-gray-200 rounded-lg shadow-md h-24"
-                  color={["#A07CFE", "#FE8FB5", "#FFBE7B"]}
+                  color={["rgb(198, 148, 57)", "#FE8FB5", "#FFBE7B"]}
                 >
                   <div className="w-24 h-full flex items-center mr-4">
                     <Image
