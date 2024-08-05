@@ -41,7 +41,7 @@ const BuyPropertyDetailsPage = async ({
       <Banner title="Buy Property Details" />
       <div className="flex flex-col md:flex-row">
         <div className="flex-1">
-          <BuyPropertyDetails property={property} />
+          <BuyPropertyDetails property={property} loading={true} />
         </div>
         <div className="w-full md:w-1/3 md:ml-4">
           <BuyPropertyList />
