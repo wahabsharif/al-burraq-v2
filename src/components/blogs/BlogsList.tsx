@@ -86,6 +86,7 @@ export function BlogsList({ currentSlug }: BlogsListProps) {
           <h2 className="text-lg font-bold text-gradient">Read More Blogs.</h2>
         </div>
       </div>
+
       <div className="space-y-4">
         {blogs
           .filter((blog) => blog.slug !== currentSlug)
