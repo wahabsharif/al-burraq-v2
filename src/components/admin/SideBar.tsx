@@ -6,6 +6,7 @@ import {
   MdOutlineSettings,
   MdLogout,
 } from "react-icons/md";
+import { GiMagnifyingGlass } from "react-icons/gi";
 import { LuTableProperties } from "react-icons/lu";
 import { TbLogs } from "react-icons/tb";
 import { CgProfile } from "react-icons/cg";
@@ -55,22 +56,22 @@ const SideBar: React.FC = () => {
         </div>
         <div className="p-2 flex items-center">
           <Link
+            href="/admin/careers"
+            passHref
+            className="flex items-center text-gray-300 hover:bg-gray-700 hover:text-white py-2 px-4 rounded-md"
+          >
+            <GiMagnifyingGlass className="text-2xl mr-2" />
+            Careers
+          </Link>
+        </div>
+        <div className="p-2 flex items-center">
+          <Link
             href="/admin/comments"
             passHref
             className="flex items-center text-gray-300 hover:bg-gray-700 hover:text-white py-2 px-4 rounded-md"
           >
             <FaComments className="text-2xl mr-2" />
             Comments
-          </Link>
-        </div>
-        <div className="p-2 flex items-center">
-          <Link
-            href="/admin/careers"
-            passHref
-            className="flex items-center text-gray-300 hover:bg-gray-700 hover:text-white py-2 px-4 rounded-md"
-          >
-            <FaComments className="text-2xl mr-2" />
-            Careers
           </Link>
         </div>
         <div className="p-2 flex items-center">

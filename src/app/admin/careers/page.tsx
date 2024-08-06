@@ -9,8 +9,8 @@ export default function page() {
   return (
     <>
       <AdminLayout>
-        <h2>Careers Page</h2>
-        <Link href={"/admin/careers/add"}>Post A Job</Link>
+        <Link href={"/admin/careers/jobs-list"}>Jobs List</Link>
+        <h2 className="text-center">Careers Page</h2>
       </AdminLayout>
     </>
   );
