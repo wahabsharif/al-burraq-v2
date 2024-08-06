@@ -9,8 +9,14 @@ export default function page() {
   return (
     <>
       <AdminLayout>
-        <Link href={"/admin/careers/jobs-list"}>Jobs List</Link>
-        <h2 className="text-center">Careers Page</h2>
+        <div className="flex justify-end items-center mt-10">
+          <Link
+            className="button flex items-center bg-slate-700 hover:bg-blue-700 text-slate-100 text-xl font-bold py-2 px-4"
+            href="/admin/careers/jobs-list"
+          >
+            Jobs List
+          </Link>
+        </div>{" "}
       </AdminLayout>
     </>
   );
