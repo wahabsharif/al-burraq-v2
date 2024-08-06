@@ -9,6 +9,7 @@ const userRoutes = require("./routes/userRoutes");
 const propertyRoutes = require("./routes/propertyRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const commentRoutes = require("./routes/commentRoutes");
+const careerRoutes = require("./routes/careerRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -18,10 +19,11 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Routes
-app.use("/api", userRoutes); // Example: /api/users/login
-app.use("/api", propertyRoutes); // Example: /api/properties
-app.use("/api", blogRoutes); // Example: /api/blogs
+app.use("/api", userRoutes);
+app.use("/api", propertyRoutes);
+app.use("/api", blogRoutes);
 app.use("/api", commentRoutes);
+app.use("/api", careerRoutes);
 
 // Default route handler
 app.get("/", (req, res) => {
