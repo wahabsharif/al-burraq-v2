@@ -62,9 +62,9 @@ const BlogsDetails: React.FC<BlogsDetailsProps> = ({ slug }) => {
   if (!blog) return <div>No blog found</div>;
 
   return (
-    <section className="container mx-auto p-6 sm:px-4 sm:py-4">
+    <section className="container mx-auto p-2 mt-2">
       {/* Images */}
-      <div className="mb-3 flex flex-wrap justify-center">
+      <div className="my-3 flex flex-wrap justify-center">
         {blog.images.map((image, index) => (
           <BlurFade key={image} delay={0.25 * 0.1} inView>
             <Image
@@ -77,17 +77,6 @@ const BlogsDetails: React.FC<BlogsDetailsProps> = ({ slug }) => {
           </BlurFade>
         ))}
       </div>
-      {/* Create Date */}
-      <div className="flex justify-end m-2">
-        <p className="text-sm text-slate-100">
-          Created At:{" "}
-          {new Date(blog.createdAt).toLocaleDateString("en-US", {
-            month: "long",
-            day: "numeric",
-            year: "numeric",
-          })}
-        </p>
-      </div>
       {/* Heading */}
       <div className="flex justify-center items-center mb-5">
         <div className="inline-block bg-black shadow-md p-2 mb-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
@@ -96,6 +85,18 @@ const BlogsDetails: React.FC<BlogsDetailsProps> = ({ slug }) => {
             className="font-bold text-lg md:text-2xl lg:text-4xl text-gradient"
           />
         </div>
+      </div>
+
+      {/* Create Date */}
+      <div className="flex justify-end my-2">
+        <p className="text-xs md:text-sm lg:text-sm text-slate-100">
+          Created At:{" "}
+          {new Date(blog.createdAt).toLocaleDateString("en-US", {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+          })}
+        </p>
       </div>
 
       {/* Body Content */}
@@ -113,7 +114,9 @@ const BlogsDetails: React.FC<BlogsDetailsProps> = ({ slug }) => {
             />
           ))
         ) : (
-          <p>No content available.</p>
+          <p className="text-sm sm:text-base lg:text-lg">
+            No content available.
+          </p>
         )}
       </BlurFade>
     </section>

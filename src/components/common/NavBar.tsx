@@ -65,10 +65,10 @@ const NavBar = () => {
           </div>
         </div>
 
-        <div className="navbar-center lg:mx-auto lg:w-auto w-full flex justify-center lg:justify-start">
+        <div className="navbar-center lg:mx-auto lg:w-auto w-full flex justify-end px-10 lg:justify-center">
           <Link href={"/"}>
             <Image
-              className="logo-shadow tracking-in-expand"
+              className="logo-shadow tracking-in-expand mr-4"
               src={Logo}
               alt="al-burraq-logo"
               width={120}

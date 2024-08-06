@@ -10,8 +10,8 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="w-full px-4 py-6 mx-auto text-white bg-black shadow-md rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 lg:px-8 lg:py-8">
-      <div className="container mx-auto px-4 pb-8 pt-16 sm:px-6 lg:px-8">
+    <footer className="w-full px-4 pt-6 mx-auto text-white bg-black shadow-md rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
+      <div className="container mx-auto px-4 pb-2 pt-16 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
           <strong className="block text-xl font-bold text-darkGold sm:text-3xl">
             Want us to email you with the latest blockbuster news?

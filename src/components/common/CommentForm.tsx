@@ -96,9 +96,9 @@ const CommentForm = () => {
 
   return (
     <section className="max-w mx-auto my-4 flex flex-col justify-between relative">
-      <div className="flex justify-center items-center mb-5 w-full">
+      <div className="flex justify-center items-center mb-5">
         <div className="inline-block bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gradient">
+          <h2 className="text-md font-bold text-gradient md:text-xl lg:text-3xl">
             Leave A Comment.
           </h2>
         </div>
@@ -119,7 +119,7 @@ const CommentForm = () => {
         <div className="md:w-1/2 mt-8 md:mt-0 md:ml-8  p-4 rounded-xl shadow-md backdrop-blur-2xl backdrop-saturate-200">
           <form onSubmit={handleSubmit}>
             <div className="mt-5">
-              <label className="block mt-2 text-xl font-bold text-lightGold2">
+              <label className="block mt-2 text-md md:text-lg lg:text-lg font-bold text-lightGold2">
                 Your Name
               </label>
               <div className="relative">
@@ -139,7 +139,7 @@ const CommentForm = () => {
               </div>
             </div>
             <div className="mt-5">
-              <label className="block mt-2 text-xl font-bold text-lightGold2">
+              <label className="block mt-2 text-md md:text-lg lg:text-lg font-bold text-lightGold2">
                 Phone Number
               </label>
               <div className="relative">
@@ -159,7 +159,7 @@ const CommentForm = () => {
               </div>
             </div>
             <div className="mt-5">
-              <label className="block mt-2 text-xl font-bold text-lightGold2">
+              <label className="block mt-2 text-md md:text-lg lg:text-lg font-bold text-lightGold2">
                 Your Email
               </label>
               <div className="relative">
@@ -179,7 +179,7 @@ const CommentForm = () => {
               </div>
             </div>
             <div className="mt-5">
-              <label className="block mt-2 text-xl font-bold text-lightGold2">
+              <label className="block mt-2 text-md md:text-lg lg:text-lg font-bold text-lightGold2">
                 Your message
               </label>
               <textarea

@@ -39,7 +39,7 @@ export default function ShineBorder({
         } as React.CSSProperties
       }
       className={cn(
-        "relative bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 grid min-h-[60px] w-fit min-w-[300px] place-items-center rounded-[--border-radius] bg-white p-3 text-black dark:bg-black dark:text-white",
+        "relative bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 grid w-fit  place-items-center rounded-[--border-radius] bg-white p-3 text-black dark:bg-black dark:text-white",
         className
       )}
     >

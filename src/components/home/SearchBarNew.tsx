@@ -244,7 +244,7 @@ const SearchBarNew = () => {
         <div className="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-2 flex items-center justify-center mt-auto mb-0">
           <button
             onClick={handleSearch}
-            className="shiny-btn py-2 px-3 text-3xl flex  font-semibold items-center"
+            className="shiny-btn py-2 px-3 text-md flex font-semibold items-center"
           >
             Filter
             <FaFilter className="ml-1" />

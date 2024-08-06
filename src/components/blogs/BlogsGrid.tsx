@@ -6,7 +6,7 @@ import Image from "next/image";
 import ShineBorder from "@/components/magicui/shine-border";
 import ShimmerButton from "@/components/magicui/shimmer-button";
 import Link from "next/link";
-import ItemsLoader from "@/components/common/ItemsLoader"; // Import the ItemsLoader component
+import ItemsLoader from "@/components/common/ItemsLoader";
 
 interface Blog {
   _id: string;
@@ -21,8 +21,8 @@ const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export function BlogsGrid() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
-  const [loading, setLoading] = useState<boolean>(true); // State to manage loading
-  const [displayContent, setDisplayContent] = useState<boolean>(false); // State to manage display content
+  const [loading, setLoading] = useState<boolean>(true);
+  const [displayContent, setDisplayContent] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -30,11 +30,10 @@ export function BlogsGrid() {
         const response = await axios.get(`${NEXT_PUBLIC_API_URL}/api/blogs`);
         setBlogs(response.data);
 
-        // Set a timeout to delay the display of data
         setTimeout(() => {
           setLoading(false);
           setDisplayContent(true);
-        }, 3000); // 3-second delay
+        }, 3000);
       } catch (error) {
         console.error("Error fetching blogs:", error);
         setLoading(false);
@@ -45,24 +44,23 @@ export function BlogsGrid() {
   }, []);
 
   if (loading) {
-    return <ItemsLoader />; // Display loader while fetching data
+    return <ItemsLoader />;
   }
 
   if (!displayContent) {
-    // If content is not yet displayed, show the loader
     return <ItemsLoader />;
   }
 
   return (
-    <section className="mx-auto max-w-screen-lg text-white mt-6 mb-3">
+    <section className="mx-auto p-4 text-white mt-6 mb-3">
       <div className="flex justify-center items-center mb-5">
         <div className="inline-block bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
-          <h2 className="text-3xl font-bold text-gradient">
-            Our Latest Blogs.
+          <h2 className="text-md font-bold text-gradient md:text-xl lg:text-3xl">
+            Read Our Latest Blogs.
           </h2>
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {blogs.map((blog) => (
           <div key={blog._id} className="w-full">
             <ShineBorder
@@ -70,7 +68,7 @@ export function BlogsGrid() {
               color={["rgb(198, 148, 57)", "#FE8FB5", "#FFBE7B"]}
             >
               <div className="mb-4">
-                <div className="relative w-full h-40 mb-4">
+                <div className="relative w-full h-40 sm:h-48 lg:h-56 mb-4">
                   <Image
                     src={blog.images[0]}
                     alt={blog.title}
@@ -79,10 +77,10 @@ export function BlogsGrid() {
                     className="rounded-lg"
                   />
                 </div>
-                <h2 className="text-lightGold2 text-xl font-semibold mb-2">
+                <h2 className="text-lightGold2 text-lg sm:text-xl font-semibold mb-2">
                   {blog.title}
                 </h2>
-                <p className="text-xs text-gray-400">
+                <p className="text-xs text-gray-400 my-5">
                   Created At:{" "}
                   {new Date(blog.createdAt).toLocaleDateString("en-US", {
                     month: "long",
@@ -90,13 +88,13 @@ export function BlogsGrid() {
                     year: "numeric",
                   })}
                 </p>
-                <p className="text-md text-gray-600 mb-2 line-clamp-3">
+                <p className="text-sm sm:text-md text-gray-600 mb-2 line-clamp-3">
                   {blog.shortDescription}
                 </p>
               </div>
               <Link href={`/blogs/${blog.slug}`}>
                 <ShimmerButton className="shadow-2xl mt-4 cursor-pointer">
-                  <span className="whitespace-pre-wrap font-bold text-center text-sm leading-none tracking-tight text-white dark:from-white dark:to-slate-900/10 lg:text-lg">
+                  <span className="whitespace-pre-wrap font-bold text-center text-xs sm:text-sm leading-none tracking-tight text-white lg:text-lg">
                     Read More...
                   </span>
                 </ShimmerButton>

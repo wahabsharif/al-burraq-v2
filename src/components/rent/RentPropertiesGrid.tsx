@@ -1,6 +1,5 @@
 "use client";
 
-import ShineBorder from "@/components/magicui/shine-border";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
@@ -65,7 +64,9 @@ const RentPropertiesGrid = () => {
     <section className="container mx-auto p-4">
       <div className="flex justify-center items-center mb-5">
         <div className="inline-block bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
-          <h2 className="text-3xl font-bold text-gradient">Rent A Property</h2>
+          <h2 className="text-md font-bold text-gradient md:text-xl lg:text-3xl">
+            Rent A Property.
+          </h2>
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -74,10 +75,7 @@ const RentPropertiesGrid = () => {
         ) : (
           properties.map((property) => (
             <Link key={property._id} href={`/rent/${property.slug}`}>
-              <ShineBorder
-                className="p-4 border border-gray-200 rounded-lg shadow-md h-full flex flex-col justify-between"
-                color={["rgb(198, 148, 57)", "#FE8FB5", "#FFBE7B"]}
-              >
+              <div className="bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 h-full flex flex-col justify-between">
                 <Image
                   src={property.image[0]}
                   alt={property.title}
@@ -86,28 +84,28 @@ const RentPropertiesGrid = () => {
                   height={800}
                 />
                 <div>
-                  <div className="mt-2 text-sm text-gradient">
+                  <div className="mt-2 text-xs text-gradient">
                     AED{" "}
                     <span className="text-xl font-bold">
                       {formatNumber(property.price)}
                     </span>
                   </div>
-                  <div className="mt-2 flex items-center text-sm text-gray-400 gap-2">
+                  <div className="mt-2 flex items-center text-sm text-gray-400 gap-1">
                     <div className="capitalize">{property.propertyType}</div>
                     <span className="mx-2">|</span>
                     <div className="mx-2 capitalize">{property.purpose}</div>
                     <span className="mx-2">|</span>
                     <div>Area: {formatNumber(property.area)} sq. ft.</div>
                   </div>
-                  <div className="text-xl font-bold mt-4">{property.title}</div>
-                  <div className="flex items-center mt-2 max-w-full overflow-hidden">
+                  <div className="text-md font-bold mt-4">{property.title}</div>
+                  <div className="flex items-center mt-4 max-w-full overflow-hidden">
                     <IoLocationOutline className="mr-2 text-2xl" />
-                    <div className="text-ellipsis whitespace-nowrap overflow-hidden max-w-full">
+                    <div className="text-ellipsis text-sm whitespace-nowrap overflow-hidden max-w-full">
                       {property.location}
                     </div>
                   </div>
                 </div>
-              </ShineBorder>
+              </div>
             </Link>
           ))
         )}

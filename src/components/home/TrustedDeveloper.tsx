@@ -11,10 +11,12 @@ const TrustedDeveloperComponent = () => {
   return (
     <section>
       <div className="text-white mt-6 mb-3 text-center">
-        <div className="inline-block bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
-          <h2 className="text-3xl font-bold text-gradient">
-            Our Trusted Developers
-          </h2>
+        <div className="flex justify-center items-center mb-5">
+          <div className="inline-block bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
+            <h2 className="text-md font-bold text-gradient md:text-xl lg:text-3xl">
+              Our Trusted Developers.
+            </h2>
+          </div>
         </div>
       </div>
       <div className="w-full max-w-screen-lg mx-auto text-white bg-black mb-4 mt-4 shadow-md rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 lg:px-8 lg:py-4 z-50">

@@ -12,7 +12,7 @@ const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 const CommentCard = ({ name, comment }: { name: string; comment: string }) => {
   return (
     <ShineBorder
-      className="p-4 border border-gray-200 rounded-lg shadow-md h-full flex flex-col justify-between relative w-full sm:w-12 cursor-pointer overflow-hidden bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200"
+      className="p-4 border border-gray-200 rounded-lg shadow-md flex flex-col justify-between relative w-10 md:w-30 lg:w-40 cursor-pointer overflow-hidden bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200"
       color={["rgb(198, 148, 57)", "#FE8FB5", "#FFBE7B"]}
     >
       <figure className="flex flex-col">
@@ -25,12 +25,15 @@ const CommentCard = ({ name, comment }: { name: string; comment: string }) => {
             src={UserImageIcon}
           />
           <div className="flex flex-col">
-            <figcaption className="text-lg sm:text-2xl capitalize font-bold dark:text-white">
+            <figcaption className="text-lg sm:text-2xl capitalize font-bold text-lightGold2">
               {name}
             </figcaption>
           </div>
         </div>
-        <TypingAnimation className="mt-2 text-sm sm:text-md" text={comment} />
+        <TypingAnimation
+          className="mt-2 text-xs md:text-sm lg:text-md"
+          text={comment}
+        />
       </figure>
     </ShineBorder>
   );
@@ -61,10 +64,10 @@ export function ClientsComments() {
 
   return (
     <div className="relative flex flex-col items-center justify-center overflow-hidden mt-10 px-4 md:px-6 lg:px-8">
-      <div className="flex justify-center items-center mb-5 w-full">
+      <div className="flex justify-center items-center mb-5">
         <div className="inline-block bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gradient">
-            What they are saying.
+          <h2 className="text-md font-bold text-gradient md:text-xl lg:text-3xl">
+            What They Are Saying.
           </h2>
         </div>
       </div>
@@ -82,8 +85,6 @@ export function ClientsComments() {
           ))}
         </Marquee>
       </div>
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-white dark:from-background"></div>
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-white dark:from-background"></div>
     </div>
   );
 }

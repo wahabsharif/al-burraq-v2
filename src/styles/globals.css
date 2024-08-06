@@ -36,6 +36,26 @@ h1 {
   color: rgb(255, 245, 210);
 }
 
+h3 {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  color: rgb(255, 245, 210);
+}
+
+h4 {
+  font-size: clamp(1.25rem, 2.5vw, 2.25rem);
+  color: rgb(255, 245, 210);
+}
+
+h5 {
+  font-size: clamp(1rem, 2vw, 2rem);
+  color: rgb(255, 245, 210);
+}
+
+h6 {
+  font-size: clamp(0.875rem, 1.75vw, 1.75rem);
+  color: rgb(255, 245, 210);
+}
+
 h1 span {
   color: rgb(198, 148, 57);
 }

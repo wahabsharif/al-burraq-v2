@@ -9,7 +9,7 @@ const Team = () => {
     <section className="bg-white dark:bg-gray-900">
       <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 ">
         <div className="mx-auto max-w-screen-sm text-center mb-8 lg:mb-16 bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
-          <h2 className="mb-4 text-4xl text-gradient font-extrabold">
+          <h2 className="text-lg mb-2 font-bold text-gradient md:text-xl lg:text-3xl">
             Our Team
           </h2>
           <p className="font-light text-gray-500 lg:mb-16 sm:text-xl dark:text-gray-400">

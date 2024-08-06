@@ -68,7 +68,7 @@ export function BlogsList({ currentSlug }: BlogsListProps) {
     );
 
   return (
-    <section className="mx-auto max-w-screen-lg text-white mt-6 mb-3">
+    <section className="mx-auto text-white mt-6 mb-3 p-1">
       <div className="flex justify-center items-center mb-5">
         <div className="inline-block bg-black shadow-md p-2 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
           <h2 className="text-lg font-bold text-gradient">Read More Blogs.</h2>
@@ -82,7 +82,7 @@ export function BlogsList({ currentSlug }: BlogsListProps) {
             <div key={blog._id}>
               <Link href={`/blogs/${blog.slug}`} className="w-full">
                 <ShineBorder
-                  className="flex items-center p-2 border border-gray-200 rounded-lg shadow-md border-gray-200 w-[25rem] space-x-1"
+                  className="flex items-center p-2 border border-gray-200 rounded-lg shadow-md w-full sm:w-[25rem] space-x-1"
                   color={["rgb(198, 148, 57)", "#FE8FB5", "#FFBE7B"]}
                 >
                   <div className="relative w-16 h-10 flex-shrink-0 lg:w-24 lg:h-16">

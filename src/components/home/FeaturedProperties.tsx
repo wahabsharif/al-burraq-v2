@@ -78,8 +78,8 @@ const FeaturedProperties: React.FC = () => {
     <section className="mx-auto text-white mt-6 mb-3 relative">
       <div className="flex justify-center items-center mb-5">
         <div className="inline-block bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
-          <h2 className="text-3xl font-bold text-gradient">
-            Featured Properties
+          <h2 className="text-md font-bold text-gradient md:text-xl lg:text-3xl">
+            Featured Properties.
           </h2>
         </div>
       </div>
