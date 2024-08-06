@@ -12,7 +12,7 @@ const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 const CommentCard = ({ name, comment }: { name: string; comment: string }) => {
   return (
     <ShineBorder
-      className="p-4 border border-gray-200 rounded-lg shadow-md flex flex-col justify-between relative w-10 md:w-30 lg:w-40 cursor-pointer overflow-hidden bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200"
+      className="p-4 border border-gray-200 rounded-lg shadow-md flex flex-col justify-between relative w-32 md:w-40 lg:w-60 h-32 cursor-pointer overflow-hidden bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200"
       color={["rgb(198, 148, 57)", "#FE8FB5", "#FFBE7B"]}
     >
       <figure className="flex flex-col">
