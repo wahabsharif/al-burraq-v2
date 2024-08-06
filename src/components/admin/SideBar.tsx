@@ -23,7 +23,7 @@ const SideBar: React.FC = () => {
         </h2>
       </div>
       <nav className="mt-6">
-        <div className="p-4 flex items-center">
+        <div className="p-2 flex items-center">
           <Link
             href="/admin"
             passHref
@@ -33,7 +33,7 @@ const SideBar: React.FC = () => {
             Dashboard
           </Link>
         </div>
-        <div className="p-4 flex items-center">
+        <div className="p-2 flex items-center">
           <Link
             href="/admin/properties"
             passHref
@@ -43,7 +43,7 @@ const SideBar: React.FC = () => {
             Properties
           </Link>
         </div>
-        <div className="p-4 flex items-center">
+        <div className="p-2 flex items-center">
           <Link
             href="/admin/blogs"
             passHref
@@ -53,7 +53,7 @@ const SideBar: React.FC = () => {
             Blogs
           </Link>
         </div>
-        <div className="p-4 flex items-center">
+        <div className="p-2 flex items-center">
           <Link
             href="/admin/comments"
             passHref
@@ -63,7 +63,17 @@ const SideBar: React.FC = () => {
             Comments
           </Link>
         </div>
-        <div className="p-4 flex items-center">
+        <div className="p-2 flex items-center">
+          <Link
+            href="/admin/careers"
+            passHref
+            className="flex items-center text-gray-300 hover:bg-gray-700 hover:text-white py-2 px-4 rounded-md"
+          >
+            <FaComments className="text-2xl mr-2" />
+            Careers
+          </Link>
+        </div>
+        <div className="p-2 flex items-center">
           <Link
             href="/admin/users"
             passHref
