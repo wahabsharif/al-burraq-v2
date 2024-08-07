@@ -3,15 +3,13 @@ const JobPost = require("../models/JobPost");
 // Create a new job post
 exports.createJobPost = async (req, res) => {
   try {
-    const { department, position } = req.body;
+    const { department, position, description } = req.body;
 
-    if (!department || !position) {
-      return res
-        .status(400)
-        .json({ message: "Department and Position are required." });
+    if (!department || !position || !description) {
+      return res.status(400).json({ message: "All fields are required." });
     }
 
-    const jobPost = new JobPost({ department, position });
+    const jobPost = new JobPost({ department, position, description });
     await jobPost.save();
 
     res.status(201).json({ message: "Job post created successfully", jobPost });
@@ -46,11 +44,11 @@ exports.getJobPostById = async (req, res) => {
 // Update a job post
 exports.updateJobPost = async (req, res) => {
   try {
-    const { department, position } = req.body;
+    const { department, position, description } = req.body;
 
     const jobPost = await JobPost.findByIdAndUpdate(
       req.params.id,
-      { department, position },
+      { department, position, description },
       { new: true, runValidators: true }
     );
 

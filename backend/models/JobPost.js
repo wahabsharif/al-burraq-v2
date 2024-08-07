@@ -1,5 +1,17 @@
 const mongoose = require("mongoose");
 
+const paragraphSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    enum: ["paragraph", "heading", "bold", "italic", "underline"],
+    required: true,
+  },
+  content: {
+    type: String,
+    required: true,
+  },
+});
+
 const jobPostSchema = new mongoose.Schema(
   {
     department: {
@@ -17,12 +29,14 @@ const jobPostSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    description: {
+      type: [paragraphSchema],
+      required: true,
+    },
   },
   {
     timestamps: true,
   }
 );
 
-const JobPost = mongoose.model("JobPost", jobPostSchema);
-
-module.exports = JobPost;
+module.exports = mongoose.model("JobPost", jobPostSchema);
