@@ -36,23 +36,27 @@ h1 {
   color: rgb(255, 245, 210);
 }
 
-h3 {
+h2 {
   font-size: clamp(1.5rem, 3vw, 2.5rem);
+  color: rgb(255, 245, 210);
+}
+h3 {
+  font-size: clamp(1rem, 3vw, 2rem);
   color: rgb(255, 245, 210);
 }
 
 h4 {
-  font-size: clamp(1.25rem, 2.5vw, 2.25rem);
+  font-size: clamp(1.25rem, 2.5vw, 1.8rem);
   color: rgb(255, 245, 210);
 }
 
 h5 {
-  font-size: clamp(1rem, 2vw, 2rem);
+  font-size: clamp(1rem, 2vw, 1.7rem);
   color: rgb(255, 245, 210);
 }
 
 h6 {
-  font-size: clamp(0.875rem, 1.75vw, 1.75rem);
+  font-size: clamp(0.875rem, 1.75vw, 1.6rem);
   color: rgb(255, 245, 210);
 }
 
@@ -269,4 +273,24 @@ h1 span {
   .swiper-button-next {
     right: 3px; /* Adjust position for mobile phones */
   }
+}
+
+.user-job-posts ul {
+  list-style-type: none; /* Removes default bullets */
+  padding-left: 1.5rem; /* Adds padding to align with text */
+}
+
+.user-job-posts li {
+  position: relative;
+  padding-left: 2rem; /* Space for custom bullet */
+  margin-bottom: 0.5rem; /* Space between list items */
+}
+
+.user-job-posts li::before {
+  content: "•"; /* Bullet character */
+  position: absolute;
+  left: 0; /* Position of bullet */
+  color: rgb(255, 245, 210); /* Bullet color */
+  font-size: 1.5rem; /* Bullet size */
+  line-height: 1; /* Align bullet with text */
 }

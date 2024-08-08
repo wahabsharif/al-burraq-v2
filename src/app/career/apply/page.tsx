@@ -1,18 +1,18 @@
-import dynamic from "next/dynamic";
+import CareerForm from "@/components/careers/CareerForm";
 import WebLayout from "@/components/layouts/WebLayout";
-import UserJobPosts from "@/components/careers/UserJobPosts";
+import dynamic from "next/dynamic";
 
 const Banner = dynamic(() => import("@/components/common/Banner"));
 
 export const metadata = {
-  title: "Al-Burraq - Career",
+  title: "Al-Burraq - Career | Application Form",
 };
 
 export default function Career() {
   return (
     <WebLayout>
-      <Banner title="Build Your Career With Us" />
-      <UserJobPosts />
+      <Banner title="Apply To Your Dream Job" />
+      <CareerForm />
     </WebLayout>
   );
 }
