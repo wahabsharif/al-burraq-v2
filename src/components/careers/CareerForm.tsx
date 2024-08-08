@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation"; // Import useRouter
 
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -11,11 +12,6 @@ const departments = [
   "Account and Finance",
   "Property Management",
   "Maintenance",
-];
-
-const yesNoOptions = [
-  { value: "true", label: "Yes" },
-  { value: "false", label: "No" },
 ];
 
 const skillOptions = [1, 2, 3, 4, 5];
@@ -38,6 +34,24 @@ const CareerForm: React.FC = () => {
     willingToWorkWeekends: "false",
   });
 
+  const [formError, setFormError] = useState<string | null>(null); // State to hold validation errors
+  const [fieldErrors, setFieldErrors] = useState<{ [key: string]: boolean }>({
+    firstName: false,
+    lastName: false,
+    phoneNumber: false,
+    email: false,
+    department: false,
+    position: false,
+    yearsOfExperience: false,
+    address: false,
+    currentJobStatus: false,
+    communicationSkills: false,
+    salesSkills: false,
+    negotiationSkills: false,
+  });
+
+  const router = useRouter();
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -46,17 +60,42 @@ const CareerForm: React.FC = () => {
       ...formData,
       [name]: type === "checkbox" ? value === "true" : value,
     });
+    setFormError(null); // Clear error on change
+    setFieldErrors({ ...fieldErrors, [name]: false }); // Clear individual field error on change
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Check for empty required fields
+    const newFieldErrors = {
+      firstName: !formData.firstName,
+      lastName: !formData.lastName,
+      phoneNumber: !formData.phoneNumber,
+      email: !formData.email,
+      department: !formData.department,
+      position: !formData.position,
+      yearsOfExperience: !formData.yearsOfExperience,
+      address: !formData.address,
+      currentJobStatus: !formData.currentJobStatus,
+      communicationSkills: !formData.communicationSkills,
+      salesSkills: !formData.salesSkills,
+      negotiationSkills: !formData.negotiationSkills,
+    };
+
+    if (Object.values(newFieldErrors).some((error) => error)) {
+      setFieldErrors(newFieldErrors);
+      setFormError("Please fill out all required fields.");
+      return;
+    }
+
     try {
-      const response = await axios.post(`${NEXT_PUBLIC_API_URL}/api/careers`, {
+      await axios.post(`${NEXT_PUBLIC_API_URL}/api/careers`, {
         ...formData,
         realEstateLicense: formData.realEstateLicense === "true",
         willingToWorkWeekends: formData.willingToWorkWeekends === "true",
       });
-      console.log("Application submitted successfully:", response.data);
+
       setFormData({
         firstName: "",
         lastName: "",
@@ -73,244 +112,298 @@ const CareerForm: React.FC = () => {
         realEstateLicense: "false",
         willingToWorkWeekends: "false",
       });
+
+      router.push("/career");
     } catch (error) {
       console.error("Error submitting application:", error);
     }
   };
 
   return (
-    <div className="p-8 bg-gray-100 min-h-screen">
-      <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
-        <div className="mx-auto max-w-screen-sm text-center">
-          <h2 className="text-xl text-darkGold font-extrabold bg-black shadow-md p-2 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 inline-block">
-            Career Application Form
+    <section className="p-2 bg-gray-100 min-h-screen">
+      <div className="flex justify-center items-center my-5">
+        <div className="inline-block bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
+          <h2 className="text-md font-bold text-gradient md:text-xl lg:text-3xl">
+            Job Application Form.
           </h2>
         </div>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-lg font-bold text-gray-700">
-              First Name
-            </label>
-            <input
-              type="text"
-              name="firstName"
-              className="mt-1 block capitalize w-full p-2 border border-gray-300 rounded-md"
-              value={formData.firstName}
-              onChange={handleChange}
-              spellCheck="true"
-              required
-            />
+      </div>
+      <div className="max-w-4xl mx-auto bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-lg font-semibold text-gray-700 mb-1">
+                First Name <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                name="firstName"
+                className={`block w-full p-3 capitalize border ${
+                  fieldErrors.firstName ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:ring-2 focus:ring-slate-500`}
+                value={formData.firstName}
+                onChange={handleChange}
+                spellCheck="true"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-lg font-semibold text-gray-700 mb-1">
+                Last Name <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                name="lastName"
+                className={`block w-full p-3 capitalize border ${
+                  fieldErrors.lastName ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:ring-2 focus:ring-slate-500`}
+                value={formData.lastName}
+                onChange={handleChange}
+                spellCheck="true"
+                required
+              />
+            </div>
           </div>
-          <div className="mb-4">
-            <label className="block text-lg font-bold text-gray-700">
-              Last Name
-            </label>
-            <input
-              type="text"
-              name="lastName"
-              className="mt-1 block w-full capitalize  p-2 border border-gray-300 rounded-md"
-              value={formData.lastName}
-              onChange={handleChange}
-              spellCheck="true"
-              required
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-lg font-semibold text-gray-700 mb-1">
+                Phone Number <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                name="phoneNumber"
+                className={`block w-full p-3 border ${
+                  fieldErrors.phoneNumber ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:ring-2 focus:ring-slate-500`}
+                value={formData.phoneNumber}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-lg font-semibold text-gray-700 mb-1">
+                Email <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="email"
+                name="email"
+                className={`block w-full p-3 border ${
+                  fieldErrors.email ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:ring-2 focus:ring-slate-500`}
+                value={formData.email}
+                onChange={handleChange}
+                spellCheck="true"
+                required
+              />
+            </div>
           </div>
-          <div className="mb-4">
-            <label className="block text-lg font-bold text-gray-700">
-              Phone Number
-            </label>
-            <input
-              type="text"
-              name="phoneNumber"
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-              value={formData.phoneNumber}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-lg font-bold text-gray-700">
-              Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-              value={formData.email}
-              onChange={handleChange}
-              spellCheck="true"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-lg font-bold text-gray-700">
-              Department
-            </label>
-            <select
-              name="department"
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-              value={formData.department}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select Department</option>
-              {departments.map((dept) => (
-                <option key={dept} value={dept}>
-                  {dept}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="mb-4">
-            <label className="block text-lg font-bold text-gray-700">
-              Position
-            </label>
-            <input
-              type="text"
-              name="position"
-              className="mt-1 block w-full capitalize  p-2 border border-gray-300 rounded-md"
-              value={formData.position}
-              onChange={handleChange}
-              spellCheck="true"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-lg font-bold text-gray-700">
-              Years of Experience
-            </label>
-            <input
-              type="number"
-              name="yearsOfExperience"
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-              value={formData.yearsOfExperience}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-lg font-bold text-gray-700">
-              Address
+          <div>
+            <label className="block text-lg font-semibold text-gray-700 mb-1">
+              Address <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
               name="address"
-              className="mt-1 block w-full capitalize  p-2 border border-gray-300 rounded-md"
+              className={`block w-full p-3 capitalize border ${
+                fieldErrors.address ? "border-red-500" : "border-gray-300"
+              } rounded-md focus:ring-2 focus:ring-slate-500`}
               value={formData.address}
               onChange={handleChange}
               spellCheck="true"
               required
             />
           </div>
-          <div className="mb-4">
-            <label className="block text-lg font-bold text-gray-700">
-              Current Job Status
-            </label>
-            <input
-              type="text"
-              name="currentJobStatus"
-              className="mt-1 block w-full capitalize  p-2 border border-gray-300 rounded-md"
-              value={formData.currentJobStatus}
-              onChange={handleChange}
-              spellCheck="true"
-              required
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-lg font-semibold text-gray-700 mb-1">
+                Department <span className="text-red-500">*</span>
+              </label>
+              <select
+                name="department"
+                className={`block w-full p-3 border ${
+                  fieldErrors.department ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:ring-2 focus:ring-slate-500`}
+                value={formData.department}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select Department</option>
+                {departments.map((dept) => (
+                  <option key={dept} value={dept}>
+                    {dept}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-lg capitalize font-semibold text-gray-700 mb-1">
+                Position <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                name="position"
+                className={`block w-full p-3 capitalize border ${
+                  fieldErrors.position ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:ring-2 focus:ring-slate-500`}
+                value={formData.position}
+                onChange={handleChange}
+                spellCheck="true"
+                required
+              />
+            </div>
           </div>
-
-          <div className="mb-4">
-            <label className="block text-lg font-bold text-gray-700">
-              Rate Your Communication Skills (1-5)
-            </label>
-            <select
-              name="communicationSkills"
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-              value={formData.communicationSkills}
-              onChange={handleChange}
-              required
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-lg font-semibold text-gray-700 mb-1">
+                Years of Experience <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="number"
+                name="yearsOfExperience"
+                className={`block w-full p-3 border ${
+                  fieldErrors.yearsOfExperience
+                    ? "border-red-500"
+                    : "border-gray-300"
+                } rounded-md focus:ring-2 focus:ring-slate-500`}
+                value={formData.yearsOfExperience}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-lg font-semibold text-gray-700 mb-1">
+                Current Job Status <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                name="currentJobStatus"
+                className={`block w-full p-3 capitalize border ${
+                  fieldErrors.currentJobStatus
+                    ? "border-red-500"
+                    : "border-gray-300"
+                } rounded-md focus:ring-2 focus:ring-slate-500`}
+                value={formData.currentJobStatus}
+                onChange={handleChange}
+                spellCheck="true"
+                required
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-lg font-semibold text-gray-700 mb-1">
+                Communication Skills (1-5){" "}
+                <span className="text-red-500">*</span>
+              </label>
+              <select
+                name="communicationSkills"
+                className={`block w-full p-3 border ${
+                  fieldErrors.communicationSkills
+                    ? "border-red-500"
+                    : "border-gray-300"
+                } rounded-md focus:ring-2 focus:ring-slate-500`}
+                value={formData.communicationSkills}
+                onChange={handleChange}
+                required
+              >
+                {skillOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-lg font-semibold text-gray-700 mb-1">
+                Sales Skills (1-5) <span className="text-red-500">*</span>
+              </label>
+              <select
+                name="salesSkills"
+                className={`block w-full p-3 border ${
+                  fieldErrors.salesSkills ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:ring-2 focus:ring-slate-500`}
+                value={formData.salesSkills}
+                onChange={handleChange}
+                required
+              >
+                {skillOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-lg font-semibold text-gray-700 mb-1">
+                Negotiation Skills (1-5) <span className="text-red-500">*</span>
+              </label>
+              <select
+                name="negotiationSkills"
+                className={`block w-full p-3 border ${
+                  fieldErrors.negotiationSkills
+                    ? "border-red-500"
+                    : "border-gray-300"
+                } rounded-md focus:ring-2 focus:ring-slate-500`}
+                value={formData.negotiationSkills}
+                onChange={handleChange}
+                required
+              >
+                {skillOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-lg font-semibold text-gray-700 mb-1">
+                Real Estate License
+              </label>
+              <select
+                name="realEstateLicense"
+                className="block w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500"
+                value={formData.realEstateLicense}
+                onChange={handleChange}
+                required
+              >
+                <option value="false">No</option>
+                <option value="true">Yes</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-lg font-semibold text-gray-700 mb-1">
+                Willing to Work Weekends
+              </label>
+              <select
+                name="willingToWorkWeekends"
+                className="block w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500"
+                value={formData.willingToWorkWeekends}
+                onChange={handleChange}
+                required
+              >
+                <option value="false">No</option>
+                <option value="true">Yes</option>
+              </select>
+            </div>
+          </div>
+          {formError && (
+            <p className="text-lg text-red-600 text-center font-semibold">
+              {formError}
+            </p>
+          )}
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              className=" mt-6 bg-slate-700 hover:bg-slate-800 text-slate-200 text-lg py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
             >
-              {skillOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
+              Submit
+            </button>
           </div>
-          <div className="mb-4">
-            <label className="block text-lg font-bold text-gray-700">
-              Rate Your Sales Skills (1-5)
-            </label>
-            <select
-              name="salesSkills"
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-              value={formData.salesSkills}
-              onChange={handleChange}
-              required
-            >
-              {skillOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="mb-4">
-            <label className="block text-lg font-bold text-gray-700">
-              Rate Your Negotiation Skills (1-5)
-            </label>
-            <select
-              name="negotiationSkills"
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-              value={formData.negotiationSkills}
-              onChange={handleChange}
-              required
-            >
-              {skillOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-lg font-bold text-gray-700">
-              Real Estate License
-            </label>
-            <select
-              name="realEstateLicense"
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-              value={formData.realEstateLicense}
-              onChange={handleChange}
-              required
-            >
-              <option value="false">No</option>
-              <option value="true">Yes</option>
-            </select>
-          </div>
-          <div className="mb-4">
-            <label className="block text-lg font-bold text-gray-700">
-              Willing to Work Weekends
-            </label>
-            <select
-              name="willingToWorkWeekends"
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-              value={formData.willingToWorkWeekends}
-              onChange={handleChange}
-              required
-            >
-              <option value="false">No</option>
-              <option value="true">Yes</option>
-            </select>
-          </div>
-          <button
-            type="submit"
-            className="button flex items-center bg-slate-700 hover:bg-blue-700 text-slate-100 text-lg py-1 px-4"
-          >
-            Submit Application
-          </button>
         </form>
       </div>
-    </div>
+    </section>
   );
 };
 
