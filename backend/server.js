@@ -11,6 +11,7 @@ const blogRoutes = require("./routes/blogRoutes");
 const commentRoutes = require("./routes/commentRoutes");
 const careerRoutes = require("./routes/careerRoutes");
 const jobPostRoutes = require("./routes/jobPostRoutes");
+const jobApplicationRoutes = require("./routes/jobApplicationRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -26,6 +27,7 @@ app.use("/api", blogRoutes);
 app.use("/api", commentRoutes);
 app.use("/api", careerRoutes);
 app.use("/api", jobPostRoutes);
+app.use("/api", jobApplicationRoutes);
 
 // Default route handler
 app.get("/", (req, res) => {

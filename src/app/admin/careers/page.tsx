@@ -1,3 +1,4 @@
+import JobApplications from "@/components/admin/Careers/JobApplications";
 import AdminLayout from "@/components/layouts/AdminLayout";
 import Link from "next/link";
 
@@ -16,7 +17,9 @@ export default function page() {
           >
             See The Posted Jobs
           </Link>
-        </div>{" "}
+        </div>
+
+        <JobApplications />
       </AdminLayout>
     </>
   );
