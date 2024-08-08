@@ -1,4 +1,4 @@
-import CareerForm from "@/components/careers/CareerForm";
+import JobApplicationForm from "@/components/careers/JobApplicationForm";
 import WebLayout from "@/components/layouts/WebLayout";
 import dynamic from "next/dynamic";
 
@@ -12,7 +12,7 @@ export default function Career() {
   return (
     <WebLayout>
       <Banner title="Apply To Your Dream Job" />
-      <CareerForm />
+      <JobApplicationForm />
     </WebLayout>
   );
 }

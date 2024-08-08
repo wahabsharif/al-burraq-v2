@@ -16,7 +16,7 @@ const departments = [
 
 const skillOptions = [1, 2, 3, 4, 5];
 
-const CareerForm: React.FC = () => {
+const JobApplicationForm: React.FC = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -90,7 +90,7 @@ const CareerForm: React.FC = () => {
     }
 
     try {
-      await axios.post(`${NEXT_PUBLIC_API_URL}/api/careers`, {
+      await axios.post(`${NEXT_PUBLIC_API_URL}/api/job-applications`, {
         ...formData,
         realEstateLicense: formData.realEstateLicense === "true",
         willingToWorkWeekends: formData.willingToWorkWeekends === "true",
@@ -116,6 +116,9 @@ const CareerForm: React.FC = () => {
       router.push("/career");
     } catch (error) {
       console.error("Error submitting application:", error);
+      setFormError(
+        "There was an error submitting your application. Please try again."
+      );
     }
   };
 
@@ -396,7 +399,7 @@ const CareerForm: React.FC = () => {
           <div className="flex justify-center">
             <button
               type="submit"
-              className=" mt-6 bg-slate-700 hover:bg-slate-800 text-slate-200 text-lg py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+              className="mt-6 bg-slate-700 hover:bg-slate-800 text-slate-200 text-lg py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
             >
               Submit
             </button>
@@ -407,4 +410,4 @@ const CareerForm: React.FC = () => {
   );
 };
 
-export default CareerForm;
+export default JobApplicationForm;
