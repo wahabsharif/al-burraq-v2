@@ -36,6 +36,56 @@ main {
   background-color: #1e293b;
   overflow-y: auto;
 }
+/* h1 {
+  font-size: clamp(3rem, 2vw, 30rem);
+  font-weight: 700;
+  color: rgb(255, 245, 210);
+}
+
+h2 {
+  font-size: clamp(2rem, 3vw, 2.5rem);
+  color: rgb(255, 245, 210);
+}
+
+h3 {
+  font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+  color: rgb(255, 245, 210);
+}
+
+h4 {
+  font-size: clamp(1rem, 2vw, 2rem);
+  color: rgb(255, 245, 210);
+}
+
+h5 {
+  font-size: clamp(0.875rem, 1.75vw, 1.75rem);
+  color: rgb(255, 245, 210);
+}
+
+h6 {
+  font-size: clamp(0.75rem, 1.5vw, 1.5rem);
+  color: rgb(255, 245, 210);
+} */
+
+ul {
+  list-style-type: none; /* Removes default bullets */
+  padding-left: 1.5rem; /* Adds padding to align with text */
+}
+
+li {
+  position: relative;
+  padding-left: 2rem; /* Space for custom bullet */
+  margin-bottom: 0.5rem; /* Space between list items */
+}
+
+li::before {
+  content: "•"; /* Bullet character */
+  position: absolute;
+  left: 0; /* Position of bullet */
+  color: rgb(255, 245, 210); /* Bullet color */
+  font-size: 1.5rem; /* Bullet size */
+  line-height: 1; /* Align bullet with text */
+}
 
 img {
   width: auto;

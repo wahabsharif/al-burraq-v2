@@ -1,4 +1,4 @@
-import JobsPost from "@/components/admin/Careers/JobsPost";
+import JobPostForm from "@/components/admin/JobPost/JobPostForm";
 import AdminLayout from "@/components/layouts/AdminLayout";
 
 export const metadata = {
@@ -9,7 +9,7 @@ export default function page() {
   return (
     <>
       <AdminLayout>
-        <JobsPost />
+        <JobPostForm />
       </AdminLayout>
     </>
   );

@@ -35,6 +35,7 @@ exports.getJobPostById = async (req, res) => {
     if (!jobPost) {
       return res.status(404).json({ message: "Job post not found" });
     }
+
     res.status(200).json(jobPost);
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
