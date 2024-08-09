@@ -221,3 +221,18 @@ exports.deleteProperty = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+// Get properties with filters and sort by createdAt
+exports.getLatestProperties = async (req, res) => {
+  try {
+    // Fetch the 5 latest properties sorted by createdAt in descending order
+    const properties = await Property.find()
+      .sort({ createdAt: -1 }) // Sort by createdAt field in descending order
+      .limit(5); // Limit to 5 properties
+
+    res.json(properties);
+  } catch (err) {
+    console.error("Error fetching properties:", err.message);
+    res.status(500).send("Server Error");
+  }
+};
