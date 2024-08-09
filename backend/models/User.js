@@ -1,4 +1,3 @@
-// backend/models/User.js
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -7,6 +6,22 @@ const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   email: { type: String, required: true, unique: true },
+  fullName: { type: String, required: true }, // Added Full Name field
+  designation: {
+    type: String,
+    enum: [
+      "CEO",
+      "Managing Director",
+      "Director of Operations",
+      "Director of Sales",
+      "Branch Manager",
+      "Sales Manager",
+      "Property Manager",
+      "Leasing Manager",
+      "HR",
+    ],
+    required: true,
+  }, // Added Designation field
   isAdmin: { type: Boolean, default: false },
 });
 
@@ -31,6 +46,8 @@ userSchema.methods.generateAuthToken = function () {
       _id: this._id,
       username: this.username,
       email: this.email,
+      fullName: this.fullName, // Added fullName to the JWT payload
+      designation: this.designation, // Added designation to the JWT payload
       isAdmin: this.isAdmin,
     },
     process.env.JWT_SECRET

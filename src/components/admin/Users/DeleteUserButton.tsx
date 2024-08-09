@@ -3,14 +3,14 @@ import axios from "axios";
 
 interface Props {
   userId: string;
-  username: string;
+  fullName: string; // Changed from username to fullName
   onDelete: () => void;
 }
 
 const NEXT_PUBLIC_API_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
-const DeleteUserButton: React.FC<Props> = ({ userId, username, onDelete }) => {
+const DeleteUserButton: React.FC<Props> = ({ userId, fullName, onDelete }) => {
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   const handleDelete = async () => {
@@ -54,7 +54,7 @@ const DeleteUserButton: React.FC<Props> = ({ userId, username, onDelete }) => {
                 Are you sure you want to delete{" "}
                 <span className="uppercase font-bold text-3xl text-lightGold2">
                   {" "}
-                  {username}
+                  {fullName}
                 </span>
                 😕 ?
               </p>

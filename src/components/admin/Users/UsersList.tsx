@@ -6,8 +6,10 @@ import AddUserForm from "./AddUserForm";
 
 interface UserData {
   _id: string;
-  username: string;
+  fullName: string;
+  username: string; // Added username
   email: string;
+  designation: string; // Added designation
   isAdmin: boolean;
 }
 
@@ -34,7 +36,7 @@ const UsersList = () => {
         });
         setUserData(response.data as UserData[]);
       } catch (error) {
-        // setError("Error fetching user data. Please try again later.");
+        setError("Error fetching user data. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -83,10 +85,16 @@ const UsersList = () => {
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Full Name
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Username
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Email
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Designation
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Account Type
@@ -99,8 +107,16 @@ const UsersList = () => {
           <tbody>
             {userData.map((user) => (
               <tr key={user._id}>
-                <td className="px-6 py-4 whitespace-nowrap">{user.username}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{user.fullName}</td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {user.username}
+                </td>{" "}
+                {/* Added username */}
                 <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {user.designation}
+                </td>{" "}
+                {/* Added designation */}
                 <td
                   className={`px-6 py-4 whitespace-nowrap text-start ${
                     user.isAdmin ? "text-green-500" : "text-red-500"
@@ -111,7 +127,7 @@ const UsersList = () => {
                 <td className="px-6 py-4 whitespace-nowrap text-start">
                   <DeleteUserButton
                     userId={user._id}
-                    username={user.username}
+                    fullName={user.fullName}
                     onDelete={() => {
                       handleUserDelete();
                     }}

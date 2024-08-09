@@ -1,10 +1,9 @@
-// backend/controller/userController.js
-
 const User = require("../models/User");
 
 // Register user
 exports.registerUser = async (req, res) => {
-  const { username, password, email, isAdmin } = req.body;
+  const { username, password, email, fullName, designation, isAdmin } =
+    req.body;
 
   try {
     const existingUser = await User.findOne({ username });
@@ -17,6 +16,8 @@ exports.registerUser = async (req, res) => {
       username,
       password,
       email,
+      fullName, // Set fullName based on the request body
+      designation, // Set designation based on the request body
       isAdmin, // Set isAdmin based on the request body
     });
     await newUser.save();
@@ -103,7 +104,28 @@ exports.deleteUser = async (req, res) => {
 // Get current user details
 exports.getCurrentUser = async (req, res) => {
   try {
-    res.json({ username: req.user.username });
+    res.json({
+      username: req.user.username,
+      fullName: req.user.fullName, // Added fullName to the response
+      designation: req.user.designation, // Added designation to the response
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Check if username exists
+exports.checkUsernameAvailability = async (req, res) => {
+  const { username } = req.params;
+
+  try {
+    const existingUser = await User.findOne({ username });
+
+    if (existingUser) {
+      return res.json({ exists: true });
+    } else {
+      return res.json({ exists: false });
+    }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
