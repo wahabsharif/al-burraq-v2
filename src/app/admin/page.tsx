@@ -1,4 +1,5 @@
 import AddBlogButton from "@/components/admin/Blogs/AddBlogButton";
+import DashboardPropertyList from "@/components/admin/Dashboard/DashboardPropertyList";
 import AddPropertyButton from "@/components/admin/Properties/AddPropertyButton";
 import AdminLayout from "@/components/layouts/AdminLayout";
 import React from "react";
@@ -22,6 +23,7 @@ export default function page() {
         <AddBlogButton />
         <AddPropertyButton />
       </div>
+      <DashboardPropertyList />
     </AdminLayout>
   );
 }
