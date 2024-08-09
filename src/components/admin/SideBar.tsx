@@ -56,12 +56,12 @@ const SideBar: React.FC = () => {
         </div>
         <div className="p-2 flex items-center">
           <Link
-            href="/admin/careers"
+            href="/admin/job-applications"
             passHref
             className="flex items-center text-gray-300 hover:bg-gray-700 hover:text-white py-2 px-4 rounded-md"
           >
             <GiMagnifyingGlass className="text-2xl mr-2" />
-            Careers
+            Job Applications
           </Link>
         </div>
         <div className="p-2 flex items-center">

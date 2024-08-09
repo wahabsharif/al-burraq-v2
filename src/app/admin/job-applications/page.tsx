@@ -1,4 +1,4 @@
-import JobApplications from "@/components/admin/Careers/JobApplications";
+import JobApplicationsList from "@/components/admin/JobApplications/JobApplicationsList";
 import AdminLayout from "@/components/layouts/AdminLayout";
 import Link from "next/link";
 
@@ -19,7 +19,7 @@ export default function page() {
           </Link>
         </div>
 
-        <JobApplications />
+        <JobApplicationsList />
       </AdminLayout>
     </>
   );
