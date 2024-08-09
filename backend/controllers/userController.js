@@ -16,9 +16,9 @@ exports.registerUser = async (req, res) => {
       username,
       password,
       email,
-      fullName, // Set fullName based on the request body
-      designation, // Set designation based on the request body
-      isAdmin, // Set isAdmin based on the request body
+      fullName,
+      designation,
+      isAdmin,
     });
     await newUser.save();
 
@@ -33,24 +33,40 @@ exports.loginUser = async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    // Check if the user exists
     const user = await User.findOne({ username });
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // Validate password
     const isMatch = await user.comparePassword(password);
 
     if (!isMatch) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    // Password is correct, generate JWT token
+    // Update last login time and set isActive to true
+    user.lastLogin = new Date();
+    user.isActive = true;
+    await user.save(); // Save the user with updated fields
+
     const token = user.generateAuthToken();
 
     res.json({ token });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Logout user
+exports.logoutUser = async (req, res) => {
+  try {
+    const userId = req.user._id; // Get the user ID from the token
+
+    // Update the user's `isActive` field to false
+    await User.findByIdAndUpdate(userId, { isActive: false });
+
+    res.status(200).json({ message: "User logged out successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -106,8 +122,10 @@ exports.getCurrentUser = async (req, res) => {
   try {
     res.json({
       username: req.user.username,
-      fullName: req.user.fullName, // Added fullName to the response
-      designation: req.user.designation, // Added designation to the response
+      fullName: req.user.fullName,
+      designation: req.user.designation,
+      isActive: req.user.isActive,
+      lastLogin: req.user.lastLogin,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });

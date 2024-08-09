@@ -1,9 +1,8 @@
-// src/contexts/AuthContext.tsx
-
 "use client";
 
 import React, { createContext, useState, useContext, useEffect } from "react";
-import { useRouter } from "next/navigation"; // Use useRouter from next/navigation
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -21,6 +20,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const token = localStorage.getItem("token");
     if (token) {
       setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
     }
   }, []);
 
@@ -30,10 +31,27 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     router.push("/admin");
   };
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    setIsAuthenticated(false);
-    router.push("/login");
+  const logout = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (token) {
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/user/logout`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      }
+    } catch (error) {
+      console.error("Failed to log out:", error);
+    } finally {
+      localStorage.removeItem("token");
+      setIsAuthenticated(false);
+      router.push("/login");
+    }
   };
 
   return (

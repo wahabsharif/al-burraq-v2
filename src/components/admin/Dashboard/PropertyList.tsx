@@ -22,7 +22,7 @@ interface Property {
 
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-const DashboardPropertyList: React.FC = () => {
+const PropertyList: React.FC = () => {
   const [properties, setProperties] = useState<Property[]>([]);
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string[] | null>(null);
@@ -69,7 +69,7 @@ const DashboardPropertyList: React.FC = () => {
 
   return (
     <section>
-      <div className="container mx-auto px-4 py-6">
+      <div className="container mx-auto px-2 py-6">
         <h2 className="text-xl text-darkGold font-extrabold my-2 bg-black shadow-md p-2 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 inline-block">
           Latest Properties
         </h2>
@@ -169,4 +169,4 @@ const DashboardPropertyList: React.FC = () => {
   );
 };
 
-export default DashboardPropertyList;
+export default PropertyList;

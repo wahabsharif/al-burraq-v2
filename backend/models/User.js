@@ -23,6 +23,8 @@ const userSchema = new mongoose.Schema({
     required: true,
   }, // Added Designation field
   isAdmin: { type: Boolean, default: false },
+  isActive: { type: Boolean, default: false }, // Added isActive field
+  lastLogin: { type: Date, default: null }, // Added lastLogin field
 });
 
 // Hash password before saving
@@ -49,6 +51,8 @@ userSchema.methods.generateAuthToken = function () {
       fullName: this.fullName, // Added fullName to the JWT payload
       designation: this.designation, // Added designation to the JWT payload
       isAdmin: this.isAdmin,
+      isActive: this.isActive, // Added isActive to the JWT payload
+      lastLogin: this.lastLogin, // Added lastLogin to the JWT payload
     },
     process.env.JWT_SECRET
     // { expiresIn: "1h" }
