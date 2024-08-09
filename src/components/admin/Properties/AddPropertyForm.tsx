@@ -127,14 +127,6 @@ const AddPropertyForm: React.FC = () => {
 
   return (
     <section className="px-10 mb-5 h-full w-full">
-      {error && (
-        <div className="bg-red-200 text-red-800 p-3 mb-4 rounded">{error}</div>
-      )}
-      {success && (
-        <div className="bg-green-200 text-green-800 p-3 mb-4 rounded">
-          Property created successfully!
-        </div>
-      )}
       <div className="mx-auto max-w-screen-sm text-center">
         <h2 className="text-3xl text-darkGold font-extrabold mb-4 mt-4 lg:mb-16 bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 inline-block">
           Add Properties
@@ -294,6 +286,16 @@ const AddPropertyForm: React.FC = () => {
             </div>
           )}
         </div>
+        {error && (
+          <div className="bg-red-200 text-red-800 p-3 mb-4 rounded">
+            {error}
+          </div>
+        )}
+        {success && (
+          <div className="bg-green-200 text-green-800 p-3 mb-4 rounded">
+            Property created successfully!
+          </div>
+        )}
         <button
           type="submit"
           className="bg-slate-900 text-white p-4 rounded-lg hover:bg-slate-700 focus:ring-4 focus:ring-slate-700"

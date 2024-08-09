@@ -173,9 +173,23 @@ exports.updateProperty = async (req, res) => {
   } = req.body;
 
   try {
-    // Remove commas from price and area
-    const cleanedPrice = parseFloat(price.replace(/,/g, ""));
-    const cleanedArea = parseFloat(area.replace(/,/g, ""));
+    // Initialize cleanedPrice and cleanedArea
+    let cleanedPrice = null;
+    let cleanedArea = null;
+
+    // Remove commas and convert to number if price is a string
+    if (typeof price === "string") {
+      cleanedPrice = parseFloat(price.replace(/,/g, ""));
+    } else if (typeof price === "number") {
+      cleanedPrice = price;
+    }
+
+    // Remove commas and convert to number if area is a string
+    if (typeof area === "string") {
+      cleanedArea = parseFloat(area.replace(/,/g, ""));
+    } else if (typeof area === "number") {
+      cleanedArea = area;
+    }
 
     const slug = await generateUniqueSlug(title);
 

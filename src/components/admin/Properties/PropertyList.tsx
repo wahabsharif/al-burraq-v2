@@ -14,18 +14,20 @@ interface Property {
   description: string;
   price: number;
   location: string;
-  image: string[]; // Adjusted to string array for image URLs
-  purpose: string; // New field
-  propertyType: string; // New field
-  area: number; // New field
-  slug: string; // New field for slug
+  image: string[];
+  purpose: string;
+  propertyType: string;
+  area: number;
+  slug: string;
+  createdAt: string;
+  updatedAt: string; // Optional: if you need to display update date as well
 }
 
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const PropertyList: React.FC = () => {
   const [properties, setProperties] = useState<Property[]>([]);
-  const [editProperty, setEditProperty] = useState<Property | null>(null); // Track edited property
+  const [editProperty, setEditProperty] = useState<Property | null>(null);
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -37,21 +39,40 @@ const PropertyList: React.FC = () => {
       const response = await axios.get<Property[]>(
         `${NEXT_PUBLIC_API_URL}/api/properties`
       );
-      setProperties(response.data);
+
+      // Log the raw data to ensure it's correctly formatted
+      console.log("Raw data:", response.data);
+
+      // Ensure that createdAt is a valid date string
+      const validatedProperties = response.data.filter((property) => {
+        const date = new Date(property.createdAt);
+        return !isNaN(date.getTime()); // Validate that the date is valid
+      });
+
+      // Sort the properties
+      const sortedProperties = validatedProperties.sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+
+      // Log the sorted data
+      console.log("Sorted data:", sortedProperties);
+
+      setProperties(sortedProperties);
     } catch (error) {
       console.error("Error fetching properties:", error);
     }
   };
 
   const handleEditClick = (property: Property) => {
-    setEditProperty(property); // Set the property to edit
-    setModalIsOpen(true); // Open the modal
+    setEditProperty(property);
+    setModalIsOpen(true);
   };
 
   const handleUpdateSuccess = () => {
-    setEditProperty(null); // Clear edited property
-    setModalIsOpen(false); // Close the modal after successful update
-    fetchProperties(); // Refresh property list
+    setEditProperty(null);
+    setModalIsOpen(false);
+    fetchProperties();
   };
 
   const closeModal = () => {
@@ -59,7 +80,7 @@ const PropertyList: React.FC = () => {
   };
 
   function openModal(image: string[]): void {
-    throw new Error("Function not implemented.");
+    // Implementation for opening the modal
   }
 
   return (
@@ -99,6 +120,9 @@ const PropertyList: React.FC = () => {
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Area
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Timestamp
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Action
@@ -162,6 +186,13 @@ const PropertyList: React.FC = () => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">
                         {property.area} sqft
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900">
+                        {property.createdAt
+                          ? new Date(property.createdAt).toLocaleString()
+                          : "No Date"}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
