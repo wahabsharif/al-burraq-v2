@@ -1,3 +1,4 @@
+// In userRoutes.js
 const express = require("express");
 const router = express.Router();
 const {
@@ -8,7 +9,8 @@ const {
   updateUser,
   deleteUser,
   checkUsernameAvailability,
-  logoutUser, // Import the logoutUser function
+  logoutUser,
+  updateCurrentUser, // Import the updateCurrentUser function
 } = require("../controllers/userController");
 const { auth, adminAuth } = require("../middleware/auth");
 
@@ -17,9 +19,11 @@ router.post("/user/register", registerUser);
 // Login route
 router.post("/user/login", loginUser);
 // Logout route
-router.post("/user/logout", auth, logoutUser); // Ensure logoutUser is used correctly
+router.post("/user/logout", auth, logoutUser);
 // Get current user route
 router.get("/user/me", auth, getCurrentUser);
+// Update current user route
+router.put("/user/me", auth, updateCurrentUser); // Use the updateCurrentUser function
 // Check username availability
 router.get("/user/:username", checkUsernameAvailability);
 // CRUD routes (only accessible to admins)

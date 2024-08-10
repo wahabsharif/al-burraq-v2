@@ -1,27 +1,26 @@
-import React from "react";
+import CurrentUser from "@/components/admin/Users/CurrentUser";
 import Link from "next/link";
-import {
-  MdAdminPanelSettings,
-  MdSpaceDashboard,
-  MdOutlineSettings,
-  MdLogout,
-} from "react-icons/md";
+import React from "react";
+import { FaComments, FaUsers } from "react-icons/fa";
 import { GiMagnifyingGlass } from "react-icons/gi";
 import { LuTableProperties } from "react-icons/lu";
+import {
+  MdAdminPanelSettings,
+  MdLogout,
+  MdOutlineSettings,
+  MdSpaceDashboard,
+} from "react-icons/md";
 import { TbLogs } from "react-icons/tb";
-import { CgProfile } from "react-icons/cg";
-import { FaUsers, FaComments } from "react-icons/fa";
 import LogoutButton from "./Auth/LogoutButton";
-import CurrentUser from "@/components/admin/Users/CurrentUser";
 
 const SideBar: React.FC = () => {
   return (
     <aside className="fixed top-0 left-0 h-full bg-black text-white shadow-md rounded-r-3xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 lg:w-60 z-50">
       <div className="p-4 flex items-center">
-        <h2 className="text-white text-2xl font-semibold">
-          <MdAdminPanelSettings className="text-4xl inline-block mr-2" />
-          Admin Panel
-        </h2>
+        <div className="text-white text-2xl font-semibold flex items-center cursor-pointer text-darkGold">
+          <MdAdminPanelSettings className="text-4xl mr-2" />
+          <CurrentUser />
+        </div>
       </div>
       <nav className="mt-6">
         <div className="p-2 flex items-center">
@@ -90,26 +89,6 @@ const SideBar: React.FC = () => {
       <div className="absolute bottom-0 left-0 w-full">
         <div className="border-t border-slate-500"></div>
         <nav className="mt-6 mb-6 ml-2">
-          <div className="p-2 flex items-center">
-            <Link
-              href="/admin/profile"
-              passHref
-              className="flex items-center uppercase font-bold text-xl text-darkGold hover:bg-gray-700 hover:text-white px-1 rounded-md"
-            >
-              <CgProfile className="text-xl mr-2" />
-              <CurrentUser />
-            </Link>
-          </div>
-          {/* <div className="p-2 flex items-center">
-            <Link
-              href="/admin/profile"
-              passHref
-              className="flex items-center text-gray-300 hover:bg-gray-700 hover:text-white px-1 rounded-md"
-            >
-              <CgProfile className="text-xl mr-2" />
-              Profile
-            </Link>
-          </div> */}
           <div className="p-2 flex items-center">
             <Link
               href="/admin/settings"

@@ -1,3 +1,4 @@
+const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 
 // Register user
@@ -85,9 +86,30 @@ exports.getUsers = async (req, res) => {
 // Update user
 exports.updateUser = async (req, res) => {
   const { id } = req.params;
-  const updates = req.body;
+  const { email, fullName, designation, password } = req.body;
 
   try {
+    const updates = {};
+
+    if (email) {
+      // Validate email format if needed
+      updates.email = email;
+    }
+
+    if (fullName) {
+      updates.fullName = fullName;
+    }
+
+    if (designation) {
+      updates.designation = designation;
+    }
+
+    if (password) {
+      // Hash the password before saving
+      const hashedPassword = await bcrypt.hash(password, 12);
+      updates.password = hashedPassword;
+    }
+
     const user = await User.findByIdAndUpdate(id, updates, { new: true });
 
     if (!user) {
@@ -124,9 +146,33 @@ exports.getCurrentUser = async (req, res) => {
       username: req.user.username,
       fullName: req.user.fullName,
       designation: req.user.designation,
+      email: req.user.email, // Ensure email is included
       isActive: req.user.isActive,
       lastLogin: req.user.lastLogin,
     });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Update current user
+exports.updateCurrentUser = async (req, res) => {
+  const userId = req.user._id; // Get the current user's ID from the token
+  const { password, ...updates } = req.body; // Separate password from other updates
+
+  try {
+    if (password) {
+      // Hash the password before updating
+      updates.password = await bcrypt.hash(password, 10);
+    }
+
+    const user = await User.findByIdAndUpdate(userId, updates, { new: true });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
