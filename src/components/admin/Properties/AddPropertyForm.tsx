@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import slugify from "slugify";
 import Image from "next/image";
+import { useRouter } from "next/navigation"; // Import useRouter
 
 interface FormData {
   title: string;
@@ -19,6 +20,7 @@ interface FormData {
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const AddPropertyForm: React.FC = () => {
+  const router = useRouter(); // Initialize useRouter
   const [formData, setFormData] = useState<FormData>({
     title: "",
     description: "",
@@ -51,30 +53,42 @@ const AddPropertyForm: React.FC = () => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const file = e.target.files[0];
-      setFormData({ ...formData, image: file });
+      setFormData((prevData) => ({ ...prevData, image: file }));
 
-      // Create a new FileReader instance
       const reader = new FileReader();
-
-      // When the file is loaded, set the image URL state
       reader.onload = () => {
         if (typeof reader.result === "string") {
           setImageURL(reader.result);
         }
       };
-
-      // Read the file as a data URL
       reader.readAsDataURL(file);
     }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const requiredFields = [
+      formData.title,
+      formData.description,
+      formData.price,
+      formData.location,
+      formData.purpose,
+      formData.propertyType,
+      formData.area,
+    ];
+
+    if (requiredFields.some((field) => !field)) {
+      setError("All fields except image are required.");
+      return;
+    }
+
+    setError(null);
+
     try {
       let imageUrl = "";
 
       if (formData.image) {
-        // Upload the image to ImgBB to get the URL
         const uploadData = new FormData();
         uploadData.append("image", formData.image);
 
@@ -86,38 +100,15 @@ const AddPropertyForm: React.FC = () => {
         imageUrl = imgBBResponse.data.data.url;
       }
 
-      const response = await axios.post(
-        `${NEXT_PUBLIC_API_URL}/api/properties`,
-        {
-          title: formData.title,
-          description: formData.description,
-          price: formData.price,
-          location: formData.location,
-          image: imageUrl,
-          purpose: formData.purpose,
-          propertyType: formData.propertyType,
-          area: formData.area,
-          slug: formData.slug,
-        }
-      );
-
-      console.log("Property created:", response.data);
+      await axios.post(`${NEXT_PUBLIC_API_URL}/api/properties`, {
+        ...formData,
+        image: imageUrl,
+      });
 
       setSuccess(true);
       setTimeout(() => {
         setSuccess(false);
-        setFormData({
-          title: "",
-          description: "",
-          price: "",
-          location: "",
-          image: null,
-          purpose: "",
-          propertyType: "",
-          area: "",
-          slug: "",
-        });
-        setImageURL("");
+        router.push("/admin/properties"); // Redirect to /admin/properties on success
       }, 3000);
     } catch (error) {
       console.error("Error creating property:", error);
@@ -131,7 +122,7 @@ const AddPropertyForm: React.FC = () => {
         <h2 className="text-3xl text-darkGold font-extrabold mb-4 mt-4 lg:mb-16 bg-black shadow-md p-4 rounded-xl bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 inline-block">
           Add Properties
         </h2>
-      </div>{" "}
+      </div>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="text-start">
@@ -176,7 +167,7 @@ const AddPropertyForm: React.FC = () => {
               name="area"
               value={formData.area}
               onChange={handleChange}
-              placeholder=" Enter The Area"
+              placeholder="Enter The Area"
               required
             />
           </div>
@@ -190,7 +181,7 @@ const AddPropertyForm: React.FC = () => {
               name="price"
               value={formData.price}
               onChange={handleChange}
-              placeholder=" Enter The Price"
+              placeholder="Enter The Price"
               required
             />
           </div>
@@ -232,13 +223,11 @@ const AddPropertyForm: React.FC = () => {
               <option value="penthouses">Penthouses</option>
               <option value="shops">Shops</option>
               <option value="houses">Houses</option>
-              <option value="townhouses">Townhouses</option>
-              <option value="villas">Villas</option>
             </select>
           </div>
         </div>
 
-        <div>
+        <div className="text-start">
           <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
             Location
           </label>
@@ -248,12 +237,12 @@ const AddPropertyForm: React.FC = () => {
             name="location"
             value={formData.location}
             onChange={handleChange}
-            placeholder=" Enter The Location"
+            placeholder="Enter The Location"
             required
           />
         </div>
 
-        <div>
+        <div className="text-start">
           <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
             Description
           </label>
@@ -263,45 +252,50 @@ const AddPropertyForm: React.FC = () => {
             value={formData.description}
             onChange={handleChange}
             placeholder="Enter The Description"
-            rows={6}
+            rows={10}
             required
           />
         </div>
-
-        <div>
+        <div className="text-start">
           <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white">
             Image
           </label>
           <input
-            className="bg-slate-700 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-slate-800 dark:focus:border-slate-800"
+            className="block text-xl text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-slate-700 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
             type="file"
             name="image"
-            onChange={handleFileChange}
             accept="image/*"
-            required
+            onChange={handleFileChange}
           />
           {imageURL && (
-            <div className="w-full h-auto mt-2">
-              <Image src={imageURL} alt="Preview" width={100} height={100} />
-            </div>
+            <Image
+              src={imageURL}
+              alt="Property Preview"
+              width={300}
+              height={300}
+              className="mt-2 rounded-lg"
+            />
           )}
         </div>
         {error && (
-          <div className="bg-red-200 text-red-800 p-3 mb-4 rounded">
+          <p className="text-red-600 font-bold p-2 border border-red-600 rounded-lg">
             {error}
-          </div>
+          </p>
         )}
         {success && (
-          <div className="bg-green-200 text-green-800 p-3 mb-4 rounded">
+          <p className="text-green-600 font-bold p-2 border border-green-600 rounded-lg">
             Property created successfully!
-          </div>
+          </p>
         )}
-        <button
-          type="submit"
-          className="bg-slate-900 text-white p-4 rounded-lg hover:bg-slate-700 focus:ring-4 focus:ring-slate-700"
-        >
-          Submit
-        </button>
+
+        <div className="flex justify-start my-5">
+          <button
+            type="submit"
+            className="bg-slate-900 text-xl text-white py-3 px-8 rounded-lg hover:bg-gray-700"
+          >
+            Submit
+          </button>
+        </div>
       </form>
     </section>
   );

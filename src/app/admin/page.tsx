@@ -3,6 +3,7 @@ import PropertyList from "@/components/admin/Dashboard/PropertyList";
 import UsersStatus from "@/components/admin/Dashboard/UsersStatus";
 import AddPropertyButton from "@/components/admin/Properties/AddPropertyButton";
 import AdminLayout from "@/components/layouts/AdminLayout";
+import Link from "next/link";
 import React from "react";
 import { LuLayoutDashboard } from "react-icons/lu";
 
@@ -19,6 +20,8 @@ export default function Page() {
           <span>Dashboard</span>
         </h2>
       </div>
+
+      <Link href={"/admin/xml-properties"}>XML Properties List</Link>
 
       <div className="flex items-center justify-center space-x-4 mb-6">
         <AddBlogButton />
