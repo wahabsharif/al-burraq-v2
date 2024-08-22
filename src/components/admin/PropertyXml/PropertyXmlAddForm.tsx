@@ -1,8 +1,11 @@
+// src/components/admin/PropertyXml/PropertyXmlAddForm.tsx
+
 "use client";
 
 import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import slugify from "slugify";
 
 const NEXT_PUBLIC_API_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
@@ -38,7 +41,9 @@ const PropertyXmlAddForm: React.FC = () => {
     Listing_Agent: "",
     Listing_Agent_Phone: "",
     Listing_Agent_Email: "",
+    Slug: "",
   });
+
   const router = useRouter();
 
   const handleChange = (
@@ -48,21 +53,23 @@ const PropertyXmlAddForm: React.FC = () => {
   ) => {
     const target = e.target;
     let value = target.value;
-    let checked = false;
 
-    // Check if the target is an input element (including checkboxes and radio buttons)
-    if ("checked" in target) {
-      value = target.checked ? "true" : "false"; // Assuming you want to store boolean values as strings
-      checked = target.checked;
+    // If the field is Property_Title, auto-generate the Slug
+    if (target.name === "Property_Title") {
+      const slug = slugify(value, { lower: true, strict: true });
+      setFormData({
+        ...formData,
+        [target.name]: value,
+        Slug: slug,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [target.name]: value,
+      });
     }
 
-    // Now you can safely use `value` and `checked` knowing their types
-    setFormData({
-      ...formData,
-      [target.name]: value,
-    });
-
-    // If the target is a select element, handle multiple selections
+    // Handle multiple selections for Portals
     if ("options" in target && target instanceof HTMLSelectElement) {
       const options = target.options;
       const selectedOptions: string[] = [];
@@ -92,7 +99,6 @@ const PropertyXmlAddForm: React.FC = () => {
     <div className="container mx-auto">
       <h1 className="text-2xl font-bold mb-4">Add Property XML</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* All fields from the schema */}
         <div>
           <label
             htmlFor="Property_Ref_No"
@@ -175,7 +181,6 @@ const PropertyXmlAddForm: React.FC = () => {
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
           >
-            {/* Add all property types */}
             <option value="Villa">Villa</option>
             <option value="Apartment">Apartment</option>
             <option value="Office">Office</option>
@@ -276,7 +281,6 @@ const PropertyXmlAddForm: React.FC = () => {
             value={formData.Features}
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-            rows={4}
           />
         </div>
         <div>
@@ -313,8 +317,8 @@ const PropertyXmlAddForm: React.FC = () => {
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
           >
             <option value="Bayut">Bayut</option>
+            <option value="PropertyFinder">Property Finder</option>
             <option value="Dubizzle">Dubizzle</option>
-            {/* Add other portals if necessary */}
           </select>
         </div>
         <div>
@@ -328,7 +332,7 @@ const PropertyXmlAddForm: React.FC = () => {
             type="datetime-local"
             name="Last_Updated"
             id="Last_Updated"
-            value={formData.Last_Updated.slice(0, 16)}
+            value={formData.Last_Updated}
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
           />
@@ -351,6 +355,22 @@ const PropertyXmlAddForm: React.FC = () => {
         </div>
         <div>
           <label
+            htmlFor="Slug"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Slug
+          </label>
+          <input
+            type="text"
+            name="Slug"
+            id="Slug"
+            value={formData.Slug}
+            onChange={handleChange}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+          />
+        </div>
+        <div>
+          <label
             htmlFor="Property_Description"
             className="block text-sm font-medium text-gray-700"
           >
@@ -362,7 +382,6 @@ const PropertyXmlAddForm: React.FC = () => {
             value={formData.Property_Description}
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-            rows={4}
           />
         </div>
         <div>
@@ -370,7 +389,7 @@ const PropertyXmlAddForm: React.FC = () => {
             htmlFor="Property_Title_AR"
             className="block text-sm font-medium text-gray-700"
           >
-            Property Title (AR)
+            Property Title (Arabic)
           </label>
           <input
             type="text"
@@ -386,7 +405,7 @@ const PropertyXmlAddForm: React.FC = () => {
             htmlFor="Property_Description_AR"
             className="block text-sm font-medium text-gray-700"
           >
-            Property Description (AR)
+            Property Description (Arabic)
           </label>
           <textarea
             name="Property_Description_AR"
@@ -394,7 +413,6 @@ const PropertyXmlAddForm: React.FC = () => {
             value={formData.Property_Description_AR}
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-            rows={4}
           />
         </div>
         <div>
@@ -428,8 +446,9 @@ const PropertyXmlAddForm: React.FC = () => {
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
           >
             <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
             <option value="Yearly">Yearly</option>
-            {/* Add other frequencies if necessary */}
+            <option value="Weekly">Weekly</option>
           </select>
         </div>
         <div>
@@ -446,8 +465,8 @@ const PropertyXmlAddForm: React.FC = () => {
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
           >
-            <option value="Yes">Yes</option>
             <option value="No">No</option>
+            <option value="Yes">Yes</option>
           </select>
         </div>
         <div>
@@ -455,15 +474,15 @@ const PropertyXmlAddForm: React.FC = () => {
             htmlFor="Images"
             className="block text-sm font-medium text-gray-700"
           >
-            Images (URLs)
+            Images
           </label>
-          <textarea
+          <input
+            type="text"
             name="Images"
             id="Images"
             value={formData.Images}
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-            rows={4}
           />
         </div>
         <div>
@@ -471,15 +490,15 @@ const PropertyXmlAddForm: React.FC = () => {
             htmlFor="Videos"
             className="block text-sm font-medium text-gray-700"
           >
-            Videos (URLs)
+            Videos
           </label>
-          <textarea
+          <input
+            type="text"
             name="Videos"
             id="Videos"
             value={formData.Videos}
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-            rows={4}
           />
         </div>
         <div>
@@ -519,7 +538,7 @@ const PropertyXmlAddForm: React.FC = () => {
             htmlFor="Sub_Locality"
             className="block text-sm font-medium text-gray-700"
           >
-            Sub Locality
+            Sub-Locality
           </label>
           <input
             type="text"
@@ -596,9 +615,9 @@ const PropertyXmlAddForm: React.FC = () => {
         </div>
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-600 text-white font-semibold rounded shadow-sm hover:bg-blue-700"
+          className="w-full px-4 py-2 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none"
         >
-          Add Property
+          Submit
         </button>
       </form>
     </div>

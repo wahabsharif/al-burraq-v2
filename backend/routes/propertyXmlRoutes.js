@@ -11,6 +11,12 @@ router.get("/propertyxml", propertyXmlController.getAllPropertyXmls);
 // Get a single PropertyXml by ID
 router.get("/propertyxml/:id", propertyXmlController.getPropertyXmlById);
 
+// Get a single PropertyXml by slug
+router.get(
+  "/propertyxml/slug/:slug",
+  propertyXmlController.getPropertyXmlBySlug
+);
+
 // Get a single PropertyXml by ID as XML
 router.get(
   "/propertyxml/:id/xml",

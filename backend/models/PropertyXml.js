@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const slugify = require("slugify");
 
 const PropertyXmlSchema = new mongoose.Schema({
   Property_Ref_No: { type: String, required: true, unique: true },
@@ -57,6 +58,15 @@ const PropertyXmlSchema = new mongoose.Schema({
   Listing_Agent: { type: String, required: true },
   Listing_Agent_Phone: { type: String, required: true },
   Listing_Agent_Email: { type: String, required: true },
+  slug: { type: String, unique: true },
+});
+
+// Middleware to generate slug before saving
+PropertyXmlSchema.pre("save", function (next) {
+  if (this.isModified("Property_Title") || !this.slug) {
+    this.slug = slugify(this.Property_Title, { lower: true, strict: true });
+  }
+  next();
 });
 
 module.exports = mongoose.model("PropertyXml", PropertyXmlSchema);

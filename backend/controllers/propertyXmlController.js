@@ -1,10 +1,14 @@
 const PropertyXml = require("../models/PropertyXml");
-const xmlbuilder = require("xmlbuilder");
+const slugify = require("slugify");
 
 // Create a new PropertyXml
 exports.createPropertyXml = async (req, res) => {
   try {
     const propertyXml = new PropertyXml(req.body);
+    propertyXml.slug = slugify(propertyXml.Property_Title, {
+      lower: true,
+      strict: true,
+    });
     await propertyXml.save();
     res.status(201).json(propertyXml);
   } catch (error) {
@@ -26,6 +30,19 @@ exports.getAllPropertyXmls = async (req, res) => {
 exports.getPropertyXmlById = async (req, res) => {
   try {
     const propertyXml = await PropertyXml.findById(req.params.id);
+    if (!propertyXml) {
+      return res.status(404).json({ error: "PropertyXml not found" });
+    }
+    res.status(200).json(propertyXml);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Get a single PropertyXml by slug
+exports.getPropertyXmlBySlug = async (req, res) => {
+  try {
+    const propertyXml = await PropertyXml.findOne({ slug: req.params.slug });
     if (!propertyXml) {
       return res.status(404).json({ error: "PropertyXml not found" });
     }
@@ -122,9 +139,16 @@ exports.getPropertyXmlAsXmlById = async (req, res) => {
 // Update a PropertyXml by ID
 exports.updatePropertyXmlById = async (req, res) => {
   try {
+    const updates = req.body;
+    if (updates.Property_Title) {
+      updates.slug = slugify(updates.Property_Title, {
+        lower: true,
+        strict: true,
+      });
+    }
     const propertyXml = await PropertyXml.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      updates,
       { new: true }
     );
     if (!propertyXml) {
